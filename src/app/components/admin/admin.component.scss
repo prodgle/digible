@@ -1,0 +1,17 @@
+.justify-center {
+  justify-content: center;
+}
+
+.button {
+  font-family: "Gotham-Bold";
+  font-size: 17px;
+  background-color: #7479f7;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  color: white;
+
+  & .full-width {
+    width: 100%;
+  }
+}

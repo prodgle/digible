@@ -1,0 +1,22 @@
+.button {
+  font-family: "Gotham-Bold";
+  font-size: 17px;
+  background-color: #7479f7;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  color: white;
+}
+
+button:disabled,
+button[disabled] {
+  background-color: grey;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.desc-small {
+  font-size: 10px;
+}

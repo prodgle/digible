@@ -1,0 +1,678 @@
+<div class="container-fluid p-b-40">
+  <div class="row p-b-20" *ngIf="!loading">
+    <div class="col-lg-12 col-xs-12 p-b-10">
+      <button class="button" (click)="goBack()">
+        <span>Go Back</span>
+      </button>
+    </div>
+    <div class="col-lg-6 col-xs-6">
+      <div class="name">
+        {{ name }} <span *ngIf="isYours">[It's yours]</span>
+      </div>
+    </div>
+    <div
+      class="col-lg-6 col-xs-6 right"
+      *ngIf="
+        ownerAddress == '0x000000000000000000000000000000000000dEaD' && physical
+      "
+    >
+      <div class="name">
+        <span class="icon fire"></span> Claimed - {{ burnDate }} (Local)
+        <span class="icon fire"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="loading">
+    <div class="col">
+      <div class="mx-auto text-center mt-4">
+        <app-loading-blockchain></app-loading-blockchain>
+      </div>
+    </div>
+  </div>
+
+  <div class="row p-b-20" *ngIf="isYours && !loading">
+    <div class="col-lg-12 col-xs-12 right">
+      <button
+        class="button"
+        (click)="approveMatic()"
+        *ngIf="showMaticApprove && isInEth && isYours"
+      >
+        <span>Approve to move to Matic</span>
+      </button>
+      <button
+        class="button"
+        (click)="sendToMatic()"
+        *ngIf="!showMaticApprove && isInEth && isYours"
+      >
+        <span>Move to Matic</span>
+      </button>
+      <button
+        class="button"
+        (click)="sendToEthereum()"
+        *ngIf="!isInEth && isYours"
+      >
+        <span>Move to Ethereum</span>
+      </button>
+      <button
+        class="button m-l-20"
+        *ngIf="isYours && !isInEth"
+        [routerLink]="['/auctions/create', this.id]"
+      >
+        <span>Create Auction</span>
+      </button>
+      <button
+        class="button button m-l-20"
+        (click)="enableRoyalty()"
+        *ngIf="canMint && isYours && !hasRoyalty && firstSale && firstAuction"
+      >
+        <span>Enable Market Royalty</span>
+      </button>
+      <button
+        class="button button m-l-20"
+        (click)="enableRoyaltyForAuction()"
+        *ngIf="
+          canMintOnMatic &&
+          isYours &&
+          !hasRoyaltyOnAuction &&
+          firstAuction &&
+          firstSale
+        "
+      >
+        <span>Enable Auction Royalty</span>
+      </button>
+      <button
+        data-toggle="modal"
+        data-target="#burnTokenModal"
+        class="button warning m-l-20"
+        *ngIf="isYours && isInEth"
+      >
+        <span>Destroy NFT</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="!loading">
+    <div class="col-lg-4 p-b-40">
+      <app-digi-card
+        customBorder="{{ customBorder }}"
+        view="details"
+        [id]="id"
+      ></app-digi-card>
+    </div>
+    <div class="col-lg-8">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="card min-height shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary txt-title">
+                Sale Status
+              </h6>
+            </div>
+
+            <div class="card-body" *ngIf="!auction && !buy">
+              <div class="row">
+                <div class="col-lg-12">
+                  <b>Not for sale right now. Check back.</b>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-body" *ngIf="buy">
+              <div class="row">
+                <div class="col-lg-6 sub-title">Price</div>
+                <div class="col-lg-6">{{ price }} {{ symbol }}</div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6 sub-title">End Date (Local)</div>
+                <div class="col-lg-6">
+                  {{ endDate * 1000 | date: "HH:mm dd/MM" }}
+                </div>
+              </div>
+            </div>
+
+            <div class="card-body" *ngIf="auction">
+              <div class="row p-b-10">
+                <div class="col-lg-12 center sub-title" *ngIf="winner">
+                  Current bid
+                </div>
+                <div class="col-lg-12 center sub-title" *ngIf="!winner">
+                  Starter bid
+                </div>
+                <div class="col-lg-12 center f-s-20">
+                  {{ price }} {{ symbol }}
+                </div>
+              </div>
+
+              <div class="row p-b-10">
+                <div class="col-lg-12 center sub-title">Current Winner</div>
+                <div class="col-lg-12 center" *ngIf="!winner">None</div>
+                <div class="col-lg-12 center" *ngIf="winner">
+                  <div *ngIf="winnerIsVerified" class="icon-creator"></div>
+                  <a [routerLink]="['/profile', winner]">
+                    <span *ngIf="!winnerIsVerified && winner != address"
+                      >{{ winner | slice: 0:6 }}...{{
+                        winner | slice: 36:64
+                      }}</span
+                    >
+                    <span *ngIf="winnerIsVerified">{{ winner }}</span>
+                    <span *ngIf="winner == address">
+                      YOU ARE THE HIGHEST BIDDER
+                    </span>
+                  </a>
+                </div>
+              </div>
+
+              <div class="row p-b-10">
+                <div class="col-lg-12 center sub-title">End Date (Local)</div>
+                <div class="col-lg-12 center">
+                  {{ endDate * 1000 | date: "HH:mm:ss dd/MM/YYYY" }}
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-12 sub-title">Last Bids</div>
+
+                <div class="col-lg-12" *ngIf="loadingLastBids">
+                  <div class="mx-auto text-center">
+                    <app-loading></app-loading>
+                  </div>
+                </div>
+
+                <div class="col-lg-12" *ngFor="let bid of lastBids">
+                  <div class="row">
+                    <div class="col-lg-4">{{ bid.amount }} {{ symbol }}</div>
+                    <div class="col-lg-4">
+                      <a [routerLink]="['/profile', bid.wallet]">
+                        {{ bid.wallet | slice: 0:4 }}...{{
+                          bid.wallet | slice: 38:64
+                        }}
+                      </a>
+                    </div>
+                    <div class="col-lg-4">
+                      {{ bid.created | date: "HH:mm dd/MM" }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-header py-3" *ngIf="buy || auction">
+              <h6 class="m-0 font-weight-bold text-primary txt-title">
+                Sale Actions
+              </h6>
+            </div>
+
+            <div class="card-body" *ngIf="auction">
+              <div class="row">
+                <div class="col-lg-12 p-t-5">
+                  <form class="user">
+                    <div class="form-group">
+                      <input
+                        type="number"
+                        step="0.01"
+                        class="form-control form-control-user"
+                        [placeholder]="'0.00 ' + symbol"
+                        (blur)="onBlur($event)"
+                        [(ngModel)]="inputAmount"
+                        (ngModelChange)="onChangeInput()"
+                        name="input"
+                      />
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+              <div class="row" *ngIf="showAllow">
+                <div class="col-lg-12 p-t-5">
+                  <button class="button full-width">
+                    <span (click)="approve()">1. APPROVE FOR BID</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="row" *ngIf="isYours && !winner">
+                <div class="col-lg-12 p-t-5">
+                  <button
+                    (click)="cancelAuction()"
+                    class="button full-width mt-2"
+                  >
+                    <span>CANCEL AUCTION</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="row center">
+                <div class="col-lg-12 p-t-5">
+                  <button
+                    class="button full-width"
+                    [attr.disabled]="this.lowBid || showAllow ? '' : null"
+                    (click)="bid()"
+                  >
+                    <span *ngIf="showAllow">2. BID NOW </span>
+                    <span *ngIf="!showAllow">BID NOW </span>
+                  </button>
+                  <div
+                    *ngIf="!showAllow && !this.lowBid"
+                    class="p-t-5 warn-bid"
+                  >
+                    <i>
+                      IMPORTANT: ONLY BID IF YOU ARE WILLING TO ACCEPT THE GAS
+                      FEES
+                    </i>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="row p-t-20"
+                *ngIf="allowed < priceBuyNowDecimals && priceBuyNowDecimals > 0"
+              >
+                <div class="col-lg-12 p-t-5">
+                  <button (click)="approve()" class="button full-width">
+                    <span>{{
+                      "1. APPROVE BUY FOR " + priceBuyNow + " " + symbol
+                    }}</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="row" *ngIf="priceBuyNowDecimals > 0 && allowed">
+                <div class="col-lg-12 p-t-5">
+                  <button
+                    [disabled]="allowed < priceBuyNowDecimals"
+                    class="button full-width"
+                    (click)="directBuy()"
+                  >
+                    <span *ngIf="allowed < priceBuyNowDecimals"
+                      >2. BUY FOR {{ priceBuyNow }} {{ symbol }}</span
+                    >
+                    <span *ngIf="allowed >= priceBuyNowDecimals"
+                      >BUY FOR {{ priceBuyNow }} {{ symbol }}</span
+                    >
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="card-body" *ngIf="buy">
+              <div class="row">
+                <div class="col-lg-12">
+                  <span class="price"> {{ price }} {{ symbol }}</span>
+                </div>
+              </div>
+
+              <div class="row" *ngIf="allowedMarket < priceDecimals">
+                <div class="col-lg-12 p-t-5">
+                  <button (click)="approveMarket()" class="button full-width">
+                    <span>1. APPROVE BUY</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="row" *ngIf="allowedMarket">
+                <div class="col-lg-12 p-t-5">
+                  <button
+                    [disabled]="allowedMarket < priceDecimals"
+                    class="button full-width"
+                    (click)="buyFromMarket()"
+                  >
+                    <span *ngIf="allowedMarket < priceDecimals"
+                      >2. BUY NOW</span
+                    >
+                    <span *ngIf="allowedMarket >= priceDecimals">BUY NOW</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="row" *ngIf="isYours">
+                <div class="col-lg-12 p-t-5">
+                  <button
+                    (click)="cancelMarket()"
+                    class="button full-width mt-2"
+                  >
+                    <span>CANCEL SALE</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="card min-height shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary txt-title">
+                Chain Info
+              </h6>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-6 sub-title">Contract Address</div>
+                <div class="col-lg-6">
+                  <a [href]="explorerPrefix + contractAddress" target="blank"
+                    >{{ contractAddress | slice: 0:6 }}...{{
+                      contractAddress | slice: 36:64
+                    }}</a
+                  >
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6 sub-title">Token ID</div>
+                <div class="col-lg-6">{{ id }}</div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6 sub-title">Blockchain</div>
+                <div class="col-lg-6">{{ networkWherCardIs }}</div>
+              </div>
+            </div>
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary txt-title">
+                Token Info
+              </h6>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-6 sub-title">Name</div>
+                <div class="col-lg-6">{{ name }}</div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6 sub-title">Physically backed</div>
+                <div class="col-lg-6" data-tooltip="This NFT is the legal title to the physical underlying card displayed in the Image. It can be redeemed from the DIGISAFE™ for the physical card through digible.io and NFT would be burned. ">{{ physical ? "Yes" : "No" }}</div>
+              </div>
+              <div
+                class="row mt-2 center p-t-15"
+                *ngIf="
+                  ownerAddress ==
+                    '0x000000000000000000000000000000000000dEaD' && physical
+                "
+              >
+                <div class="col-lg-12">
+                  This token has been claimed. The digital version was burned on
+                  the following date:
+                </div>
+                <div class="col-lg-12">
+                  <b>{{ burnDate }}</b> (Local)
+                </div>
+              </div>
+              <div
+                class="row"
+                *ngIf="
+                  ownerAddress !=
+                    '0x000000000000000000000000000000000000dEaD' || !physical
+                "
+              >
+                <div class="col-lg-6 sub-title">Owner</div>
+                <div class="col-lg-6" *ngIf="!ownerUsername">
+                  <a [routerLink]="['/profile', ownerAddress]"
+                    >{{ ownerAddress | slice: 0:6 }}...{{
+                      ownerAddress | slice: 36:64
+                    }}</a
+                  >
+                </div>
+                <div class="col-lg-6" *ngIf="ownerUsername">
+                  <div class="icon-creator"></div>
+                  <a
+                    class="owner-name"
+                    [routerLink]="['/profile', ownerUsername]"
+                    >{{ ownerUsername }}</a
+                  >
+                </div>
+              </div>
+
+              <div class="row p-t-15" *ngIf="hasRoyalty">
+                <div class="col-lg-12">
+                  Note this item has a {{ royaltyFee / 100 }}% creator royalty
+                  fee, please note when reselling this item that this fee will
+                  be applied on top of the platform's standard fee
+                </div>
+              </div>
+              <div class="row p-t-15" *ngIf="hasRoyaltyOnAuction">
+                <div class="col-lg-12">
+                  Note this item has a {{ royaltyFeeAuction / 100 }}% creator
+                  royalty fee, please note when auctioning this item that this
+                  fee will be applied on top of the platform's standard fee
+                </div>
+              </div>
+            </div>
+
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary txt-title">
+                Description
+                <button
+                  data-toggle="modal"
+                  data-target="#addDescriptionModal"
+                  class="button button m-l-20"
+                  *ngIf="canMint && isYours"
+                >
+                  <span>Edit</span>
+                </button>
+              </h6>
+            </div>
+            <div class="card-body">{{ description }}</div>
+            <div class="card-header center py-3" *ngIf="isYours && physical">
+              <h6 class="m-0 font-weight-bold text-primary txt-title">
+                <button [routerLink]="['/claim', id]" class="button button">
+                  <span>Claim physically</span>
+                </button>
+              </h6>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-12 p-b-40">
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary txt-title">
+                Last Sales
+              </h6>
+            </div>
+            <div class="card-body">
+              <div class="container">
+                <div class="row" *ngIf="loadingLastSells">
+                  <div class="col-lg-12">
+                    <div class="mx-auto text-center">
+                      <app-loading></app-loading>
+                    </div>
+                  </div>
+                </div>
+                <div class="row center mb-4" *ngIf="!loadingLastSells">
+                  <div class="col-lg-4 col-sm-4 col-xs-4">
+                    <span>Price</span>
+                  </div>
+                  <div class="col-lg-4 col-sm-4 col-xs-4">
+                    <span>Date</span>
+                  </div>
+                  <div class="col-lg-4 col-sm-4 col-xs-4">
+                    <span>Buyer</span>
+                  </div>
+                </div>
+
+                <div class="row center" *ngFor="let sell of lastSells">
+                  <div class="col-lg-4 col-sm-4 col-xs-4 sub-title">
+                    {{ sell.humanAmount }} {{ symbol }}
+                  </div>
+                  <div class="col-lg-4 col-sm-4 col-xs-4 sub-title">
+                    {{ sell.created * 1000 | date: "HH:mm dd/MM/YYYY" }}
+                  </div>
+                  <div class="col-lg-4 col-sm-4 col-xs-4" *ngIf="sell.username">
+                    <div class="icon-creator"></div>
+                    <a
+                      class="owner-name"
+                      [routerLink]="['/profile', sell.username]"
+                      >{{ sell.username }}</a
+                    >
+                  </div>
+                  <div
+                    class="col-lg-4 col-sm-4 col-xs-4"
+                    *ngIf="!sell.username"
+                  >
+                    <a [routerLink]="['/profile', sell.wallet]"
+                      >{{ sell.wallet | slice: 0:4 }}...{{
+                        sell.wallet | slice: 39:64
+                      }}</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="burnTokenModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="burnTokenModalLabel"
+  aria-hidden="true"
+  #burnTokenModal
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="burnTokenModalLabel">Destroy this NFT</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <div class="row center">
+            <div class="col-lg-12 center p-t-15 p-b-10">
+              <span> Are you sure you want to destroy this NFT? </span>
+            </div>
+            <div class="col-lg-12 center p-t-15 p-b-10">
+              <b> - {{ name }} </b>
+            </div>
+            <div class="col-lg-12 p-t-15">
+              <div class="col-lg-12">
+                <button
+                  type="button"
+                  class="button warning"
+                  (click)="burnNFT(this.id)"
+                >
+                  Destroy this NFT Token
+                </button>
+              </div>
+            </div>
+            <div class="col-lg-12 center p-t-15 p-b-10">
+              <span>
+                This action cannot be reversed, once the delete button is
+                pressed, this token will be sent to the address 0x0, which is
+                inaccessible and can never be recovered.
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="addDescriptionModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="addDescription"
+  aria-hidden="true"
+  #addTokenModal
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="searchModalLabel">
+          Add Description to NFT
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12 p-t-15">
+              <form class="user">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control form-control-user"
+                    placeholder="Description..."
+                    [(ngModel)]="inputDescription"
+                    name="description"
+                  />
+
+                  <input
+                    type="text"
+                    class="form-control form-control-user"
+                    placeholder="Publisher..."
+                    [(ngModel)]="inputPublisher"
+                    name="publisher"
+                  />
+
+                  <input
+                    type="text"
+                    class="form-control form-control-user"
+                    placeholder="Edition..."
+                    [(ngModel)]="inputEdition"
+                    name="edition"
+                  />
+
+                  <input
+                    type="text"
+                    class="form-control form-control-user"
+                    placeholder="Year..."
+                    [(ngModel)]="inputYear"
+                    name="year"
+                  />
+
+                  <input
+                    type="text"
+                    class="form-control form-control-user"
+                    placeholder="Graded..."
+                    [(ngModel)]="inputGraded"
+                    name="graded"
+                  />
+
+                  <input
+                    type="text"
+                    class="form-control form-control-user"
+                    placeholder="Population..."
+                    [(ngModel)]="inputPopulation"
+                    name="population"
+                  />
+
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="row p-t-15 p-b-10 center justify-center">
+            <div class="col-lg-12">
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="addDescription()"
+              >
+                {{ descriptionLoading ? ". . ." : "Add Description" }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

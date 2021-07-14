@@ -1,0 +1,119 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 p-t-10 p-b-6">
+      <span class="section-title"
+        ><span class="icon box"></span>Sell Token</span
+      >
+    </div>
+    <div class="solid"></div>
+  </div>
+
+  <div class="row" *ngIf="sale && !loading">
+    <div class="col-12 text-center mt-4">
+      <p>
+        Choose the sale price and click on Sell. Your NFT will automatically
+        appear in "Explore".
+      </p>
+    </div>
+    <div class="mx-auto text-center col-xl-2 col-lg-3 col-md-4 col-sm-6 p-t-40">
+      <app-digi-card
+        *ngIf="address == digibleNftAddress"
+        [id]="id"
+      ></app-digi-card>
+      <app-market-card
+        *ngIf="address != digibleNftAddress"
+        id="{{ id }}"
+        address="{{ address }}"
+      ></app-market-card>
+    </div>
+  </div>
+
+  <div class="row p-t-40" *ngIf="sale && !loading">
+    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mx-auto text-center">
+      <span>This NFT is already for sale at the Marketplace.</span>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="loading">
+    <div class="col">
+      <div class="mx-auto text-center mt-4">
+        <app-loading-blockchain></app-loading-blockchain>
+      </div>
+    </div>
+  </div>
+
+  <div class="row p-t-40" *ngIf="!sale && !loading">
+    <div class="mx-auto text-center row">
+      <div class="mx-auto text-center col-xl-2 col-lg-3 col-md-4 col-sm-6">
+        Price in {{ stableSymbol }}
+        <input
+          placeholder="0.0"
+          type="text"
+          name="input"
+          autocomplete="off"
+          (ngModelChange)="onChangeInputAmount()"
+          [(ngModel)]="inputAmount"
+        />
+        <button
+          class="btn btn-primary btn-menu btn-header mt-4"
+          *ngIf="showApprove"
+          (click)="approve()"
+        >
+          Approve
+        </button>
+        <div class="mt-2" *ngIf="inputAmount && !royaltyFee">
+          You will receive: {{ receiveAmount }}
+          {{ stableSymbol }}
+        </div>
+
+        <div class="mt-2" *ngIf="inputAmount && royaltyFee">
+          You will receive: {{ receiveAmount }}
+          {{ stableSymbol }}
+          <br/>
+          <b>This NFT has a royalty fee.</b>
+        </div>
+
+        <div class="mt-2" *ngIf="inputAmount">
+          Listing price: {{ listingPrice }}
+          {{ stableSymbol }}
+        </div>
+      </div>
+      <div class="col-lg-12 mt-4" *ngIf="!selectedDate">
+        <p><strong>Sale End Date:</strong></p>
+        <dl-date-time-picker
+          startView="day"
+          maxView="year"
+          minView="minute"
+          minuteStep="5"
+          [(ngModel)]="selectedDate"
+        >
+        </dl-date-time-picker>
+      </div>
+      <div class="col-lg-12">
+        <button
+          class="btn btn-primary mt-4"
+          *ngIf="selectedDate"
+          (click)="selectedDate = null"
+        >
+          Change Date
+        </button>
+        <h6 class="m-0 font-weight-bold text-primary txt-title mt-4">
+          <span *ngIf="selectedDate">
+            End date (Local):
+            {{ selectedDate | date: "dd/MM/YYYY HH:mm:ss" }}
+          </span>
+        </h6>
+      </div>
+      <div class="mx-auto text-center col-xl-2 col-lg-3 col-md-4 col-sm-6">
+        <button
+          class="btn btn-primary btn-menu mt-4"
+          style="width: auto;"
+          *ngIf="!showApprove"
+          (click)="sell()"
+        >
+          Sell
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

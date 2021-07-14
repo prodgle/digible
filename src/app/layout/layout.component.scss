@@ -1,0 +1,150 @@
+#content,
+#wrapper {
+  background-color: #efedf9;
+
+  .logo {
+    height: 155px;
+    width: 155px;
+    position: relative;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    background-image: url("/assets/images/logo-big.svg");
+  }
+}
+
+.topbar {
+  height: 75px;
+}
+
+.sidebar {
+  border: 3px solid #7479f7;
+  border-radius: 0 20px 20px 0;
+
+  .sidebar-brand {
+    height: 125px;
+    padding: 20px;
+  }
+
+  .nav-item .nav-link {
+    padding: 0.7rem 1rem;
+    border-right: 3px solid #7479f7;
+  }
+}
+
+.network {
+  position: absolute;
+  font-size: 11px;
+  text-align: end;
+  bottom: 0;
+  right: 0;
+  padding: 30px;
+
+  .testnet {
+    color: red;
+  }
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .sidebar,
+  .navbar {
+    .btn-title,
+    .separator,
+    .separator-fake {
+      display: none;
+    }
+
+    &.toggled {
+      border: none;
+    }
+
+    .sidebar-brand .sidebar-brand-text {
+      display: contents;
+    }
+  }
+
+  .btn-menu {
+    border: none;
+  }
+
+  #wrapper {
+    .logo {
+      height: 50px;
+      width: 40px;
+      background-image: url("/assets/images/logo-small.svg");
+    }
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  .sidebar,
+  .navbar {
+    .btn-title,
+    .separator,
+    .separator-fake {
+      display: none;
+    }
+
+    &.toggled {
+      border: none;
+    }
+
+    .sidebar-brand .sidebar-brand-text {
+      display: contents;
+    }
+  }
+
+  .btn-menu {
+    border: none;
+  }
+
+  #wrapper {
+    .logo {
+      height: 50px;
+      width: 40px;
+      background-image: url("/assets/images/logo-small.svg");
+    }
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  .sidebar,
+  .navbar {
+    .btn-title,
+    .separator,
+    .separator-fake {
+      display: block;
+    }
+
+    &.toggled {
+      border: 3px solid #7479f7;
+    }
+
+    .sidebar-brand .sidebar-brand-text {
+      display: block;
+    }
+  }
+
+  .btn-menu {
+    border: 2px solid #7479f7;
+  }
+
+  #wrapper {
+    .logo {
+      height: 155px;
+      width: 155px;
+      background-image: url("/assets/images/logo-big.svg");
+    }
+  }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+}

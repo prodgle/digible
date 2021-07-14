@@ -1,0 +1,57 @@
+<div
+  class="digi-card rotate"
+>
+  <img
+    class="front"
+    [ngClass]="{
+      'shadow-card': physical
+    }"
+    [src]="image"
+    alt="image"
+  />
+  <div class="back">
+    <div class="full-width">
+      <p class="name">{{ name }}</p>
+      <p class="description">
+        {{ description }}
+      </p>
+      <div *ngIf="saleId">
+        <div class="amount" *ngIf="price">{{ price }}{{ symbol }}</div>
+        <div class="row">
+          <div
+            class="col-lg-12 p-t-5"
+            *ngIf="allowedMarket >= priceDecimals"
+          >
+            <button class="button" (click)="buyFromMarket()">
+              <span *ngIf="loading">...</span>
+              <span *ngIf="!loading">BUY NOW</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="allowedMarket < priceDecimals">
+          <div class="col-lg-12 p-t-5">
+            <button (click)="approveMarket()" class="button">
+              <span>{{ loading ? "..." : "APPROVE BUY" }}</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="isYours">
+          <div class="col-lg-12 p-t-5">
+            <button
+              (click)="cancelMarket()"
+              class="button mt-2"
+            >
+              <span>{{ loading ? "..." : "CANCEL SALE" }}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <a *ngIf="owner" [routerLink]="['/profile', owner]" class="creator">
+        <div class="icon-creator"></div>
+        Creator Profile
+      </a>
+    </div>
+  </div>
+</div>

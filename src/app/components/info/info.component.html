@@ -1,0 +1,400 @@
+<section class="info">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="row vertical-center p-t-40 p-l-40">
+          <div class="col-12">
+            <span class="subtitle">If you Dig it, you Get it. - Digible.</span>
+          </div>
+          <div class="col-12">
+            <a href="/assets/pdf/DigibleLitepaper.pdf" target="_blank">
+              <span class="title">DOWNLOAD LITEPAPER</span>
+            </a>
+          </div>
+          <div class="col-12">
+            <a href="/assets/pdf/Audit.pdf" target="_blank">
+              <span class="title">DOWNLOAD AUDIT</span>
+            </a>
+          </div>
+          <div class="col-12">
+            <span (click)="setMenuSection('stake')" class="title"
+              >DIGISTAKE</span
+            >
+          </div>
+          <div class="col-12">
+            <span (click)="setMenuSection('safe')" class="title">DIGISAFE</span>
+          </div>
+          <div class="col-12">
+            <span (click)="setMenuSection('farm')" class="title">DIGIFARM</span>
+          </div>
+          <div class="col-12">
+            <span (click)="setMenuSection('market')" class="title"
+              >DIGIBLE MARKETPLACE</span
+            >
+          </div>
+          <div class="col-12">
+            <span (click)="setMenuSection('grade')" class="title"
+              >DIGIGRADE</span
+            >
+          </div>
+          <div class="col-12">
+            <span (click)="setMenuSection('track')" class="title"
+              >DIGITRACK</span
+            >
+          </div>
+          <div class="col-12">
+            <span (click)="setMenuSection('auction')" class="title"
+              >DIGI AUCTION
+            </span>
+          </div>
+          <div class="col-12">
+            <span (click)="setMenuSection('universal')" class="title"
+              >UNIVERSAL DIGITAL MARKETPLACE</span
+            >
+          </div>
+          <div class="col-12">
+            <span (click)="setMenuSection('duel')" class="title">DIGIDUEL</span>
+          </div>
+          <div class="col-12">
+            <span (click)="setMenuSection('transactions')" class="title"
+              >AUCTION & MARKETPLACE TRANSACTIONS</span
+            >
+          </div>
+          <!-- <div class="col-12">
+            <span (click)="setMenuSection('team')" class="title">DIGITEAM</span>
+          </div> -->
+        </div>
+      </div>
+      <div class="col-lg-6 align-self-center">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="social">
+              <a href="https://twitter.com/digibleio" target="_blank"
+                ><i class="icon fab fa-twitter"></i
+              ></a>
+              <a href="https://t.me/digiblechat" target="_blank"
+                ><i class="icon fab fa-telegram"></i
+              ></a>
+              <a href="https://digibleio.medium.com/" target="_blank"
+                ><i class="icon fab fa-medium"></i
+              ></a>
+              <a href="https://github.com/digible" target="_blank"
+                ><i class="icon fab fa-github"></i
+              ></a>
+            </div>
+            <div (click)="goBack()" class="close"></div>
+          </div>
+        </div>
+        <div class="row p-t-50 p-b-40">
+          <div class="col-lg-10 col-sm-12 col-xs-12 p-b-40">
+            <div
+              class="logo"
+              *ngIf="selectedSection != 'team'"
+              [ngClass]="{
+                stake: selectedSection === 'stake',
+                safe: selectedSection === 'safe',
+                farm: selectedSection === 'farm',
+                market: selectedSection === 'market',
+                grade: selectedSection === 'grade',
+                track: selectedSection === 'track',
+                auction: selectedSection === 'auction',
+                universal: selectedSection === 'universal',
+                duel: selectedSection === 'duel',
+                transactions: selectedSection === 'transactions'
+              }"
+            ></div>
+          </div>
+          <div *ngIf="selectedSection === 'stake'" class="col-10 p-l-40 p-r-40">
+            <span class="description">
+              Stake your $DIGI & receive a share of what the platform generates!
+            </span>
+          </div>
+          <div *ngIf="selectedSection === 'safe'" class="col-10 p-l-40 p-r-40">
+            <span class="description">
+              DigiSafe is where your valuable physical card will be stored if
+              you chose for Digible to store it for you. <br /><br />
+              All physical cards will be stored at DigiSafe securely. You will
+              receive a digital version of your card which will be in a form of
+              an NFT, of which you will be able to track details of your
+              physical card at any given time.
+            </span>
+          </div>
+          <div *ngIf="selectedSection === 'farm'" class="col-10 p-l-40 p-r-40">
+            <span class="description">
+              A DIGI/USDT Pair will be available, which users can provide
+              liquidity in Uniswap then receive the LP Token.
+            </span>
+          </div>
+          <div
+            *ngIf="selectedSection === 'market'"
+            class="col-10 p-l-40 p-r-40"
+          >
+            <span class="description">
+              Digible’s primary use case is to provide a marketplace for users
+              that would like to buy,sell or trade physical cards of which hold
+              credible value. Digible’s platform will cater for this service,
+              where users can sell physical cards on the platform. <br /><br />
+              Each physical card will also have a NFT version, which essentially
+              is backed by the physical asset. <br /><br />
+              We also have a digital marketplace which will exclude any physical
+              cards, and any user can utilize this for any variety of NFTs they
+              hold and benefit from buying/selling or auctioning their desired
+              NFT. <br /><br />
+              Digible allows you to buy physical collectible cards without
+              having to hold on to them physically. <br /><br />
+              If you wish so, the physical collectible cards can also get sent
+              to your address, however Digible will utilize its DigiSafe and
+              hold it for you, you can control your physical collectible via
+              Digi Track.
+            </span>
+          </div>
+          <div *ngIf="selectedSection === 'grade'" class="col-10 p-l-40 p-r-40">
+            <span class="description">
+              DigiGrade is a service where Digible will inspect, prepare, and send the card to PSA for official grading. <br /><br />
+              Your card will be officially graded via PSA, before it goes online
+              at our marketplace.
+            </span>
+          </div>
+          <div *ngIf="selectedSection === 'track'" class="col-10 p-l-40 p-r-40">
+            <span class="description">
+              DigiTrack is where you control your physical card via our
+              platform. <br /><br />
+              You can choose for it to be stored at DigiSafe or you can sell it
+              or auction it on our platform at a later date, maybe when the card
+              appreciates? Totally up to you! All in a decentralized manner.
+              <br /><br />
+              Simply login with your wallet that your NFT is stored on and
+              access your physical collection online! Once you sell your
+              physical card, your NFT will get burned to eliminate any duplicate
+              issues.
+            </span>
+          </div>
+          <div
+            *ngIf="selectedSection === 'auction'"
+            class="col-10 p-l-40 p-r-40"
+          >
+            <span class="description">
+              An auction feature will also be available at the marketplace with
+              the requirement of users will have to hold a minimum of 3000
+              $DIGI. If a user would like to sell their physical card or NFT via
+              an auction. <br /><br />
+              The physical card would have to be sent to Digible, or if it is an
+              NFT, the NFT will be locked on Digibles platform for the duration
+              of the auction, and Digible will handle the transactions.
+            </span>
+          </div>
+          <div
+            *ngIf="selectedSection === 'universal'"
+            class="col-10 p-l-40 p-r-40"
+          >
+            <span class="description">
+              Stake your $DIGI & receive a share of what the platform generates!
+            </span>
+          </div>
+          <div *ngIf="selectedSection === 'duel'" class="col-10 p-l-40 p-r-40">
+            <span class="description">
+              DigiDuel is where users can battle any desired NFT they hold in
+              their wallets. Simply place your NFT & $DIGI tokens as a bet, and
+              select a color of your choice. <br /><br />
+              Once the the winning color is revealed, the winner will receive
+              the losers NFT+ the amount of $DIGI that was placed as a bet.
+              <br /><br />
+              A 1% fee from the total bets will be taken. 0.7% will go towards
+              the staking pool and 0.3% is burned.
+            </span>
+          </div>
+          <div
+            *ngIf="selectedSection === 'transactions'"
+            class="col-10 p-l-40 p-r-40"
+          >
+            <span class="description">
+              Digible has a 10% processing fee for any sale or auction held in
+              the market places. 5% of the total fee will automatically go into
+              the staking pool. <br /><br />
+              The remainding 5% will go to Digible Operations for the future of
+              Digible, in order for it to be sustainable as well as cover any
+              expenses.
+            </span>
+          </div>
+          <!-- <div *ngIf="selectedSection === 'team'" class="col-10">
+            <span class="description center">
+              <div class="row justify-center">
+                <div class="col-lg-3 p-b-20">
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="team team-1"></div>
+                    </div>
+                    <div class="col-lg-12">
+                      <a
+                        class="link"
+                        href="https://www.linkedin.com/in/serge-pustelnik-3a68561"
+                      >
+                        Serge Pustelnik
+                      </a>
+                    </div>
+                    <div class="col-lg-12">Co-Founder</div>
+                  </div>
+                </div>
+
+                <div class="col-lg-3 p-b-20">
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="team team-2"></div>
+                    </div>
+                    <div class="col-lg-12">
+                      <a
+                        class="link"
+                        href="http://linkedin.com/in/danpustelnik"
+                      >
+                        Dan Pustelnik
+                      </a>
+                    </div>
+                    <div class="col-lg-12">Co-Founder</div>
+                  </div>
+                </div>
+
+                <div class="col-lg-3 p-b-20">
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="team team-3"></div>
+                    </div>
+                    <div class="col-lg-12">
+                      <a
+                        class="link"
+                        href="https://www.facebook.com/profile.php?id=100012895752592"
+                      >
+                        Alex Lubetsky
+                      </a>
+                    </div>
+                    <div class="col-lg-12">Co-Founder</div>
+                  </div>
+                </div>
+
+                <div class="col-lg-3 p-b-20">
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="team team-4"></div>
+                    </div>
+                    <div class="col-lg-12">
+                      <a
+                        class="link"
+                        href="https://www.linkedin.com/in/alex-rass/"
+                      >
+                        Alex Rass
+                      </a>
+                    </div>
+                    <div class="col-lg-12">CTO</div>
+                  </div>
+                </div>
+
+                <div class="col-lg-3 p-b-20">
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="team team-6"></div>
+                    </div>
+                    <div class="col-lg-12">
+                      <a
+                        class="link"
+                        href="https://www.linkedin.com/in/andrew-bull-esq-752bb632/"
+                      >
+                        Andrew Bull
+                      </a>
+                    </div>
+                    <div class="col-lg-12">Legal Team</div>
+                  </div>
+                </div>
+
+                <div class="col-lg-3 p-b-20">
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="team team-5"></div>
+                    </div>
+                    <div class="col-lg-12">
+                      <a
+                        class="link"
+                        href="https://www.linkedin.com/in/tyler-harttraft-b5596468/"
+                      >
+                        Tyler Harttraft
+                      </a>
+                    </div>
+                    <div class="col-lg-12">Legal Team</div>
+                  </div>
+                </div>
+
+                <div class="col-lg-3 p-b-20">
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="team team-7"></div>
+                    </div>
+                    <div class="col-lg-12">
+                      <a
+                        class="link"
+                        href="https://www.linkedin.com/in/jeffrey-d-knight-9109b827/"
+                      >
+                        Jeffrey Knight
+                      </a>
+                    </div>
+                    <div class="col-lg-12">Partner *</div>
+                  </div>
+                </div>
+
+                <div class="col-lg-3 p-b-20">
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="team team-8"></div>
+                    </div>
+                    <div class="col-lg-12">
+                      <a
+                        class="link"
+                        href="https://www.cardplayer.com/poker-players/65737-taylor-black"
+                      >
+                        Taylor Black
+                      </a>
+                    </div>
+                    <div class="col-lg-12">Partner *</div>
+                  </div>
+                </div>
+
+                <div class="col-lg-3 p-b-20">
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="team team-9"></div>
+                    </div>
+                    <div class="col-lg-12">
+                      <a class="link" href="#"> Danny Vampan </a>
+                    </div>
+                    <div class="col-lg-12">Partner *</div>
+                  </div>
+                </div>
+
+                <div class="col-lg-3 p-b-20">
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="team team-10"></div>
+                    </div>
+                    <div class="col-lg-12">
+                      <a
+                        class="link"
+                        href="https://www.cardplayer.com/poker-players/221597-adam-swan"
+                      >
+                        Adam Swan
+                      </a>
+                    </div>
+                    <div class="col-lg-12">Partner *</div>
+                  </div>
+                </div>
+
+                <div class="col-lg-12">
+                  <span class="disclose"
+                    >* In partnership with Guaranteed Hobby to manage physical
+                    aspect of the marketplace</span
+                  >
+                </div>
+              </div>
+            </span>
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

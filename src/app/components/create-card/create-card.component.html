@@ -1,0 +1,105 @@
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 p-t-10 p-b-6">
+      <span class="section-title"
+        ><span class="icon box"></span>Create Card</span
+      >
+    </div>
+    <div class="solid"></div>
+  </div>
+  <div class="row justify-center" *ngIf="!showSwitchToEth">
+    <div class="col-lg-7 mt-4">
+      <p>
+        This section of the dApp only works if you connect your wallet to the
+        Ethereum Network.
+      </p>
+    </div>
+  </div>
+
+  <div *ngIf="!showSwitchToEth">
+    <div class="row" *ngIf="loading">
+      <div class="col-lg-12">
+        <div class="mx-auto text-center mt-4">
+          <app-loading-blockchain></app-loading-blockchain>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-center p-t-20" *ngIf="!loading && !ipfsHash">
+      <div class="col-lg-5">
+        <div class="mx-auto text-center mt-4">
+          <ngx-file-drop
+            accept=".png,.jpg,.jpeg,.mp4"
+            multiple="false"
+            dropZoneLabel="Drop files here"
+            (onFileDrop)="dropped($event)"
+          >
+            <ng-template
+              ngx-file-drop-content-tmp
+              let-openFileSelector="openFileSelector"
+            >
+              <div class="row">
+                <div class="col-lg-12">Drop image of the card here!</div>
+                <div class="col-lg-12 p-t-10">
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    (click)="openFileSelector()"
+                  >
+                    Browse Files
+                  </button>
+                </div>
+                
+              </div>
+              
+            </ng-template>
+          </ngx-file-drop>
+          
+        </div>
+      </div>
+    </div>
+    <div class="row cardImg">
+      <div class="frontcard"><span>FRONT</span></div>
+      <div class="backendcard"><span>BACK</span></div>
+    </div>
+    <div class="row justify-center p-b-40 mt-4" *ngIf="!loading && ipfsHash">
+      <div class="col-lg-6">
+        <div class="mx-auto text-center">
+          <img [src]="ipfsUri" class="card-preview" *ngIf="!isVideo" /><br />
+          <div class="video-preview" *ngIf="isVideo">
+            <video class="video-background" autoplay [muted]="'muted'" loop controls [src]="ipfsUri"></video>
+          </div>
+
+          <div class="user">
+            <div class="form-group p-t-20">
+              <input type="checkbox" [(ngModel)]="physical" />
+              Is physically backed?
+            </div>
+
+            <div class="form-group p-t-10">
+              <input
+                type="text"
+                class="form-control form-control-user"
+                placeholder="Name"
+                [(ngModel)]="cardName"
+              />
+            </div>
+
+            <div class="form-group p-t-10">
+              <input
+                type="text"
+                class="form-control form-control-user"
+                placeholder="Receiver Wallet"
+                [(ngModel)]="walletReceiver"
+              />
+            </div>
+          </div>
+
+          <button class="button full-width p-t-10">
+            <span (click)="create()">Create</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

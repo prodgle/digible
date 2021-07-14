@@ -1,0 +1,94 @@
+<div
+  class="digi-card"
+  [ngClass]="{
+    details: view === 'details',
+    auction: view === 'auction',
+    rotate: view !== 'details'
+  }"
+>
+  <span *ngIf="customBorder" class="title_border">
+    {{ customBorder }}
+  </span>
+
+  <span *ngIf="customBorder" class="title_border_bottom">
+    {{ customBorder }}
+  </span>
+
+  <img
+    *ngIf="!isVideo"
+    class="front adjust"
+    [ngClass]="{
+      shadow_card: physical,
+      custom_border: customBorder
+    }"
+    [src]="image"
+    alt="image"
+  />
+
+  <div class="video-container front" *ngIf="isVideo && view === 'details'">
+    <video
+      class="video-background"
+      autoplay
+      [muted]="'muted'"
+      loop
+      controls
+      [src]="image"
+    ></video>
+  </div>
+
+  <div class="video-container front" *ngIf="isVideo && view !== 'details'">
+    <video
+      poster="/assets/images/cards/loading.png"
+      class="video-background"
+      [muted]="'muted'"
+      loop
+      no-controls
+      [src]="image + '#t=0.4'"
+    ></video>
+  </div>
+
+  <div class="back">
+    <div class="full-width">
+      <p class="name">{{ name }}</p>
+      <p class="description">
+        {{ description }}
+      </p>
+      <div class="amount" *ngIf="price">{{ price }} {{ symbol }}</div>
+      <button
+        [routerLink]="id ? ['/details/' + id] : []"
+        [ngStyle]="{ cursor: id ? 'pointer' : '' }"
+        class="button"
+      >
+        <span *ngIf="price != null && !auction">BUY NOW</span>
+        <span *ngIf="price != null && auction">BID NOW</span>
+        <span *ngIf="price == null">DETAILS</span>
+      </button>
+
+      <a
+        *ngIf="owner && ownerUsername"
+        [routerLink]="['/profile', ownerUsername]"
+        class="creator verified-creator"
+      >
+        <div class="icon-creator"></div>
+        {{ ownerUsername }}
+      </a>
+      <a
+        *ngIf="
+          owner &&
+          !ownerUsername &&
+          owner != '0x000000000000000000000000000000000000dEaD'
+        "
+        [routerLink]="['/profile', owner]"
+        class="creator"
+      >
+        Owner Profile
+      </a>
+      <span
+        *ngIf="owner == '0x000000000000000000000000000000000000dEaD'"
+        class="creator"
+      >
+        Burned
+      </span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,209 @@
+.info {
+  height: 100vh;
+  background-color: #7479f7;
+
+  .container-fluid {
+    height: 100vh;
+
+    .social {
+      position: fixed;
+      top: 120px;
+      display: inline-grid;
+      right: 33px;
+
+      .icon {
+        width: 40px;
+        height: 25px;
+        margin-bottom: 20px;
+        color: white;
+      }
+    }
+
+    .close {
+      position: fixed;
+      top: 30px;
+      right: 30px;
+      background-image: url(/assets/images/cross.svg);
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 20px;
+      background-color: #2af6ff;
+      border-radius: 15px;
+      height: 45px;
+      width: 47px;
+    }
+
+    .vertical-center {
+      height: 100vh;
+      display: flex;
+
+      .subtitle {
+        font-family: "Gotham-Black-Italic";
+        font-size: 25px;
+        color: white;
+      }
+
+      .title {
+        font-family: "Gotham-Bold";
+        font-size: 25px;
+        color: white;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .description {
+    font-family: "Gotham-Book";
+    font-size: 16px;
+    color: white;
+
+    .team {
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center;
+      height: 125px;
+      margin-bottom: 10px;
+
+      &.team-1 {
+        background-image: url("/assets/images/team/team-1.jpeg");
+      }
+
+      &.team-2 {
+        background-image: url("/assets/images/team/team-2.jpeg");
+      }
+
+      &.team-3 {
+        background-image: url("/assets/images/team/team-3.jpeg");
+      }
+
+      &.team-4 {
+        background-image: url("/assets/images/team/team-4.jpeg");
+      }
+
+      &.team-5 {
+        background-image: url("/assets/images/team/team-5.jpeg");
+      }
+
+      &.team-6 {
+        background-image: url("/assets/images/team/team-6.jpeg");
+      }
+
+      &.team-7 {
+        background-image: url("/assets/images/team/team-7.jpeg");
+      }
+
+      &.team-8 {
+        background-image: url("/assets/images/team/team-8.jpeg");
+      }
+
+      &.team-9 {
+        background-image: url("/assets/images/team/team-9.jpeg");
+      }
+
+      &.team-10 {
+        background-image: url("/assets/images/team/team-10.jpeg");
+      }
+    }
+  }
+
+  .disclose {
+    font-size: 13px;
+  }
+
+  .logo {
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    height: 110px;
+
+    &.stake {
+      background-image: url("/assets/images/info/1.svg");
+    }
+
+    &.safe {
+      background-image: url("/assets/images/info/2.svg");
+    }
+
+    &.farm {
+      background-image: url("/assets/images/info/3.svg");
+    }
+
+    &.market {
+      background-image: url("/assets/images/info/4.svg");
+    }
+
+    &.grade {
+      background-image: url("/assets/images/info/5.svg");
+    }
+
+    &.track {
+      background-image: url("/assets/images/info/6.svg");
+    }
+
+    &.auction {
+      background-image: url("/assets/images/info/7.svg");
+    }
+
+    &.universal {
+      background-image: url("/assets/images/info/8.svg");
+    }
+
+    &.duel {
+      background-image: url("/assets/images/info/9.svg");
+    }
+
+    &.transactions {
+      background-image: url("/assets/images/info/10.svg");
+    }
+  }
+}
+
+.link {
+  color: white;
+  text-decoration: underline;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .info {
+    height: 100%;
+
+    .container-fluid {
+      height: 100%;
+
+      .vertical-center {
+        .subtitle {
+          font-size: 25px;
+        }
+
+        .title {
+          font-size: 25px;
+        }
+      }
+    }
+
+    .description {
+      font-size: 16px;
+    }
+
+    .logo {
+      height: 130px;
+    }
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+}

@@ -1,0 +1,429 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 p-t-10 p-b-6">
+      <span class="section-title" *ngIf="isYourProfile"
+        ><span class="icon profile"></span>My Profile</span
+      >
+      <span class="section-title" *ngIf="!isYourProfile"
+        ><span class="icon profile"></span>Digible Profile</span
+      >
+    </div>
+    <div class="solid"></div>
+  </div>
+
+  <div class="row p-t-20">
+    <div class="col-lg-6">
+      <div class="card min-height shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary txt-title">
+            <span>Account</span>
+            <span class="social" *ngIf="profile">
+              <a
+                [href]="'https://twitter.com/' + profile.twitter"
+                *ngIf="profile.twitter"
+                target="_blank"
+                ><i class="icon fab fa-twitter"></i
+              ></a>
+
+              <a
+                [href]="'https://twitch.tv/' + profile.twitch"
+                *ngIf="profile.twitch"
+                target="_blank"
+                ><i class="icon fab fa-twitch"></i
+              ></a>
+
+              <a
+                [href]="'https://instagram.com/' + profile.instagram"
+                *ngIf="profile.instagram"
+                target="_blank"
+                ><i class="icon fab fa-instagram"></i
+              ></a>
+
+              <a
+                [href]="profile.website"
+                *ngIf="profile.website"
+                target="_blank"
+                ><i class="icon fa fa-desktop"></i
+              ></a>
+            </span>
+          </h6>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-12">
+              <b *ngIf="!profile">{{ address }}</b>
+              <b *ngIf="profile"
+                ><div class="username">
+                  <div class="icon-creator"></div>
+                  {{ profile.username }}
+                </div>
+                ({{ address }})</b
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-3">
+      <div class="card min-height shadow mb-4">
+        <div class="card-header py-3">
+          <h6
+            *ngIf="isYourProfile"
+            class="m-0 font-weight-bold text-primary txt-title"
+          >
+            My Digi Balance
+          </h6>
+          <h6
+            *ngIf="!isYourProfile"
+            class="m-0 font-weight-bold text-primary txt-title"
+          >
+            Digi Balance
+          </h6>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-12">
+              <b>{{ digiBalance }} $DIGI</b>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-3">
+      <div class="card min-height shadow mb-4">
+        <div class="card-header py-3">
+          <h6
+            *ngIf="isYourProfile"
+            class="m-0 font-weight-bold text-primary txt-title"
+          >
+            My {{ stableSymbol }} Balance
+          </h6>
+          <h6
+            *ngIf="!isYourProfile"
+            class="m-0 font-weight-bold text-primary txt-title"
+          >
+            {{ stableSymbol }} Balance
+          </h6>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-12">
+              <b>{{ stableBalance }} $</b>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 p-t-10 p-b-6">
+      <span class="section-title"
+        ><span class="icon binoculars"></span>Collection</span
+      >
+    </div>
+    <div class="solid"></div>
+  </div>
+
+  <div class="row" *ngIf="myCards == null">
+    <div class="col">
+      <div class="mx-auto text-center mt-4">
+        <app-loading></app-loading>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="myCards && myCards.length == 0">
+    <div class="col">
+      <div class="mx-auto text-center mt-4">
+        <b>No data available</b>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="myCards != null">
+    <div
+      *ngFor="let nft of myCards"
+      class="col-xl-2 col-lg-3 col-md-4 col-sm-6 p-t-40"
+    >
+      <app-digi-card
+        id="{{ nft.id }}"
+        price="{{ nft.price }}"
+        auction="{{ nft.auction }}"
+      ></app-digi-card>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid mt-4">
+  <div class="row">
+    <div class="col-12 p-t-10 p-b-6">
+      <span class="section-title"
+        ><span class="icon light"></span>Activity History
+      </span>
+    </div>
+    <div class="solid"></div>
+  </div>
+  <div class="p-b-40">
+    <div class="row" *ngIf="activityHistory == null">
+      <div class="col">
+        <div class="mx-auto text-center mt-4">
+          <app-loading></app-loading>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="activityHistory">
+      <div class="col-lg-7">
+        <div class="card min-height shadow mt-4">
+          <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary txt-title">
+              Last Actions
+            </h6>
+          </div>
+
+          <div class="card-body">
+            <div
+              class="row"
+              *ngIf="activityHistory && activityHistory.length == 0"
+            >
+              <div class="col">
+                <div class="mx-auto text-center mt-4">
+                  <b>No recent activity found</b>
+                </div>
+              </div>
+            </div>
+
+            <div class="row" *ngIf="activityHistory != null">
+              <div *ngFor="let activity of activityHistory" class="col-12">
+                <span *ngIf="activity.action == 'buy'">
+                  This user has purchased{{ (activity.isDigi ? '' : ' external') }} NFT number 
+                  <a *ngIf="activity.isDigi" [routerLink]="['/details', activity.tokenId]">{{ activity.tokenId }}</a> 
+                  {{ (activity.isDigi ? '' : activity.tokenId) }} for
+                  <b>{{ activity.humanAmount }} {{ stableSymbol }}</b> on
+                  {{ activity.created | date: "HH:mm dd/MM/YYYY" }}
+                </span>
+                <span *ngIf="activity.action != 'buy'">
+                  This user has bid for the NFT number
+                  <a [routerLink]="['/details', activity.tokenId]">{{ activity.tokenId }}</a> for
+                  <b>{{ activity.humanAmount }} {{ stableSymbol }}</b> on
+                  {{ activity.created | date: "HH:mm dd/MM/YYYY" }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid mt-4" *ngIf="isYourProfile">
+  <div class="row">
+    <div class="col-12 p-t-10 p-b-6">
+      <span class="section-title"
+        ><span class="icon fire"></span>Auctions won
+      </span>
+      <span class="section-subtitle"> (Pending claim)</span>
+    </div>
+    <div class="solid"></div>
+  </div>
+  <div class="p-b-40">
+    <div class="row" *ngIf="pendingAuctions == null">
+      <div class="col">
+        <div class="mx-auto text-center mt-4">
+          <app-loading></app-loading>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="pendingAuctions && pendingAuctions.length == 0">
+      <div class="col">
+        <div class="mx-auto text-center mt-4">
+          <b>No pending auctions to claim</b>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="pendingAuctions != null">
+      <div
+        *ngFor="let nft of pendingAuctions"
+        class="col-xl-2 col-lg-3 col-md-4 col-sm-6 p-t-40"
+      >
+        <app-digi-card id="{{ nft.id }}"></app-digi-card>
+        <button (click)="claim(nft.auctionId)" class="button full-width mt-4" *ngIf="nft.sold">
+          <span *ngIf="nft.seller">{{ loading ? "..." : "Claim "+stableSymbol }}</span>
+          <span *ngIf="!nft.seller">{{ loading ? "..." : "Claim NFT" }}</span>
+        </button>
+        <button (click)="cancel(nft.auctionId)" class="button full-width mt-4" *ngIf="!nft.sold">
+          <span >{{ loading ? "..." : "Cancel" }}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="container-fluid mt-4"
+  *ngIf="
+    isYourProfile &&
+    network == 'Ethereum' &&
+    pendingTransfersFromMatic?.length > 0
+  "
+>
+  <div class="row">
+    <div class="col-12 p-t-10 p-b-6">
+      <span class="section-title"
+        ><span class="icon fire"></span>Claim tranferred from Matic</span
+      >
+    </div>
+    <div class="solid"></div>
+  </div>
+  <div class="p-b-40">
+    <div class="row">
+      <div
+        *ngFor="let nft of pendingTransfersFromMatic"
+        class="col-xl-2 col-lg-3 col-md-4 col-sm-6 p-t-40"
+      >
+        <app-digi-card id="{{ nft.tokenId }}"></app-digi-card>
+        <button
+          (click)="completeTransferFromMatic(nft.hash)"
+          class="button full-width mt-4"
+        >
+          <span>{{ loading ? "..." : "Claim token " + nft.tokenId }}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid p-b-40" *ngIf="isYourProfile">
+  <div class="row">
+    <div class="col-lg-10 col-sm-8 p-t-10 p-b-6">
+      <span class="section-title">
+        <span class="icon binoculars"></span>
+        Other Collections
+      </span>
+    </div>
+    <div class="col-lg-2 col-sm-4 p-t-10 p-b-6">
+      <a
+        class="btn btn-primary btn-menu btn-header"
+        data-toggle="modal"
+        data-target="#addTokenModel"
+      >
+        <div class="icon box"></div>
+        <div class="separator"></div>
+        <span class="btn-title">Add</span>
+      </a>
+    </div>
+    <div class="solid"></div>
+  </div>
+
+  <div class="row" *ngIf="otherNfts == null">
+    <div class="col">
+      <div class="mx-auto text-center mt-4">
+        <app-loading></app-loading>
+      </div>
+    </div>
+  </div>
+
+  <div class="row p-b-20" *ngIf="otherNfts && otherNfts.length == 0">
+    <div class="col-lg-12">
+      <div class="mx-auto text-center mt-4">
+        <b>No data available</b>
+      </div>
+    </div>
+    <div class="col-lg-12">
+      <div class="mx-auto text-center mt-4">
+        <b
+          >This section will show the NFTs that you have imported from platforms
+          other than Digible</b
+        >
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="otherNfts != null">
+    <div
+      *ngFor="let nft of otherNfts"
+      class="col-xl-2 col-lg-3 col-md-4 col-sm-6 p-t-40"
+    >
+      <app-market-card
+        id="{{ nft.id }}"
+        address="{{ nft.address }}"
+        price="{{ nft.price }}"
+      ></app-market-card>
+      <button
+        [routerLink]="['/explorer/create', nft.address, nft.id]"
+        class="button full-width mt-4"
+      >
+        <span>Sell</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="addTokenModel"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="searchModalLabel"
+  aria-hidden="true"
+  #addTokenModal
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="searchModalLabel">NFT Address</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12 p-t-15">
+              <form class="user">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control form-control-user"
+                    placeholder="0x0000000000000000"
+                    [(ngModel)]="inputAddress"
+                    (ngModelChange)="onChangeInputAddress()"
+                    name="nftName"
+                  />
+                </div>
+              </form>
+            </div>
+            <div class="col-lg-12 center p-t-15 p-b-10">
+              <span
+                >Add the NFTs that you have purchased using other platforms such
+                as OpenSea</span
+              >
+            </div>
+          </div>
+          <div class="row p-t-15 p-b-10 center justify-center">
+            <div class="col-lg-12">
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="addToken()"
+              >
+                Add {{ tokenName }} Token
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

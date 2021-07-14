@@ -1,0 +1,100 @@
+.home-section {
+  background-image: -webkit-linear-gradient(
+    310deg,
+    #f8f7fc 0%,
+    #f8f7fc 50%,
+    #efedf9 50%,
+    #efedf9 50%
+  );
+  background-image: linear-gradient(
+    310deg,
+    #f8f7fc 0%,
+    #f8f7fc 50%,
+    #efedf9 50%,
+    #efedf9 50%
+  );
+  height: 100vh;
+  width: 100vw;
+  display: grid;
+
+  .title {
+    font-family: "Gotham-Black";
+    font-size: calc(2em + 2vw);
+    color: #7479f7;
+
+    &.marked {
+      background-color: #2af6ff;
+      font-family: "Gotham-Black-Italic";
+      padding: 15px;
+    }
+
+    .marked-only {
+      background-color: #2af6ff;
+      font-family: "Gotham-Black-Italic";
+      padding: 15px;
+    }
+  }
+
+  .subtitle {
+    font-family: "Gotham-Black-Italic";
+    font-size: calc(0.75em + 0.75vw);
+    color: #7479f7;
+  }
+
+  .logo {
+    background-image: url("/assets/images/logo.gif");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: left;
+    width: 100%;
+    height: 100%;
+  }
+
+  .just-center {
+    justify-content: center;
+  }
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .home-section {
+    height: 100%;
+
+    .logo {
+      width: 100%;
+      height: 350px;
+    }
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  .home-section {
+    height: 100vh;
+
+    .logo {
+      background-position: center;
+      width: 100%;
+      height: 250px;
+    }
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  .home-section {
+    .logo {
+      background-position: left;
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+}

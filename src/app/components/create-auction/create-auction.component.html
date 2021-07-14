@@ -1,0 +1,210 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 p-t-10 p-b-6">
+      <span class="section-title"
+        ><span class="icon box"></span>Create Auction</span
+      >
+    </div>
+    <div class="solid"></div>
+  </div>
+
+  <div class="row" *ngIf="showSwitchToMatic">
+    <div class="col-12 text-center mt-4">
+      <p>
+        This section of the dApp only works if you connect your wallet to Matic
+        Network.
+      </p>
+    </div>
+    <br />
+    <div class="mx-auto text-center mt-2">
+      <button class="btn btn-primary btn-menu" (click)="switchToMatic()">
+        <span class="btn-title">Switch to Matic</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="row p-t-40" *ngIf="loading && !showSwitchToMatic">
+    <div class="col-lg-12">
+      <div class="mx-auto text-center">
+        <app-loading-blockchain></app-loading-blockchain>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="row space-evenly p-t-30 p-b-40"
+    *ngIf="!showSwitchToMatic && !loading"
+  >
+    <div class="col-lg-4 p-b-40">
+      <app-digi-card view="auction" [id]="id"></app-digi-card>
+    </div>
+
+    <div class="col-lg-5">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card min-height shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary txt-title">
+                Auction prices
+              </h6>
+            </div>
+
+            <div class="card-body">
+              <div class="row center">
+                <div class="col-lg-12">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      [(ngModel)]="buyNowOption"
+                      id="buyNowOption"
+                    />
+                    <label class="form-check-label" for="buyNowOption">
+                      Buy now option?
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="row justify-center">
+                <div class="col-lg-6 p-t-10" *ngIf="buyNowOption">
+                  <form class="user">
+                    <div class="form-group">
+                      <input
+                        class="form-control form-control-user"
+                        type="number"
+                        placeholder="Buy now price"
+                        [(ngModel)]="buyNowPrice"
+                        (ngModelChange)="onChangeBuyNowInputAmount()"
+                        [ngModelOptions]="{ standalone: true }"
+                      />
+                    </div>
+                  </form>
+                </div>
+                <div class="col-lg-6 p-t-10">
+                  <form class="user">
+                    <div class="form-group">
+                      <input
+                        class="form-control form-control-user"
+                        type="number"
+                        placeholder="Auction start price"
+                        [(ngModel)]="minPrice"
+                        (ngModelChange)="onChangeInputAmount()"
+                        [ngModelOptions]="{ standalone: true }"
+                      />
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+              <div class="row center justify-center">
+                <div class="col-lg-12 p-t-10">
+                  <p class="desc-small">
+                    The listing will show the final starting price as the first
+                    minimum bid, which includes the 5% platform fee to be paid
+                    by the buyer. Net proceeds is the amount you will receive
+                    upon completion of the auction, which includes both the
+                    buyer's 5% fee, the seller's 5% fee, along with any creator
+                    royalty fee (if applicable).
+                  </p>
+                </div>
+                <div class="col-lg-12 p-t-10" *ngIf="minPrice">
+                  Final start price: {{ listingPrice }}<br />
+                  Net Proceeds: {{ receiveAmount }}<br />
+                </div>
+                <div class="col-lg-12 p-t-10" *ngIf="buyNowPrice">
+                  Final buy now price: {{ listingPriceBuyNow }}<br />
+                  Net Proceeds of buy now: {{ receiveAmountBuyNow }}<br />
+                </div>
+                <div class="col-lg-12 p-t-10" *ngIf="hasRoyalty">
+                  This NFT has also a royalty fee, you will receive
+                  {{ royaltyFee / 100 }}% less.
+                </div>
+              </div>
+            </div>
+
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary txt-title">
+                <span *ngIf="!selectedDate">Auction end date</span>
+                <span *ngIf="selectedDate">
+                  End date (Local):
+                  {{ selectedDate | date: "dd/MM/YYYY HH:mm:ss" }}
+                </span>
+              </h6>
+            </div>
+
+            <div class="card-body">
+              <div class="row center">
+                <div class="col-lg-12" *ngIf="!selectedDate">
+                  <dl-date-time-picker
+                    startView="day"
+                    maxView="year"
+                    minView="minute"
+                    minuteStep="5"
+                    [(ngModel)]="selectedDate"
+                  >
+                  </dl-date-time-picker>
+                </div>
+
+                <div class="col-lg-12" *ngIf="selectedDate">
+                  <div class="row justify-center">
+                    <div class="col-lg-6" *ngIf="isApproved">
+                      <button
+                        class="button full-width"
+                        (click)="selectedDate = null"
+                      >
+                        Change Date
+                      </button>
+                    </div>
+
+                    <div class="col-lg-12 p-b-20" *ngIf="!isApproved">
+                      <div class="row justify-center">
+                        <div class="col-lg-6">
+                          <button
+                            class="button full-width"
+                            (click)="selectedDate = null"
+                          >
+                            Change Date
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-lg-6" *ngIf="!isApproved">
+                      <span *ngIf="!enoughBalance"
+                        >You need to hold at least 3,000 $DIGI to create an
+                        auction.</span
+                      >
+                      <button
+                        *ngIf="enoughBalance"
+                        class="button full-width"
+                        [disabled]="isApproved"
+                        (click)="approve()"
+                      >
+                        Approve
+                      </button>
+                    </div>
+
+                    <div class="col-lg-6">
+                      <span *ngIf="!enoughBalance && isApproved"
+                        >You need to hold at least 3,000 $DIGI to create an
+                        auction.</span
+                      >
+                      <button
+                        *ngIf="enoughBalance"
+                        class="button full-width"
+                        (click)="create()"
+                        [disabled]="!isApproved"
+                      >
+                        Create Auction
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,63 @@
+<div class="container-fluid p-b-40">
+  <div class="row">
+    <div class="col-9 p-t-10 p-b-6">
+      <span class="section-title"><span class="icon light"></span>LEADERBOARD: </span>
+    </div>
+    <div class="col-lg-3 right">
+      <!-- <select
+        class="form-control"
+        id="statusFilter"
+        (ngModelChange)="changeFilter()"
+      > 
+        <option value="ALL">Show All</option>
+        <option value="PHYSICAL">Show Physical</option>
+        <option value="DIGITAL">Show Digital</option>
+      </select>-->
+    </div>
+    <div class="solid"></div>
+  </div>
+  
+  <div class="row" *ngIf="!searchReady">
+    <div class="col">
+      <div class="mx-auto text-center mt-4">
+        <app-loading></app-loading>
+      </div>
+    </div>
+  </div>
+
+  <div class="row"  *ngIf="searchReady">
+    <div class="col-9 p-t-10 p-b-6">
+      <span class="section-title">TOP 10: </span>
+    </div>
+  </div>
+  <div class="row" id="collectionList" *ngIf="searchReady">
+    <div
+      *ngFor="let dos of leaders; let i = index;"
+      class=""
+    >
+      <div class="list">
+        <div class="firstblock">{{i+1}}.</div>
+        <div class="middleblock">
+          <a  href="{{dos.link}}" class="item-menu">
+            <span>{{dos.username}}</span>
+          </a></div>
+        <div>{{dos.countNFT}}</div>
+      </div>
+      
+      
+    </div>
+  </div>
+
+  <!-- <div class="row center p-t-10">
+    <div class="col-lg-12">
+      <button *ngIf="loading" class="btn btn-primary mt-4 mb-4">. . .</button>
+      <button
+        *ngIf="!loading && nftList != null && !endReached"
+        class="btn btn-primary mt-4 mb-4"
+        (click)="loadMore()"
+      >
+        Load more
+      </button>
+    </div>
+  </div> -->
+</div>

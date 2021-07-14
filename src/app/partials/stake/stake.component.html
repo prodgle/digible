@@ -1,0 +1,92 @@
+<div class="p-t-50">
+  <div class="box">
+    <div class="icon">
+      <img [src]="stake.icon" />
+    </div>
+
+    <div class="txt-box" *ngIf="loading">
+      <p class="bold mt-2">Loading...</p>
+    </div>
+
+    <div class="txt-box" *ngIf="!loading">
+      <div class="row justify-center">
+        <div class="col-lg-12">
+          <span class="title">{{ stake.name }}</span>
+        </div>
+        <div class="col-lg-12">
+          <span class="txt">({{ rewards }} {{ stake.reward }} Earned)</span>
+        </div>
+
+        <div class="col-lg-12 p-t-20" *ngIf="approved && rewardsNumber > 0">
+          <button class="btn btn-primary btn-rset-1" (click)="claim()">
+            Claim
+          </button>
+        </div>
+
+        <div class="col-lg-10 p-t-10">
+          <input
+            type="number"
+            name="input"
+            [(ngModel)]="amountInput"
+            placeholder="0,00"
+          />
+        </div>
+
+        <div class="col-lg-12 p-t-10" *ngIf="!address">
+          <button
+            data-bs-toggle="modal"
+            data-bs-target="#walletModal"
+            class="btn btn-primary btn-rset-1"
+          >
+            Connect
+          </button>
+        </div>
+
+        <div class="col-lg-12 p-t-10 txt">(Max: {{ balance }})</div>
+
+        <div class="col-lg-12 p-t-10" *ngIf="!approved && address">
+          <button (click)="approveDigi()" class="btn btn-primary btn-rset-1">
+            Approve {{ stake.name }}
+          </button>
+        </div>
+
+        <div class="col-lg-12 p-t-10" *ngIf="approved">
+          <button (click)="deposit()" class="btn btn-primary btn-rset-1">
+            Deposit
+          </button>
+        </div>
+
+        <div
+          class="col-lg-12 p-t-10"
+          *ngIf="address && yourStake > 0.0"
+        >
+          <button class="btn btn-primary btn-rset-1" (click)="withdraw()">
+            Withdraw
+          </button>
+        </div>
+
+        <div class="col-lg-12 p-t-20">
+          <div class="row">
+            <div class="col-lg-6 txt">Total Staked:</div>
+            <div class="col-lg-6 txt">{{ totalStaked }}</div>
+          </div>
+        </div>
+
+        <div class="col-lg-12">
+          <div class="row">
+            <div class="col-lg-6 txt">Your Stake:</div>
+            <div class="col-lg-6 txt">{{ yourStake }}</div>
+          </div>
+        </div>
+
+        <div class="col-lg-12 p-b-20">
+          <div class="row">
+            <div class="col-lg-6 txt">APY:</div>
+            <!-- <div class="col-lg-6 txt">{{ apr }}%</div> -->
+            <div class="col-lg-6 txt">8%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

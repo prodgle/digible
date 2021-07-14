@@ -1,0 +1,105 @@
+.txt-title {
+  font-family: "Gotham-Medium";
+  font-size: 16px;
+}
+
+.txt-center {
+  display: flex;
+  justify-content: center;
+}
+
+.right {
+  text-align: right;
+}
+
+.warn-bid {
+  font-size: 13px;
+}
+
+.name {
+  font-family: "Gotham-Medium";
+  font-size: 24px;
+  color: #7479f7;
+}
+
+.price {
+  font-family: "Gotham-Medium";
+  font-size: 25px;
+  color: #7479f7;
+}
+
+.sub-title {
+  font-family: "Gotham-Medium";
+  font-size: 14px;
+  color: #7479f7;
+}
+
+.usd {
+  font-family: "Gotham-Medium";
+  font-size: 10px;
+  color: #7479f7;
+}
+
+.button {
+  font-family: "Gotham-Bold";
+  font-size: 17px;
+  background-color: #7479f7;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  color: white;
+
+  &.warning {
+    font-family: "Gotham-Bold";
+    font-size: 17px;
+    background-color: #ec2727;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    color: white;
+  }
+}
+
+button:disabled,
+button[disabled] {
+  background-color: grey;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.icon-eth {
+  background-image: url("/assets/images/icons/eth.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  background-color: transparent;
+  display: inline-flex;
+  width: 17px;
+  height: 17px;
+}
+
+.card {
+  background-color: #f8f7fc;
+
+  &.min-height {
+    min-height: 520px;
+  }
+}
+
+.icon-creator {
+  background-image: url("/assets/images/icons/creator.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  background-color: transparent;
+  display: inline-flex;
+  width: 15px;
+  height: 15px;
+  margin-right: 5px;
+}
+
+.owner-name {
+  text-transform: capitalize;
+}
