@@ -1,6 +1,6 @@
 **Most recent branch for both Production and Dev is auctions_v2.**
 
-Admin manual: https://github.com/Digible/DigibleUI/blob/auctions_v2/README.md
+Admin manual: https://github.com/DubovkaE/digible/blob/master/README.md
 
 
 # DigibleWeb
