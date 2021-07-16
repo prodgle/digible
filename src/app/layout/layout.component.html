@@ -43,7 +43,7 @@
         [routerLink]="['explorer']"
         class="item-menu"
       >
-        
+
         <span>EXPLORE</span>
       </a>
 
@@ -51,7 +51,7 @@
       [routerLink]="['duels']"
       class="item-menu"
     >
-      
+
       <span>DUELS</span>
     </a>
 
@@ -89,7 +89,7 @@
         [routerLink]="['explorer']"
         class="item-menu"
       >
-        
+
         <span>EXPLORE</span>
       </a>
 
@@ -97,7 +97,7 @@
       [routerLink]="['duels']"
       class="item-menu"
     >
-      
+
       <span>DUELS</span>
     </a>
 
@@ -132,7 +132,7 @@
           <input class="searchInp" type="text" id="searchInp"  value="" (keypress)="findResult($event)">
           <label for="searchInp" class="searchInpLabel"></label>
       </div>
-      
+
       <div class="connectWalletBl">
         <a *ngIf="address" class="btn btn-primary btn-menu just-center" [routerLink]="['/purchase']" style="height: 30px;">
           <span class="btn-title">
@@ -148,7 +148,7 @@
         </a>
       </div>
       <div class="connectWallet">
-        
+
         <a *ngIf="!address" class="btn btn-primary btn-menu just-center" (click)="connectWallet()" style="height: 30px;">
           <span class="btn-title">CONNECT WALLET</span>
         </a>
@@ -159,7 +159,7 @@
         </a>
       </div>
     </div>
-    
+
   </div>
   <div class="container-fluid" *ngIf="router.url == '/'">
     <div class="row">
@@ -179,10 +179,10 @@
           </div>
         </div>
       </div>
-     
+
     </div>
     <div class="row justify-center p-b-40 centrBtnBlock" *ngIf="router.url == '/'">
-      
+
       <div class="col-8 col-md-4 col-lg-3 col-xl-2 center p-t-15 centrBtn">
         <a
           href="https://app.uniswap.org/#/swap?outputCurrency=0x3cbf23c081faa5419810ce0f6bc1ecb73006d848"
@@ -289,7 +289,7 @@
           </li> -->
         </ul>
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item p-r-15" *ngIf="canMint && router.url != '/purchase'">
+          <li class="nav-item p-r-15" *ngIf="canMint && !hideCreateButton">
             <a
               class="btn btn-primary btn-menu btn-header"
               [routerLink]="['/create']"
@@ -299,7 +299,7 @@
               <span class="btn-title">Create</span>
             </a>
           </li>
-         
+
         </ul>
       </nav>
       <router-outlet></router-outlet>

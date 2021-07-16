@@ -34,6 +34,7 @@ export class ProfileComponent implements OnInit {
   stableSymbol = environment.stableCoinSymbol;
   digiBalance = '...';
   stableBalance = '...';
+  canMint = false;
   isYourProfile = false;
   loading = false;
   activityHistory = null;
@@ -73,6 +74,10 @@ export class ProfileComponent implements OnInit {
         this.loadData();
       });
     }
+
+    this.nft.canMint().then((canMint) => {
+      this.canMint = canMint;
+    });
   }
 
   loadData(): void {
