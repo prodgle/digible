@@ -47,7 +47,7 @@ import { VerifiedWalletsService } from './services/verified-wallets.service';
 import { WalletService } from './services/wallet.service';
 import { CollectionsComponent } from './components/collections/collections.component';
 import { LeaderboardComponent } from './components/leaderboard/leaderboard.component';
-
+import { PurchaseComponent } from './components/purchase/purchase.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -63,6 +63,7 @@ import { LeaderboardComponent } from './components/leaderboard/leaderboard.compo
     RankingsComponent,
     ProfileComponent,
     InfoComponent,
+    PurchaseComponent,
     DetailsComponent,
     MarketCardComponent,
     CreateSellComponent,

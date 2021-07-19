@@ -21,7 +21,12 @@ export class CreateCardComponent implements OnInit {
   ipfsUri;
   isVideo;
 
+  ipfsHashBack;
+  ipfsUriBack;
+  isVideoBack;
+
   walletReceiver;
+  walletReceiverBack;
   cardName;
   physical;
   cardPublisher;
@@ -68,10 +73,11 @@ export class CreateCardComponent implements OnInit {
       return;
     }
     const droppedFile = files[0];
+
     if (droppedFile.fileEntry.isFile) {
       const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
       fileEntry.file(async (file: File) => {
-        
+        console.log(this.ipfsHash);
         this.loading = true;
         try {
          const signature = await this.sign();
@@ -81,7 +87,7 @@ export class CreateCardComponent implements OnInit {
            file,
            droppedFile.relativePath
          );
-         
+        
           this.ipfsHash = ipfs.hash;
           this.isVideo = await this.offchain.isVideo(ipfs.uri);
           this.ipfsUri = ipfs.uri;
@@ -91,6 +97,7 @@ export class CreateCardComponent implements OnInit {
         this.loading = false;
       });
     }
+   
   }
 
   async sign(): Promise<string> {

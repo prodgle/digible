@@ -1,8 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { NftService } from 'src/app/services/nft.service';
 import { OffchainService } from 'src/app/services/offchain.service';
 import { DigiCard } from 'src/app/types/digi-card.types';
-
+import { VerifiedWalletsService } from 'src/app/services/verified-wallets.service';
+import { MarketplaceService } from 'src/app/services/marketplace.service';
+import { MaticService } from 'src/app/services/matic.service';
+import { TokensService } from 'src/app/services/tokens.service';
+import { MathService } from '../../services/math.service';
+import { WalletService } from '../../services/wallet.service';
+import { Network } from '../../types/network.enum';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-newest',
   templateUrl: './purchase.component.html',
@@ -13,22 +20,91 @@ export class PurchaseComponent implements OnInit {
   static lastOffset = 0;
 
   static cacheUntil: Date = null;
-
+  stableBalance = '...';
+  digiBalance = '...';
+  listUsers = [];
+  digi = '';
+  stable = '';
   nftList: DigiCard[] = null;
   unfilteredNftList: DigiCard[] = null;
   currentOffset = 0;
   loading = false;
   endReached = false;
   typeFilter = 'ALL';
+  searchReady = false;
   readonly limit = 12;
 
   constructor(
     private readonly nft: NftService,
-    private readonly offchain: OffchainService
+    private readonly offchain: OffchainService,
+    private readonly route: ActivatedRoute,
+    private readonly walletService: WalletService,
+    private readonly math: MathService,
+    private readonly cdr: ChangeDetectorRef,
+    private readonly tokens: TokensService,
+    private readonly verifieds: VerifiedWalletsService,
+    private readonly router: Router,
+    private readonly matic: MaticService,
+    private readonly marketplace: MarketplaceService,
+    
   ) {}
 
   ngOnInit(): void {
-    this.loadData();
+    //this.loadData();
+    this.getCollection();
+  }
+
+  getCollection(){
+    var wallets = new VerifiedWalletsService();
+    var walletsArr = wallets.verifiedProfiles;
+    this.listUsers = Object.keys(walletsArr).map((key) => [String(key), walletsArr[key]]);
+    for(var i=0; i < this.listUsers.length ; i++){
+      this.loadBalances(i);
+    }
+  }
+
+  sortArr(){
+    this.listUsers.sort((a, b) => {
+      
+        if (a[1].digible < b[1].digible) {
+          return 1;
+        }
+
+        if (a[1].digible > b[1].digible) {
+          return -1;
+        }
+
+        return 0;
+      });
+      
+      this.searchReady = true;
+  }
+  
+  loadBalances(i){
+    var bal = this.nft.digiBalance(this.listUsers[i][0], true);
+    var list = this.listUsers[i][1];
+    bal.then((balance) => {
+      list.digible = this.math.toHumanValue(balance + '', 18) + '';
+      list.link = "/profile/"+this.listUsers[i][0];
+      if(i == (this.listUsers.length - 1)){
+        setTimeout(async () => {
+          this.sortArr();
+        }, 500);
+      }
+    })
+  }
+
+  async loadNFTs(address, i, len, name): Promise<void> {
+    let maticNfts = [];
+    try {
+      maticNfts = await this.nft.myNFTs(address, true);
+    } catch (e) {
+      console.error(e);
+    }
+    var myCards = [];
+    myCards['username'] = name;
+    myCards['cards'] = [...await this.nft.myNFTs(address), ...maticNfts]
+  
   }
 
   async loadData(): Promise<void> {
@@ -46,6 +122,8 @@ export class PurchaseComponent implements OnInit {
     this.nftList = await this.nft.getNewNfts(this.limit, 0);
     this.setCache();
     this.unfilteredNftList = this.nftList;
+
+    this.getCollection();
   }
 
   async loadMore(): Promise<void> {
@@ -66,7 +144,24 @@ export class PurchaseComponent implements OnInit {
   }
   
   connectMatic(): void{
-    console.log("CONNECT");
+    
+    window.ethereum.request({
+      method: 'wallet_addEthereumChain',
+      params: [{
+      chainId: '0x89',
+      chainName: 'Matic',
+      nativeCurrency: {
+          name: 'Matic',
+          symbol: 'MATIC',
+          decimals: 18
+      },
+      rpcUrls: ['https://rpc-mainnet.maticvigil.com/'],
+      blockExplorerUrls: ['https://explorer.matic.network/']
+      }]
+      })
+      .catch((error) => {
+        console.log(error)
+      }) 
   }
 
   changeFilter(): void {

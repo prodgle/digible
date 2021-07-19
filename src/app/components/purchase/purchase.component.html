@@ -4,7 +4,7 @@
       <span class="section-title">PURCHASE $DIGI</span>
     </div>
     <div class="btn-purchase-block">
-        <a href="#" class="btn-purchase">STAKE $DIGI </a>
+        <a [routerLink]="['/stake']" class="btn-purchase">STAKE $DIGI </a>
         <span (click)="connectMatic()" class="btn-purchase">SWITCH TO MATIC </span>
     </div>
     <div class="solid"></div>
@@ -61,19 +61,29 @@
       <div class="right-block-title">
         LOREM IPSUM RANKINGS
       </div>
-      <div class="rankings-content-block">
-        <div class="ranking-left-block">
-          <div class="ranking-block-top-number">1</div>
-          <div class="ranking-block-top-img"><img src="../../../assets/images/ava.jpg"></div>
-          <div class="ranking-block-top-name">@polygonyogurt</div>
-          <div class="ranking-block-top-address">0x828B...7185D564</div>
-          <div class="ranking-block-top-balance">7641 $DIGI</div>
-          <div class="ranking-block-top-network"><img src="../../../assets/images/matic.png"></div>
-        </div>
-        <div class="ranking-right-block">
-          <div class="button-collection-ranking">Collection ▸</div>
+      <div class="row" *ngIf="!searchReady">
+        <div class="col">
+          <div class="mx-auto text-center mt-4">
+            <app-loading></app-loading>
+          </div>
         </div>
       </div>
+      <div *ngIf="searchReady">
+        <div class="rankings-content-block"  *ngFor="let usr of listUsers; let i = index;">
+          <div class="ranking-left-block"   *ngIf="i < 10">
+            <div class="ranking-block-top-number">{{i+1}}</div>
+            <div class="ranking-block-top-img"><img src="../../../assets/images/ava.jpg"></div>
+            <div class="ranking-block-top-name">{{usr[1].username}}</div>
+            <div class="ranking-block-top-address" alt="{{usr[0]}}">{{ usr[0] | slice: 0:6 }}...{{ usr[0] | slice: 36:64 }}</div>
+            <div class="ranking-block-top-balance">{{ usr[1].digible }} <span class="valuta">$DIGI</span></div>
+            <div class="ranking-block-top-network"><img src="../../../assets/images/matic.png"></div>
+          </div>
+          <div class="ranking-right-block"   *ngIf="i < 10">
+            <a href="{{usr[1].link}}" class="button-collection-ranking">Collection ▸</a>
+          </div>
+        </div>
+      </div>
+      
     </div>
   </div>
 </div>

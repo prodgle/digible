@@ -629,11 +629,11 @@ export class DetailsComponent implements OnInit, OnDestroy {
         await this.sign(),        
         this.inputDescription,
         this.id,
-        this.inputEdition,
-        this.inputPublisher,
-        this.inputYear,
-        this.inputGraded,
-        this.inputPopulation,
+        // this.inputEdition,
+        // this.inputPublisher,
+        // this.inputYear,
+        // this.inputGraded,
+        // this.inputPopulation,
       );
       alert('Description updated!');
     } catch (e) {
@@ -644,8 +644,8 @@ export class DetailsComponent implements OnInit, OnDestroy {
   }
 
   async sign(): Promise<string> {
-    var message = "Description: " + this.inputDescription + ", Edition: " + this.inputEdition + ", Year: " + this.inputYear + ", Graded: " + this.inputGraded + ", Population: " + this.inputPopulation;
-    return await this.walletService.signMessage(message);
+    //var message = "Description: " + this.inputDescription + ", Edition: " + this.inputEdition + ", Year: " + this.inputYear + ", Graded: " + this.inputGraded + ", Population: " + this.inputPopulation;
+    return await this.walletService.signMessage(this.inputDescription);
   }
 
   private getNetworkData(network: Network): { name: string; prefix: string } {
