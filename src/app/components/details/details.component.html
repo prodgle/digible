@@ -439,16 +439,26 @@
               <h6 class="m-0 font-weight-bold text-primary txt-title">
                 Description
                 <button
+                  id="editDescriptionModal"
                   data-toggle="modal"
                   data-target="#addDescriptionModal"
                   class="button button m-l-20"
                   *ngIf="canMint && isYours"
+                  #editDescriptionModal
+
                 >
                   <span>Edit</span>
                 </button>
               </h6>
             </div>
-            <div class="card-body">{{ description }}</div>
+            <div class="card-body">
+              <ng-container *ngFor="let desc_item of description | keyvalue">
+                <div class="row" *ngIf="desc_item.value && desc_item.key != 'backCardImage'">
+                  <div class="col-lg-6 sub-title text-capitalize">{{desc_item.key}}</div>
+                  <div class="col-lg-6">{{desc_item.value}}</div>
+                </div>
+              </ng-container>
+            </div>
             <div class="card-header center py-3" *ngIf="isYours && physical">
               <h6 class="m-0 font-weight-bold text-primary txt-title">
                 <button [routerLink]="['/claim', id]" class="button button">
@@ -610,15 +620,7 @@
                 <div class="form-group">
                   <input
                     type="text"
-                    class="form-control form-control-user"
-                    placeholder="Description..."
-                    [(ngModel)]="inputDescription"
-                    name="description"
-                  />
-
-                  <input
-                    type="text"
-                    class="form-control form-control-user"
+                    class="form-control form-control-user mb-2"
                     placeholder="Publisher..."
                     [(ngModel)]="inputPublisher"
                     name="publisher"
@@ -626,7 +628,7 @@
 
                   <input
                     type="text"
-                    class="form-control form-control-user"
+                    class="form-control form-control-user mb-2"
                     placeholder="Edition..."
                     [(ngModel)]="inputEdition"
                     name="edition"
@@ -634,7 +636,7 @@
 
                   <input
                     type="text"
-                    class="form-control form-control-user"
+                    class="form-control form-control-user mb-2"
                     placeholder="Year..."
                     [(ngModel)]="inputYear"
                     name="year"
@@ -642,7 +644,7 @@
 
                   <input
                     type="text"
-                    class="form-control form-control-user"
+                    class="form-control form-control-user mb-2"
                     placeholder="Graded..."
                     [(ngModel)]="inputGraded"
                     name="graded"
@@ -650,7 +652,7 @@
 
                   <input
                     type="text"
-                    class="form-control form-control-user"
+                    class="form-control form-control-user mb-2"
                     placeholder="Population..."
                     [(ngModel)]="inputPopulation"
                     name="population"

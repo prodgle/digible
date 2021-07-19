@@ -25,12 +25,20 @@ import { environment } from 'src/environments/environment';
 })
 export class DetailsComponent implements OnInit, OnDestroy {
   @ViewChild('burnTokenModal') burnTokenModal: ElementRef;
+  @ViewChild('editDescriptionModal') editDescriptionModal: ElementRef;
 
   id;
   symbol = environment.stableCoinSymbol;
   name = '...';
   network = '...';
-  description = '...';
+  description: {
+    publisher: string,
+    edition: string,
+    year: string,
+    graded: string,
+    population: string,
+    backCardImage: string
+  };
   winner = '...';
   customBorder;
   winnerIsVerified;
@@ -135,7 +143,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   async loadData(): Promise<void> {
     this.name = '...';
     this.network = '...';
-    this.description = '...';
+    this.description = null;
     this.physical = null;
     this.networkWherCardIs = '...';
     this.explorerPrefixOfOwner = null;
@@ -433,8 +441,9 @@ export class DetailsComponent implements OnInit, OnDestroy {
       return;
     }
     this.name = card.name;
-    this.description = card.description;
+    this.description = JSON.parse(card.description);
     this.physical = card.physical;
+    this.fillDescriptionFields();
   }
 
   async getOwner(): Promise<void> {
@@ -625,26 +634,31 @@ export class DetailsComponent implements OnInit, OnDestroy {
   async addDescription(): Promise<void> {
     this.descriptionLoading = true;
     try {
+      this.inputDescription = JSON.stringify({
+        publisher: this.inputPublisher,
+        edition: this.inputEdition,
+        year: this.inputYear,
+        graded: this.inputGraded,
+        population: this.inputPopulation,
+        backCardImage: ''
+      });
+
       await this.offChain.addDescrption(
-        await this.sign(),        
+        await this.sign(),
         this.inputDescription,
         this.id,
-        // this.inputEdition,
-        // this.inputPublisher,
-        // this.inputYear,
-        // this.inputGraded,
-        // this.inputPopulation,
       );
+      await this.getCardDetails();
       alert('Description updated!');
     } catch (e) {
       alert('Error updating.');
       console.error(e);
     }
     this.descriptionLoading = false;
+    this.editDescriptionModal.nativeElement.click();
   }
 
   async sign(): Promise<string> {
-    //var message = "Description: " + this.inputDescription + ", Edition: " + this.inputEdition + ", Year: " + this.inputYear + ", Graded: " + this.inputGraded + ", Population: " + this.inputPopulation;
     return await this.walletService.signMessage(this.inputDescription);
   }
 
@@ -686,6 +700,16 @@ export class DetailsComponent implements OnInit, OnDestroy {
       this.location.back();
     } else {
       this.router.navigate(['/explorer'], { relativeTo: this.route });
+    }
+  }
+
+  fillDescriptionFields(): void {
+    if (typeof this.description === 'object' && this.description !== null) {
+      this.inputPublisher = this.description.publisher;
+      this.inputEdition = this.description.edition;
+      this.inputYear = this.description.year;
+      this.inputGraded = this.description.graded;
+      this.inputPopulation = this.description.population;
     }
   }
 }
