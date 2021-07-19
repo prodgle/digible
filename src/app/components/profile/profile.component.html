@@ -1,12 +1,20 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-12 p-t-10 p-b-6">
-      <span class="section-title" *ngIf="isYourProfile"
-        ><span class="icon profile"></span>My Profile</span
-      >
-      <span class="section-title" *ngIf="!isYourProfile"
-        ><span class="icon profile"></span>Digible Profile</span
-      >
+      <div class="d-flex justify-content-between">
+        <span class="section-title" *ngIf="isYourProfile"><span class="icon profile"></span>My Profile</span>
+        <span class="section-title" *ngIf="!isYourProfile"><span class="icon profile"></span>Digible Profile</span>
+        <div class="nav-item p-r-15" *ngIf="canMint">
+          <a
+            class="btn btn-primary btn-menu btn-header"
+            [routerLink]="['/create']"
+          >
+            <div class="icon box"></div>
+            <div class="separator"></div>
+            <span class="btn-title">Create</span>
+          </a>
+        </div>
+      </div>
     </div>
     <div class="solid"></div>
   </div>
@@ -199,8 +207,8 @@
             <div class="row" *ngIf="activityHistory != null">
               <div *ngFor="let activity of activityHistory" class="col-12">
                 <span *ngIf="activity.action == 'buy'">
-                  This user has purchased{{ (activity.isDigi ? '' : ' external') }} NFT number 
-                  <a *ngIf="activity.isDigi" [routerLink]="['/details', activity.tokenId]">{{ activity.tokenId }}</a> 
+                  This user has purchased{{ (activity.isDigi ? '' : ' external') }} NFT number
+                  <a *ngIf="activity.isDigi" [routerLink]="['/details', activity.tokenId]">{{ activity.tokenId }}</a>
                   {{ (activity.isDigi ? '' : activity.tokenId) }} for
                   <b>{{ activity.humanAmount }} {{ stableSymbol }}</b> on
                   {{ activity.created | date: "HH:mm dd/MM/YYYY" }}
