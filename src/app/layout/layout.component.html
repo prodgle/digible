@@ -161,7 +161,7 @@
     </div>
 
   </div>
-  <div class="container-fluid" *ngIf="router.url == '/'">
+  <div class="container-fluid container-profile-fluid" *ngIf="router.url == '/'">
     <div class="row">
       <div class="p-l-40 col-lg-12">
         <span class="title">
@@ -288,6 +288,7 @@
             </a>
           </li> -->
         </ul>
+        
         <ul class="navbar-nav ml-auto">
           <li class="nav-item p-r-15" *ngIf="canMint && !hideCreateButton">
             <a

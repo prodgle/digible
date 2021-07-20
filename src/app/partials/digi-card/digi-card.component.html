@@ -50,10 +50,19 @@
   <div class="back">
     <div class="full-width">
       <p class="name">{{ name }}</p>
-      <p class="description">
+      
+      <p class="description"  *ngIf="price == null">
         {{ description }}
       </p>
       <div class="amount" *ngIf="price">{{ price }} {{ symbol }}</div>
+      <button
+        [routerLink]="id ? ['/details/' + id] : []"
+        [ngStyle]="{ cursor: id ? 'pointer' : '' }"
+        class="button"
+        *ngIf="price != null && !auction"
+      >
+        <span >DETAILS</span>
+      </button><br><br>
       <button
         [routerLink]="id ? ['/details/' + id] : []"
         [ngStyle]="{ cursor: id ? 'pointer' : '' }"

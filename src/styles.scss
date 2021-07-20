@@ -499,9 +499,12 @@ a{
 }
 
 .container-fluid{
-  padding-top:100px;
+  padding-top:10px;
+  min-height: 100vh;
 }
-
+.container-profile-fluid{
+  min-height: unset !important;
+}
   .btn.btn-primary.btn-menu.just-center{
     background: #7479f7;
     color: #fff;
