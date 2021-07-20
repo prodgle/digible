@@ -452,10 +452,10 @@
               </h6>
             </div>
             <div class="card-body">
-              <ng-container *ngFor="let desc_item of description | keyvalue">
-                <div class="row" *ngIf="desc_item.value && desc_item.key != 'backCardImage'">
+              <ng-container *ngFor="let desc_item of description | keyvalue: keepOriginalOrder">
+                <div class="row" *ngIf="desc_item.key != 'backCardImage'">
                   <div class="col-lg-6 sub-title text-capitalize">{{desc_item.key}}</div>
-                  <div class="col-lg-6">{{desc_item.value}}</div>
+                  <div class="col-lg-6">{{desc_item.value || '...'}}</div>
                 </div>
               </ng-container>
             </div>
@@ -656,6 +656,14 @@
                     placeholder="Population..."
                     [(ngModel)]="inputPopulation"
                     name="population"
+                  />
+
+                  <input
+                    type="text"
+                    class="form-control form-control-user mb-2"
+                    placeholder="Description..."
+                    [(ngModel)]="inputDescription"
+                    name="description"
                   />
 
                 </div>

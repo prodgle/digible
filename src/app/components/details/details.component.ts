@@ -37,7 +37,8 @@ export class DetailsComponent implements OnInit, OnDestroy {
     year: string,
     graded: string,
     population: string,
-    backCardImage: string
+    backCardImage: string,
+    description: string
   };
   winner = '...';
   customBorder;
@@ -52,6 +53,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   fee;
   highestBid = null;
   address: string;
+  fullDescription;
   inputDescription;
   inputPublisher;
   inputEdition;
@@ -441,6 +443,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
       return;
     }
     this.name = card.name;
+    console.log(JSON.parse(card.description));
     this.description = JSON.parse(card.description);
     this.physical = card.physical;
     this.fillDescriptionFields();
@@ -634,18 +637,19 @@ export class DetailsComponent implements OnInit, OnDestroy {
   async addDescription(): Promise<void> {
     this.descriptionLoading = true;
     try {
-      this.inputDescription = JSON.stringify({
-        publisher: this.inputPublisher,
-        edition: this.inputEdition,
-        year: this.inputYear,
-        graded: this.inputGraded,
-        population: this.inputPopulation,
+      this.fullDescription = JSON.stringify({
+        publisher: this.inputPublisher || '',
+        edition: this.inputEdition || '',
+        year: this.inputYear || '',
+        graded: this.inputGraded || '',
+        population: this.inputPopulation || '',
+        description: this.inputDescription || '',
         backCardImage: ''
       });
 
       await this.offChain.addDescrption(
         await this.sign(),
-        this.inputDescription,
+        this.fullDescription,
         this.id,
       );
       await this.getCardDetails();
@@ -659,7 +663,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   }
 
   async sign(): Promise<string> {
-    return await this.walletService.signMessage(this.inputDescription);
+    return await this.walletService.signMessage(this.fullDescription);
   }
 
   private getNetworkData(network: Network): { name: string; prefix: string } {
@@ -710,6 +714,9 @@ export class DetailsComponent implements OnInit, OnDestroy {
       this.inputYear = this.description.year;
       this.inputGraded = this.description.graded;
       this.inputPopulation = this.description.population;
+      this.inputDescription = this.description.description;
     }
   }
+
+  keepOriginalOrder = (a, b): string => a.key;
 }
