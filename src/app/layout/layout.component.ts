@@ -133,4 +133,9 @@ export class LayoutComponent implements OnInit{
       document.location.href = '/search?search=' + inputValue;
     }
   }
+
+  findMobileResult(e){
+    const mobInpValue = (document.getElementById('searchInpMob') as HTMLInputElement).value;
+    document.location.href = '/search?search=' + mobInpValue;
+  }
 }

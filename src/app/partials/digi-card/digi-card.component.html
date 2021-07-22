@@ -50,9 +50,9 @@
   <div class="back">
     <div class="full-width">
       <p class="name">{{ name }}</p>
-      <p class="description"  *ngIf="price == null">
+      <!-- <p class="description"  *ngIf="price == null">
         {{ description }}
-      </p>
+      </p> -->
       <div class="amount" *ngIf="price">{{ price }} {{ symbol }}</div>
       <button
         [routerLink]="id ? ['/details/' + id] : []"
