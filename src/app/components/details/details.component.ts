@@ -718,5 +718,5 @@ export class DetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  keepOriginalOrder = (a, b): string => a.key;
+  keepOriginalOrder = (a, b) => a.key;
 }
