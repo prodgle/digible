@@ -644,7 +644,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
         graded: this.inputGraded || '',
         population: this.inputPopulation || '',
         description: this.inputDescription || '',
-        backCardImage: ''
+        backCardImage: this.description.backCardImage
       });
 
       await this.offChain.addDescrption(
