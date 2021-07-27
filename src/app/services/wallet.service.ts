@@ -116,7 +116,7 @@ export class WalletService {
       return;
     }
     if (environment.testnet) {
-      window.ethereum.request({
+      await window.ethereum.request({
         method: 'wallet_addEthereumChain',
         params: [
           {
@@ -132,7 +132,7 @@ export class WalletService {
         ],
       });
     } else {
-      window.ethereum.request({
+      await window.ethereum.request({
         method: 'wallet_addEthereumChain',
         params: [
           {
@@ -144,6 +144,31 @@ export class WalletService {
               decimals: 18,
             },
             rpcUrls: ['https://rpc-mainnet.maticvigil.com/'],
+          },
+        ],
+      });
+    }
+  }
+
+  async switchToEth(): Promise<void> {
+    if (!window.ethereum) {
+      return;
+    }
+    if (environment.testnet) {
+      await window.ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        params: [
+          {
+            chainId: '0x5',
+          },
+        ],
+      });
+    } else {
+      await window.ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        params: [
+          {
+            chainId: '',
           },
         ],
       });
