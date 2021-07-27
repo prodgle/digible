@@ -45,7 +45,7 @@
       <ng-container *ngFor="let desc_item of description | keyvalue: keepOriginalOrder">
         <div class="row" *ngIf="desc_item.key != 'backCardImage' && desc_item.key != 'description'">
           <div class="col-lg-6 sub-title text-capitalize">{{desc_item.key}}</div>
-          <div class="col-lg-6">{{desc_item.value || '...'}}</div>
+          <div class="col-lg-6 text-overflow">{{desc_item.value || '...'}}</div>
         </div>
       </ng-container>
       <div class="amount" *ngIf="price">{{ price }} {{ symbol }}</div>
