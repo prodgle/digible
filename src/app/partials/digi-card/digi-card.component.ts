@@ -16,7 +16,7 @@ export class DigiCardComponent implements OnInit {
   @Input() price: number = null;
   @Input() auction: boolean;
   @Input() view: string;
-  
+
   customBorder: string;
   owner: string;
   ownerUsername: string;
@@ -25,7 +25,15 @@ export class DigiCardComponent implements OnInit {
 
   physical: boolean;
   image = '/assets/images/cards/loading.png';
-  description = '...';
+  description: {
+    publisher: string,
+    edition: string,
+    year: string,
+    graded: string,
+    population: string,
+    backCardImage: string,
+    description: string
+  };
   name = '...';
 
   isVideo = false;
@@ -102,7 +110,7 @@ export class DigiCardComponent implements OnInit {
     const card = await this.offchain.getNftData(this.id);
     this.physical = card.physical;
     this.image = card.image;
-    this.description = card.description;
+    this.description = JSON.parse(card.description);
     this.name = card.name;
     this.checkType();
     this.cdr.detectChanges();
@@ -112,4 +120,6 @@ export class DigiCardComponent implements OnInit {
   async checkType(): Promise<void> {
     this.isVideo = await this.offchain.isVideo(this.image);
   }
+
+  keepOriginalOrder = (a, b) => a.key;
 }

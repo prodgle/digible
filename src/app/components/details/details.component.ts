@@ -644,7 +644,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
         graded: this.inputGraded || '',
         population: this.inputPopulation || '',
         description: this.inputDescription || '',
-        backCardImage: ''
+        backCardImage: this.description.backCardImage
       });
 
       await this.offChain.addDescrption(
@@ -718,5 +718,5 @@ export class DetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  keepOriginalOrder = (a, b): string => a.key;
+  keepOriginalOrder = (a, b) => a.key;
 }

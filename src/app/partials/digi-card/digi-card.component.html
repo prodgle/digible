@@ -6,14 +6,6 @@
     rotate: view !== 'details'
   }"
 >
-  <span *ngIf="customBorder" class="title_border">
-    {{ customBorder }}
-  </span>
-
-  <span *ngIf="customBorder" class="title_border_bottom">
-    {{ customBorder }}
-  </span>
-
   <img
     *ngIf="!isVideo"
     class="front adjust"
@@ -50,9 +42,12 @@
   <div class="back">
     <div class="full-width">
       <p class="name">{{ name }}</p>
-      <!-- <p class="description"  *ngIf="price == null">
-        {{ description }}
-      </p> -->
+      <ng-container *ngFor="let desc_item of description | keyvalue: keepOriginalOrder">
+        <div class="row" *ngIf="desc_item.key != 'backCardImage' && desc_item.key != 'description'">
+          <div class="col-lg-6 sub-title text-capitalize">{{desc_item.key}}</div>
+          <div class="col-lg-6 text-overflow">{{desc_item.value || '...'}}</div>
+        </div>
+      </ng-container>
       <div class="amount" *ngIf="price">{{ price }} {{ symbol }}</div>
       <button
         [routerLink]="id ? ['/details/' + id] : []"

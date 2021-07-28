@@ -1,9 +1,9 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { MathService } from '../../services/math.service';
-import { NftService } from '../../services/nft.service';
-import { WalletService } from '../../services/wallet.service';
-import { Network } from '../../types/network.enum';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {MathService} from '../../services/math.service';
+import {NftService} from '../../services/nft.service';
+import {WalletService} from '../../services/wallet.service';
+import {Network} from '../../types/network.enum';
 
 @Component({
   selector: 'app-create-auction',
@@ -16,10 +16,11 @@ export class CreateAuctionComponent implements OnInit {
   buyNowOption;
   buyNowPrice;
   minPrice;
-  isApproved;
+  isApproved = false;
   loading = false;
   selectedDate;
   enoughBalance = true;
+  canApprove = false;
 
   fee;
   royaltyFee;
@@ -43,10 +44,16 @@ export class CreateAuctionComponent implements OnInit {
       this.id = queryParams.id;
     });
     this.loadData();
+    /*if (!this.canApprove) {
+      this.checkNetwork();
+    }*/
     this.checkNetwork();
     if (window.ethereum) {
       window.ethereum.on('networkChanged', () => {
         this.loadData();
+        /*if (!this.canApprove) {
+          this.checkNetwork();
+        }*/
         this.checkNetwork();
       });
     }
@@ -104,6 +111,7 @@ export class CreateAuctionComponent implements OnInit {
   }
 
   onChangeInputAmount(): void {
+    // this.checkIfCanApprove();
     setTimeout(() => {
       this.listingPrice = (
         this.minPrice *
@@ -123,6 +131,7 @@ export class CreateAuctionComponent implements OnInit {
   }
 
   onChangeBuyNowInputAmount(): void {
+    // this.checkIfCanApprove();
     setTimeout(() => {
       this.listingPriceBuyNow = (
         this.buyNowPrice *
@@ -184,7 +193,27 @@ export class CreateAuctionComponent implements OnInit {
     this.loading = false;
   }
 
-  switchToMatic(): void {
-    this.wallet.switchToMatic();
+  async switchToMatic(): Promise<void> {
+    await this.wallet.switchToMatic();
   }
-}
+
+  async switchToEth(): Promise<void> {
+    await this.wallet.switchToEth();
+  }
+
+  async checkIfCanApprove(): Promise<void> {
+    if (this.buyNowOption) {
+      this.canApprove = this.buyNowPrice !== '' && this.minPrice !== '' && typeof this.selectedDate === 'object' &&
+        this.selectedDate instanceof Date;
+    }
+
+    this.canApprove = this.minPrice !== '' && typeof this.selectedDate === 'object' && this.selectedDate instanceof Date;
+
+    if (this.canApprove) {
+      const network = await this.wallet.getNetwork();
+      if (network === Network.MATIC) {
+        await this.switchToEth();
+      }
+    }
+  }
+ }

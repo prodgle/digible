@@ -135,6 +135,14 @@
             <div class="card-body">
               <div class="row center">
                 <div class="col-lg-12" *ngIf="!selectedDate">
+                  <!--<dl-date-time-picker
+                    startView="day"
+                    maxView="year"
+                    minView="minute"
+                    minuteStep="5"
+                    [(ngModel)]="selectedDate"
+                    (ngModelChange)="checkIfCanApprove()"
+                  >-->
                   <dl-date-time-picker
                     startView="day"
                     maxView="year"
@@ -175,7 +183,6 @@
                         auction.</span
                       >
                       <button
-                        
                         class="button full-width"
                         (click)="approve()"
                       >
