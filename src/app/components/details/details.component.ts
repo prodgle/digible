@@ -124,7 +124,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
       if (
         environment.deletedNfts.indexOf(parseInt(this.id, undefined)) !== -1
       ) {
-        this.router.navigate(['/newest']);
+        this.router.navigate(['/']);
         return;
       }
       this.loadData();

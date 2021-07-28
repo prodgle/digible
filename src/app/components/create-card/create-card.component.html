@@ -70,6 +70,10 @@
             <video class="video-background" autoplay [muted]="'muted'" loop controls [src]="ipfsUri"></video>
           </div>
 
+          <img [src]="ipfsUriBack" class="card-preview" *ngIf="!isVideoBack" /><br />
+          <div class="video-preview" *ngIf="isVideoBack">
+            <video class="video-background" autoplay [muted]="'muted'" loop controls [src]="ipfsUriBack"></video>
+          </div>
           <div class="user">
             <div class="form-group p-t-20">
               <input type="checkbox" [(ngModel)]="physical" />

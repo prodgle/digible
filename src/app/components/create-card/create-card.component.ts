@@ -1,6 +1,9 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { WalletService } from '../../services/wallet.service';
 import { Network } from '../../types/network.enum';
+import Web3 from 'web3';
+import { environment } from 'src/environments/environment';
+import { TokensService } from 'src/app/services/tokens.service';
 import {
   NgxFileDropEntry,
   FileSystemFileEntry,
@@ -62,8 +65,7 @@ export class CreateCardComponent implements OnInit {
         this.ipfsHash,
         this.physical
       );
-      
-      this.router.navigate(['/newest']);
+      this.router.navigate(['/profile/'+this.walletReceiver]);
     } catch (e) {}
     this.loading = false;
   }
@@ -73,21 +75,22 @@ export class CreateCardComponent implements OnInit {
       return;
     }
     const droppedFile = files[0];
-
+    const droppedFileBack = files[1];
     if (droppedFile.fileEntry.isFile) {
+      const signature = await this.sign();
       const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
+      
+
       fileEntry.file(async (file: File) => {
-        console.log(this.ipfsHash);
         this.loading = true;
         try {
-         const signature = await this.sign();
          
          const ipfs = await this.offchain.uploadFile(
            signature,
            file,
            droppedFile.relativePath
          );
-        
+
           this.ipfsHash = ipfs.hash;
           this.isVideo = await this.offchain.isVideo(ipfs.uri);
           this.ipfsUri = ipfs.uri;
@@ -96,6 +99,28 @@ export class CreateCardComponent implements OnInit {
 
         this.loading = false;
       });
+
+      if (droppedFileBack.fileEntry.isFile) {
+        const fileEntry2 = droppedFileBack.fileEntry as FileSystemFileEntry;
+        fileEntry2.file(async (file: File) => {
+          this.loading = true;
+          try {
+
+          const ipfs2 = await this.offchain.uploadFile(
+            signature,
+            file,
+            droppedFileBack.relativePath
+          );
+            
+            this.ipfsHashBack = ipfs2.hash;
+            this.isVideoBack = await this.offchain.isVideo(ipfs2.uri);
+            this.ipfsUriBack = ipfs2.uri;
+            
+          } catch (e) {}
+
+          this.loading = false;
+        });
+      }
     }
    
   }

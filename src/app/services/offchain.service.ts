@@ -63,22 +63,13 @@ export class OffchainService {
     return ((await this.http.post(this.getUri() + '/card/description/' + tokenId, {
       signature,
       description,
-      // edition,
-      // publisher,
-      // year,
-      // graded,
-      // population
     }, { responseType: 'json' }).toPromise()) as any);
   }
 
   async uploadFile(signature: string, file: any, relativePath: string): Promise<{uri: string, hash: string}> {
     var formData = new FormData();
-    //console.log(file);
-    //console.log(relativePath);
-    //console.log(signature);
     formData.append('file', file, relativePath);
     formData.append('signature', signature);
-    //console.log(this.http.post(this.getUri() + '/media', formData, { responseType: 'json' }).toPromise());
     return (await this.http.post(this.getUri() + '/media', formData, { responseType: 'json' }).toPromise()) as any;
   }
 
