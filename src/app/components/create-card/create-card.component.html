@@ -49,31 +49,32 @@
                     Browse Files
                   </button>
                 </div>
-                
+
               </div>
-              
+
             </ng-template>
           </ngx-file-drop>
-          
+
         </div>
       </div>
     </div>
-    <div class="row cardImg">
-      <div class="frontcard"><span>FRONT</span></div>
-      <div class="backendcard"><span>BACK</span></div>
-    </div>
     <div class="row justify-center p-b-40 mt-4" *ngIf="!loading && ipfsHash">
-      <div class="col-lg-6">
+      <div class="col-lg-6 card-sides">
+        <h2>Front side</h2>
+        <img [src]="ipfsUri" class="card-preview" *ngIf="!isVideo" /><br />
+        <div class="video-preview" *ngIf="isVideo">
+          <video class="video-background" autoplay [muted]="'muted'" loop controls [src]="ipfsUri"></video>
+        </div>
+      </div>
+      <div class="col-lg-6 card-sides">
+        <h2>Flip side</h2>
+        <img [src]="ipfsUriBack" class="card-preview" *ngIf="!isVideoBack" /><br />
+        <div class="video-preview" *ngIf="isVideoBack">
+          <video class="video-background" autoplay [muted]="'muted'" loop controls [src]="ipfsUriBack"></video>
+        </div>
+      </div>
+      <div class="col-xl-6 col-lg-6 col-md-8 col-sm-12">
         <div class="mx-auto text-center">
-          <img [src]="ipfsUri" class="card-preview" *ngIf="!isVideo" /><br />
-          <div class="video-preview" *ngIf="isVideo">
-            <video class="video-background" autoplay [muted]="'muted'" loop controls [src]="ipfsUri"></video>
-          </div>
-
-          <img [src]="ipfsUriBack" class="card-preview" *ngIf="!isVideoBack" /><br />
-          <div class="video-preview" *ngIf="isVideoBack">
-            <video class="video-background" autoplay [muted]="'muted'" loop controls [src]="ipfsUriBack"></video>
-          </div>
           <div class="user">
             <div class="form-group p-t-20">
               <input type="checkbox" [(ngModel)]="physical" />

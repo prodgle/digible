@@ -59,7 +59,7 @@ export class OffchainService {
     }, { responseType: 'json' }).toPromise()) as any).status;
   }
 
-  async addDescrption(signature: string, description: string, tokenId: string): Promise<boolean> { //, edition: string, publisher: string, year: string, graded:string, population:string
+  async addDescrption(signature: string, description: string, tokenId: string): Promise<boolean> {
     return ((await this.http.post(this.getUri() + '/card/description/' + tokenId, {
       signature,
       description,

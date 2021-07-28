@@ -443,7 +443,6 @@ export class DetailsComponent implements OnInit, OnDestroy {
       return;
     }
     this.name = card.name;
-    console.log(JSON.parse(card.description));
     this.description = JSON.parse(card.description);
     this.physical = card.physical;
     this.fillDescriptionFields();
@@ -643,8 +642,8 @@ export class DetailsComponent implements OnInit, OnDestroy {
         year: this.inputYear || '',
         graded: this.inputGraded || '',
         population: this.inputPopulation || '',
-        description: this.inputDescription || '',
-        backCardImage: this.description.backCardImage
+        backCardImage: this.description.backCardImage || '',
+        description: this.inputDescription || ''
       });
 
       await this.offChain.addDescrption(

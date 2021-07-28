@@ -7,6 +7,7 @@ import { PendingDigiCard } from '../types/pending-digi-card.types';
 import { MathService } from './math.service';
 import { VerifiedWalletsService } from './verified-wallets.service';
 import { WalletService } from './wallet.service';
+import {Receipt} from '../types/mint.types';
 
 @Injectable()
 export class NftService {
@@ -42,13 +43,12 @@ export class NftService {
     cardName: string,
     cardImage: string,
     cardPhysical: boolean,
-    
-  ): Promise<void> {
+
+  ): Promise<Receipt> {
     const from = await this.getAccount();
-    await (await this.getNftContract()).methods
+    return await (await this.getNftContract()).methods
       .mint(receiver, cardName, cardImage, cardPhysical)
       .send({ from });
-     
   }
 
   async canMint(account?: string, isMatic?: boolean): Promise<boolean> {

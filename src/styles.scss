@@ -49,7 +49,7 @@
   .left-first-block {
     grid-template-columns: 1fr !important;
   }
-  
+
 }
 
 @media (max-width: 833px) {
@@ -82,7 +82,7 @@
       margin-top: 10px;
     }
   }
-  
+
   .btnMobMenu{
     padding-bottom: 10px;
     display: block !important;
@@ -90,8 +90,8 @@
     position: fixed;
     width: 100%;
     height: auto;
-    
-    
+
+
     #btnControl {
       display: none;
     }
@@ -100,9 +100,9 @@
         width: 30px;
         height: auto;
       }
-      
+
     }
-    
+
   }
 
   .header{
@@ -121,7 +121,7 @@
   margin-top: 85px;
 }
 .credit-card-block{
-  display: grid; 
+  display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-column-gap:20px;
 
@@ -165,7 +165,7 @@
         text-decoration: none;
       }
     }
-    
+
   }
 }
 .left-second-block{
@@ -207,7 +207,7 @@
   .ranking-block-top-img{
     img{
       border-radius: 50%;
-      width: 30px; 
+      width: 30px;
       height: 30px;
     }
   }
@@ -230,10 +230,10 @@ a{
     display: grid;
     grid-template-columns: 5fr 1fr;
     //border: 1px solid black;
-    
-    
+
+
     .ranking-left-block{
-      -webkit-box-shadow: 0px 0px 6px -1px #000000; 
+      -webkit-box-shadow: 0px 0px 6px -1px #000000;
     box-shadow: 0px 0px 6px -1px #000000;
     border-radius: 20px;
     padding: 0px 15px;
@@ -258,7 +258,7 @@ a{
     }
     .ranking-right-block{
       margin-left: 10px;
-      -webkit-box-shadow: 0px 0px 6px -1px #000000; 
+      -webkit-box-shadow: 0px 0px 6px -1px #000000;
       box-shadow: 0px 0px 6px -1px #000000;
       border-radius: 20px;
       margin-top: 10px;
@@ -305,7 +305,7 @@ a{
   display: grid;
   background-color: #fff;
   justify-items: center;
-  -webkit-box-shadow: 0px 0px 6px -1px #000000; 
+  -webkit-box-shadow: 0px 0px 6px -1px #000000;
   box-shadow: 0px 0px 6px -1px #000000;
 }
 .content-purchase{
@@ -317,12 +317,12 @@ a{
   .left-block-purchase{
     display: grid;
     grid-row-gap: 30px;
-    
+
     .left-first-block{
       display: grid;
       grid-template-columns: 1fr 1fr;
       grid-column-gap:30px;
-      
+
     }
   }
 }
@@ -368,7 +368,7 @@ a{
       top: 11px;
       filter: invert(1);
     }
-    
+
   }
 }
 .block-collection{
@@ -414,7 +414,7 @@ a{
       top: 25px;
       left: 25px;
     }
-    
+
   }
   .search{
     .btn-menu{
@@ -451,12 +451,12 @@ a{
       //margin-left: 40px;
       //margin-top: 10px;
     }
-   
+
     display: flex;
     margin-top: 0px;
     justify-content: flex-end;
   }
-  
+
 }
 #collectionList{
   display: grid;
@@ -529,7 +529,7 @@ a{
       font-family: "Gotham-Black-Italic";
       padding: 15px;
     }
-    
+
   }
   .mt110{
     margin-top: 110px;
@@ -580,7 +580,7 @@ a{
         //margin-left: 40px;
         //margin-top: 10px;
       }
-     
+
       display: flex;
       margin-top: 7px;
     }
@@ -608,7 +608,7 @@ a{
     }
   }
   [data-tooltip] {
-    position: relative; /* Относительное позиционирование */ 
+    position: relative; /* Относительное позиционирование */
     cursor: help;
    }
    [data-tooltip]::after {
@@ -623,36 +623,12 @@ a{
     pointer-events: none; /* Подсказка */
     opacity: 0; /* Подсказка невидима */
     transition: 1s; /* Время появления подсказки */
-   } 
+   }
    [data-tooltip]:hover::after {
     opacity: 1; /* Показываем подсказку */
     top: 2em; /* Положение подсказки */
     left: -10em;
    }
-   .cardImg{
-  
-    width: 65%;
-    margin: 0 auto;
-    margin-top: 50px;
-    justify-content: space-between;
-    margin-bottom: 50px;
-    .frontcard{
-      display: inline-block;
-      width: 280px;
-      height: 400px;
-      border: 1px solid red;
-      text-align: center;
-      vertical-align: middle;
-    }
-    .backendcard{
-      width: 280px;
-      height: 400px;
-      border: 1px solid red;
-      text-align: center;
-      vertical-align: middle;
-      display: inline-block;
-    }
-  }
 .p-t-50 {
   padding-top: 50px;
 }
