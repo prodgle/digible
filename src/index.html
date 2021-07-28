@@ -29,6 +29,50 @@
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-B6C07NESTH"></script>
   <script>
+      
+      /*
+    function export2txt() {
+        
+        const originalData = {
+          members: [{
+              name: "cliff",
+              age: "34"
+            },
+            {
+              name: "ted",
+              age: "42"
+            },
+            {
+              name: "bob",
+              age: "12"
+            }
+          ]
+        };
+
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(new Blob([JSON.stringify(originalData, null, 2)], {
+          type: "text/plain"
+        }));
+        a.setAttribute("download", "data.txt");
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }
+
+    alert('100');
+      
+//      'use strict';
+        const fs = require('fs');
+
+        let rawdata = fs.readFileSync('student.json');
+        let student = JSON.parse(rawdata);
+        console.log('student: '+student);
+    alert('200');
+        
+        
+        /**/
+        
+      
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());

@@ -2,8 +2,20 @@
   <div class="row">
     <div class="col-12 p-t-10 p-b-6">
       <div class="d-flex justify-content-between">
-        <span class="section-title" *ngIf="isYourProfile"><span class="icon profile"></span>My Profile</span>
-        <span class="section-title" *ngIf="!isYourProfile"><span class="icon profile"></span>Digible Profile</span>
+          <span class="section-title" *ngIf="isYourProfile">
+            <span class="profile-image">
+               <img style="max-width: 50px" alt="image" class="" src="{{ profile.picture }}">
+            </span>
+            <span class="icon profile"></span>My Profile 22</span>
+            
+            
+            <button (click)="savetojson()" >Save to json</button>
+            
+            
+        <span class="section-title" *ngIf="!isYourProfile">
+            <span class="icon profile"></span>
+            Digible Profile
+        </span>
         <div class="nav-item p-r-15" *ngIf="canMint">
           <a
             class="btn btn-primary btn-menu btn-header"

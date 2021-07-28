@@ -26,6 +26,7 @@ export class VerifiedWalletsService {
     },
     '0x828Baa8802CdC76Bee4904cF5E063f587185D564': {
       username: 'Testnet - Digible',
+      picture: 'https://ipfs.io/ipfs/Qma6XKjTmZDdPrK7hMz5QT41pXoPbLqndFCJhHTeKVabTU',
       twitter: 'digibleio',
       border: 'Testnet - Digible'
     },

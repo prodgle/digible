@@ -79,6 +79,20 @@ export class ProfileComponent implements OnInit {
       this.canMint = canMint;
     });
   }
+  
+  savetojson(): void {
+      
+    /*
+    fetch('http://example.com/movies.json')
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data);
+    });
+    /**/
+      
+  }
 
   loadData(): void {
     this.profile = this.verifieds.getFullProfile(this.address);
