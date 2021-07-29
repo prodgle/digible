@@ -16,6 +16,7 @@ export class DigiCardComponent implements OnInit {
   @Input() price: number = null;
   @Input() auction: boolean;
   @Input() view: string;
+  @Input() backSide = false;
 
   customBorder: string;
   owner: string;
@@ -25,6 +26,7 @@ export class DigiCardComponent implements OnInit {
 
   physical: boolean;
   image = '/assets/images/cards/loading.png';
+  backImage = '/assets/images/cards/loading.png';
   description: {
     publisher: string,
     edition: string,
@@ -36,6 +38,7 @@ export class DigiCardComponent implements OnInit {
   };
   name = '...';
 
+  isBackVideo = false;
   isVideo = false;
 
   constructor(
@@ -111,6 +114,9 @@ export class DigiCardComponent implements OnInit {
     this.physical = card.physical;
     this.image = card.image;
     this.description = JSON.parse(card.description);
+    if (this.description.backCardImage) {
+      this.backImage = this.description.backCardImage;
+    }
     this.name = card.name;
     this.checkType();
     this.cdr.detectChanges();
@@ -119,6 +125,9 @@ export class DigiCardComponent implements OnInit {
 
   async checkType(): Promise<void> {
     this.isVideo = await this.offchain.isVideo(this.image);
+    if (this.backImage) {
+      this.isBackVideo = await this.offchain.isVideo(this.backImage);
+    }
   }
 
   keepOriginalOrder = (a, b) => a.key;

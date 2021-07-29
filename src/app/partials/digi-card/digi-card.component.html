@@ -1,5 +1,5 @@
 <div
-  class="digi-card"
+  class="digi-card mb-3"
   [ngClass]="{
     details: view === 'details',
     auction: view === 'auction',
@@ -93,5 +93,39 @@
         Burned
       </span>
     </div>
+  </div>
+</div>
+<div class="digi-card details mb-3" *ngIf="backSide">
+  <img
+    *ngIf="!isVideo"
+    class="front adjust"
+    [ngClass]="{
+      shadow_card: physical,
+      custom_border: customBorder
+    }"
+    [src]="backImage"
+    alt="image"
+  />
+
+  <div class="video-container front" *ngIf="isBackVideo && view === 'details'">
+    <video
+      class="video-background"
+      autoplay
+      [muted]="'muted'"
+      loop
+      controls
+      [src]="backImage"
+    ></video>
+  </div>
+
+  <div class="video-container front" *ngIf="isBackVideo && view !== 'details'">
+    <video
+      poster="/assets/images/cards/loading.png"
+      class="video-background"
+      [muted]="'muted'"
+      loop
+      no-controls
+      [src]="backImage + '#t=0.4'"
+    ></video>
   </div>
 </div>
