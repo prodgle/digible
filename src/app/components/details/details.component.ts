@@ -98,6 +98,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   firstAuction: boolean;
 
   lastSells;
+  backSideImageExists = false;
 
   private readonly canGoBack: boolean;
 
@@ -444,6 +445,9 @@ export class DetailsComponent implements OnInit, OnDestroy {
     }
     this.name = card.name;
     this.description = JSON.parse(card.description);
+    if (this.description.backCardImage) {
+      this.backSideImageExists = true;
+    }
     this.physical = card.physical;
     this.fillDescriptionFields();
   }
