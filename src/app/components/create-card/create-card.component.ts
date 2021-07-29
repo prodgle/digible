@@ -54,6 +54,7 @@ export class CreateCardComponent implements OnInit {
     this.checkNetwork();
     if (window.ethereum) {
       window.ethereum.on('networkChanged', () => {
+        location.reload();
         this.checkNetwork();
       });
     }
@@ -123,7 +124,7 @@ export class CreateCardComponent implements OnInit {
         } catch (e) {}
       });
 
-      if (droppedFileBack.fileEntry.isFile) {
+      if (droppedFileBack && droppedFileBack.fileEntry.isFile) {
         const fileEntry2 = droppedFileBack.fileEntry as FileSystemFileEntry;
         fileEntry2.file(async (file: File) => {
           try {
