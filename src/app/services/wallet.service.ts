@@ -168,7 +168,7 @@ export class WalletService {
         method: 'wallet_switchEthereumChain',
         params: [
           {
-            chainId: '',
+            chainId: '0x1',
           },
         ],
       });

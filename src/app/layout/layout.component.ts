@@ -42,7 +42,7 @@ export class LayoutComponent implements OnInit{
   ngOnInit(): void {
     this.walletService.init();
 
-    this.routesToHideButton = ['/stake', '/purchase', '/profile'];
+    this.routesToHideButton = ['/stake', '/purchase', '/profile', '/create'];
 
     this.checkIfNeedToHideCreateButton(this.router.url);
 

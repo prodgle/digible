@@ -91,7 +91,7 @@ export class CreateCardComponent implements OnInit {
         );
       }
 
-      await this.router.navigate(['/profile/' + this.walletReceiver]);
+      await this.router.navigate(['/details/' + this.tokenId]);
     } catch (e) {}
     this.loading = false;
   }
@@ -103,11 +103,12 @@ export class CreateCardComponent implements OnInit {
     const droppedFile = files[0];
     const droppedFileBack = files[1];
     if (droppedFile.fileEntry.isFile) {
+      this.loading = true;
+
       const signature = await this.sign();
       const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
 
       fileEntry.file(async (file: File) => {
-        this.loading = true;
         try {
          const ipfs = await this.offchain.uploadFile(
            signature,
@@ -120,33 +121,26 @@ export class CreateCardComponent implements OnInit {
          this.ipfsUri = ipfs.uri;
          this.walletReceiver = await this.wallet.getAccount();
         } catch (e) {}
-
-        this.loading = false;
       });
 
       if (droppedFileBack.fileEntry.isFile) {
         const fileEntry2 = droppedFileBack.fileEntry as FileSystemFileEntry;
         fileEntry2.file(async (file: File) => {
-          this.loading = true;
           try {
+            const ipfs2 = await this.offchain.uploadFile(
+              signature,
+              file,
+              droppedFileBack.relativePath
+            );
 
-          const ipfs2 = await this.offchain.uploadFile(
-            signature,
-            file,
-            droppedFileBack.relativePath
-          );
-
-          this.ipfsHashBack = ipfs2.hash;
-          this.isVideoBack = await this.offchain.isVideo(ipfs2.uri);
-          this.ipfsUriBack = ipfs2.uri;
-
+            this.ipfsHashBack = ipfs2.hash;
+            this.isVideoBack = await this.offchain.isVideo(ipfs2.uri);
+            this.ipfsUriBack = ipfs2.uri;
           } catch (e) {}
-
-          this.loading = false;
         });
       }
     }
-
+    this.loading = false;
   }
 
   async sign(message = ''): Promise<string> {
@@ -155,11 +149,11 @@ export class CreateCardComponent implements OnInit {
 
   async checkNetwork(): Promise<void> {
     const network = await this.wallet.getNetwork();
-    if (network !== Network.ETH) {
-      this.showSwitchToEth = true;
-    } else {
-      this.showSwitchToEth = false;
-    }
+    this.showSwitchToEth = network !== Network.ETH;
     this.cdr.detectChanges();
+  }
+
+  async switchToEth(): Promise<void> {
+    await this.wallet.switchToEth();
   }
 }
