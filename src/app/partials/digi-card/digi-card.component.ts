@@ -5,6 +5,8 @@ import { NftService } from 'src/app/services/nft.service';
 import { OffchainService } from 'src/app/services/offchain.service';
 import { VerifiedWalletsService } from 'src/app/services/verified-wallets.service';
 import { environment } from 'src/environments/environment';
+import { HelpersService } from '../../services/helpers.service';
+import { DescriptionType } from '../../types/description.type';
 
 @Component({
   selector: 'app-digi-card',
@@ -27,15 +29,7 @@ export class DigiCardComponent implements OnInit {
   physical: boolean;
   image = '/assets/images/cards/loading.png';
   backImage = '/assets/images/cards/loading.png';
-  description: {
-    publisher: string,
-    edition: string,
-    year: string,
-    graded: string,
-    population: string,
-    backCardImage: string,
-    description: string
-  };
+  description: DescriptionType;
   name = '...';
 
   isBackVideo = false;
@@ -47,7 +41,8 @@ export class DigiCardComponent implements OnInit {
     private math: MathService,
     private cdr: ChangeDetectorRef,
     private market: MarketplaceService,
-    private verifiedProfiles: VerifiedWalletsService
+    private verifiedProfiles: VerifiedWalletsService,
+    private helpers: HelpersService
   ) {}
 
   ngOnInit(): void {
@@ -109,27 +104,18 @@ export class DigiCardComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
-   IsJsonString(str) {
-    try {
-        JSON.parse(str);
-    } catch (e) {
-        return false;
-    }
-    return true;
-  }
-  
   async loadOffChainData(): Promise<void> {
     const card = await this.offchain.getNftData(this.id);
     this.physical = card.physical;
     this.image = card.image;
-    var ch = this.IsJsonString(card.description);
-    if(card.description != "" && ch){
+    const ch = this.helpers.IsJsonString(card.description);
+    if (card.description !== '' && ch){
       this.description = JSON.parse(card.description);
       if (this.description.backCardImage) {
         this.backImage = this.description.backCardImage;
       }
     }
-    
+
     this.name = card.name;
     this.checkType();
     this.cdr.detectChanges();

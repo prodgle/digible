@@ -48,6 +48,7 @@ import { WalletService } from './services/wallet.service';
 import { CollectionsComponent } from './components/collections/collections.component';
 import { LeaderboardComponent } from './components/leaderboard/leaderboard.component';
 import { PurchaseComponent } from './components/purchase/purchase.component';
+import { HelpersService } from './services/helpers.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -101,6 +102,7 @@ import { PurchaseComponent } from './components/purchase/purchase.component';
     DuelsService,
     StakingService,
     VerifiedWalletsService,
+    HelpersService,
   ],
   bootstrap: [AppComponent],
 })

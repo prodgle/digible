@@ -17,6 +17,8 @@ import { VerifiedWalletsService } from 'src/app/services/verified-wallets.servic
 import { WalletService } from 'src/app/services/wallet.service';
 import { Network } from 'src/app/types/network.enum';
 import { environment } from 'src/environments/environment';
+import { DescriptionType } from '../../types/description.type';
+import { HelpersService } from '../../services/helpers.service';
 
 @Component({
   selector: 'app-details',
@@ -31,15 +33,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   symbol = environment.stableCoinSymbol;
   name = '...';
   network = '...';
-  description: {
-    publisher: string,
-    edition: string,
-    year: string,
-    graded: string,
-    population: string,
-    backCardImage: string,
-    description: string
-  };
+  description: DescriptionType;
   winner = '...';
   customBorder;
   winnerIsVerified;
@@ -114,6 +108,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     private readonly market: MarketplaceService,
     private readonly matic: MaticService,
     private readonly verifiedProfiles: VerifiedWalletsService,
+    private readonly helpers: HelpersService,
     public datepipe: DatePipe
   ) {
     this.canGoBack = !!this.router.getCurrentNavigation()?.previousNavigation;
@@ -444,8 +439,11 @@ export class DetailsComponent implements OnInit, OnDestroy {
       return;
     }
     this.name = card.name;
-    this.description = JSON.parse(card.description);
-    if (this.description.backCardImage) {
+    const ch = this.helpers.IsJsonString(card.description);
+    if (card.description !== '' && ch){
+      this.description = JSON.parse(card.description);
+    }
+    if (this.description && this.description.backCardImage) {
       this.backSideImageExists = true;
     }
     this.physical = card.physical;
@@ -646,7 +644,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
         year: this.inputYear || '',
         graded: this.inputGraded || '',
         population: this.inputPopulation || '',
-        backCardImage: this.description.backCardImage || '',
+        backCardImage: this.description && this.description.backCardImage ? this.description.backCardImage : '',
         description: this.inputDescription || ''
       });
 
