@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Profile } from '../types/profile.type';
+import { OffchainService } from '../services/offchain.service';
 
 @Injectable()
 export class VerifiedWalletsService {
@@ -73,7 +74,9 @@ export class VerifiedWalletsService {
 
   private inverseVerifiedProfiles = {};
 
-  constructor() {
+  constructor(
+    public offchain: OffchainService
+  ) {
     this.inverseVerifiedProfiles = Object.assign(
       {},
       ...Object.entries(this.verifiedProfiles).map(([a, b]) => ({
@@ -93,16 +96,14 @@ export class VerifiedWalletsService {
   }
 
   async getFullProfile(address: string): Profile | undefined {
-    var res = this.verifiedProfiles[address];
-    if (res) {
-        let data = await this.getProfileData(address);
-        if (data && data['picture']) {
-            res['picture'] = data['picture'];
-        }
-    } else {
+    //var data = this.verifiedProfiles[address];
+    let data = await this.getProfileData(address);
+    //if (data)
+    if (data['status'] != 'success') {
         return undefined;
+    } else {
+        return data;
     }
-    return res;
   }
    
   async getProfileData(address: string) {
@@ -114,7 +115,13 @@ export class VerifiedWalletsService {
     //.then(ttt => alert(ttt['picture'])) 
     //.then( ttt => {  return ttt })
     );
+    
     return data;
+  }
+
+  async updProfileData(address: string, profileImage: string) {
+    const ipfs = await this.offchain.updProfile(address, profileImage);
+    return ipfs['status'] == 'success';
   }
 
   getCustomBorder(address: string): string | undefined {

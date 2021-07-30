@@ -70,6 +70,12 @@ export class OffchainService {
       // population
     }, { responseType: 'json' }).toPromise()) as any);
   }
+  
+  async updProfile(address: string, profileImage: string): Promise<{uri: string, hash: string}> {
+    var formData = new FormData();
+    formData.append('picture', profileImage);
+    return (await this.http.post('http://obicon.xyz/api/profile_data/?update&address='+address, formData, { responseType: 'json' }).toPromise()) as any;
+  }
 
   async uploadFile(signature: string, file: any, relativePath: string): Promise<{uri: string, hash: string}> {
     var formData = new FormData();
