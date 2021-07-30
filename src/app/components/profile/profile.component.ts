@@ -89,6 +89,7 @@ export class ProfileComponent implements OnInit {
       return;
     }
     this.loadFiles = files;
+    this.updateProfile();
   }
   
  async updateProfile(): Promise<void> {
@@ -107,8 +108,6 @@ export class ProfileComponent implements OnInit {
             );
          
             await this.verifieds.updProfileData(this.address, ipfs.uri);
-            
-            alert('Profile updated!');
             window.location.reload();
         } catch (e) {
             alert('error: '+e);

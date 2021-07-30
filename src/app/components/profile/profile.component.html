@@ -5,12 +5,9 @@
           <span class="section-title" *ngIf="isYourProfile">
             <span class="profile-image">
                <img style="max-width: 50px" alt="image" class="" src="{{ profile.picture }}">
-            </span>
-            <span class="icon profile"></span>My Profile 22</span>
-            
-            
-            <button (click)="savetojson()" >Edit profile2</button>
-            
+            </span> My Profile</span>
+            <!-- <span class="icon profile"></span>-->
+
             <button
                   id="editDescriptionModal"
                   data-toggle="modal"
@@ -20,7 +17,7 @@
                 >
                 <span>Edit profile</span>
             </button>
-            
+
         <span class="section-title" *ngIf="!isYourProfile">
             <span class="icon profile"></span>
             Digible Profile
@@ -515,6 +512,7 @@
               </form>
             </div>
           </div>
+            <!--
           <div class="row p-t-15 p-b-10 center justify-center">
             <div class="col-lg-12">
               <button
@@ -526,6 +524,7 @@
               </button>
             </div>
           </div>
+            -->
         </div>
       </div>
     </div>
