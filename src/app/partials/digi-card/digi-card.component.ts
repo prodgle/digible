@@ -109,14 +109,27 @@ export class DigiCardComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
+   IsJsonString(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+  }
+  
   async loadOffChainData(): Promise<void> {
     const card = await this.offchain.getNftData(this.id);
     this.physical = card.physical;
     this.image = card.image;
-    this.description = JSON.parse(card.description);
-    if (this.description.backCardImage) {
-      this.backImage = this.description.backCardImage;
+    var ch = this.IsJsonString(card.description);
+    if(card.description != "" && ch){
+      this.description = JSON.parse(card.description);
+      if (this.description.backCardImage) {
+        this.backImage = this.description.backCardImage;
+      }
     }
+    
     this.name = card.name;
     this.checkType();
     this.cdr.detectChanges();
