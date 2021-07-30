@@ -66,8 +66,8 @@ export class CreateSellPriceComponent implements OnInit {
   }
 
   async loadFee(): Promise<void> {
-    // this.fee = await this.market.getFee();
-    this.fee = 10; // 10%
+    this.fee = await this.market.getFee() / 100;
+    // this.fee = 10; // 10%
   }
 
   onChangeInputAmount(): void {
@@ -94,9 +94,7 @@ export class CreateSellPriceComponent implements OnInit {
     }
     this.hasRoyalty = await this.market.hasRoyalty(
       this.id,
-      await (
-        await this.nft.owner(this.id)
-      ).address
+      (await this.nft.owner(this.id)).address
     );
     if (this.hasRoyalty) {
       this.royaltyFee = await this.market.getRoyaltyFee(this.id);

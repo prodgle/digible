@@ -217,7 +217,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.fee = parseInt(prompt('Input your desired fee %', '5')) * 100;
+    this.fee = parseInt(prompt('Input your desired fee %', '5'), undefined);
 
     try {
       await this.market.applyRoyalty(this.id, this.address, this.fee);
@@ -244,7 +244,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.fee = parseInt(prompt('Input your desired fee %', '5')) * 100;
+    this.fee = parseInt(prompt('Input your desired fee %', '5'), undefined);
 
     try {
       await this.nft.applyRoyalty(this.id, this.address, this.fee);
