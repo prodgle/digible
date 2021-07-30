@@ -94,8 +94,8 @@ export class ProfileComponent implements OnInit {
       
   }
 
-  loadData(): void {
-    this.profile = this.verifieds.getFullProfile(this.address);
+ async loadData(): Promise<void> {
+    this.profile = await this.verifieds.getFullProfile(this.address);
     this.myCards = null;
     this.otherNfts = null;
     this.pendingAuctions = null;
@@ -204,7 +204,7 @@ export class ProfileComponent implements OnInit {
     if (this.tokenName && this.tokenName !== '...') {
       this.tokens.addToken(this.inputAddress);
       this.addTokenModal.nativeElement.click();
-      this.loadData();
+      await this.loadData();
       return;
     }
   }
@@ -249,7 +249,7 @@ export class ProfileComponent implements OnInit {
 
     }
     this.loading = false;
-    this.loadData();
+    await this.loadData();
   }
 
   async claim(auctionId: number): Promise<void> {
@@ -264,7 +264,7 @@ export class ProfileComponent implements OnInit {
 
     }
     this.loading = false;
-    this.loadData();
+    await this.loadData();
   }
 
   async checkNetwork(): Promise<void> {

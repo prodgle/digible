@@ -26,7 +26,7 @@ export class VerifiedWalletsService {
     },
     '0x828Baa8802CdC76Bee4904cF5E063f587185D564': {
       username: 'Testnet - Digible',
-      picture: 'https://ipfs.io/ipfs/Qma6XKjTmZDdPrK7hMz5QT41pXoPbLqndFCJhHTeKVabTU',
+    //  picture: 'https://ipfs.io/ipfs/Qma6XKjTmZDdPrK7hMz5QT41pXoPbLqndFCJhHTeKVabTU',
       twitter: 'digibleio',
       border: 'Testnet - Digible'
     },
@@ -92,10 +92,29 @@ export class VerifiedWalletsService {
       : undefined;
   }
 
-  getFullProfile(address: string): Profile | undefined {
-    return this.verifiedProfiles[address]
-      ? this.verifiedProfiles[address]
-      : undefined;
+  async getFullProfile(address: string): Profile | undefined {
+    var res = this.verifiedProfiles[address];
+    if (res) {
+        let data = await this.getProfileData(address);
+        if (data && data['picture']) {
+            res['picture'] = data['picture'];
+        }
+    } else {
+        return undefined;
+    }
+    return res;
+  }
+   
+  async getProfileData(address: string) {
+    const request = new Request(`http://www.obicon.xyz/api/profile_data?address=`+address,
+    {
+        method: "GET"
+    });
+    var data = await fetch(request).then( response => response.json()
+    //.then(ttt => alert(ttt['picture'])) 
+    //.then( ttt => {  return ttt })
+    );
+    return data;
   }
 
   getCustomBorder(address: string): string | undefined {

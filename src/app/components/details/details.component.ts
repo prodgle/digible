@@ -435,29 +435,6 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
   async getCardDetails(): Promise<void> {
     let card;
-    
-
-
-    
-        
-    /*    
-
-    let sss = fetch(`http://www.obicon.xyz/api/`)
-        .then(res => res);
-
-    
-    fetch('http://www.obicon.xyz/api/', {
-        method: 'get'
-    })
-    .then(response => console.log('100: '+response))
-    .then(jsonData => console.log('200: '+jsonData))
-    .catch(err => {
-        alert(err);
-            //error block
-        });
-    /**/
-    
-    
     try {
       card = await this.offChain.getNftData(this.id);
     } catch (e) {
@@ -465,39 +442,8 @@ export class DetailsComponent implements OnInit, OnDestroy {
       this.router.navigate(['/newest']);
       return;
     }
-    
-    
-    const request = new Request(`http://www.obicon.xyz/api/`,
-        {
-            method: "POST"
-        });
-    const data = await fetch(request).then(response => response.json());
-        
-    
-    
-    card['image'] = data['picture'];
-    
-    
-    /** /
-    var ttt = card;
-	var out = '';
-	for (var iiii in ttt) {
-		out += iiii + ": " + ttt[iiii] + "\n";
-		for (var jj in ttt[iiii]) {
-			//out += iiii + ": " + jj + ": " + ttt[iiii][jj] + "\n";
-			for (var kk in ttt[iiii][jj]) {
-				//out += iiii + ": " + jj + ": " + kk + ": " + ttt[iiii][jj][kk] + "\n";
-			}
-		}
-	}
-        
-        console.log(out);
-        alert(out);
-        
-        /**/
-    
-    
     this.name = card.name;
+    console.log(JSON.parse(card.description));
     this.description = JSON.parse(card.description);
     this.physical = card.physical;
     this.fillDescriptionFields();
