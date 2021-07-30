@@ -60,29 +60,29 @@ export class CreateSellPriceComponent implements OnInit {
       this.address,
       parseInt(this.id, undefined)
     );
-    if (sale.available) {
+    if (sale && sale.available) {
       this.sale = sale;
     }
   }
 
   async loadFee(): Promise<void> {
-    this.fee = await this.market.getFee();
+    this.fee = await this.market.getFee() / 100;
+    // this.fee = 10; // 10%
   }
 
   onChangeInputAmount(): void {
     setTimeout(() => {
       this.listingPrice = (
-        this.inputAmount *
-        (100 / (100 - this.fee / 2 / 100))
+        this.inputAmount + ((this.inputAmount * this.fee) / 100)
       ).toFixed(2);
       if (this.hasRoyalty) {
         this.receiveAmount =
-          this.listingPrice -
-          (this.listingPrice * this.fee) / 10000 -
-          (this.listingPrice * this.royaltyFee) / 10000;
+          this.inputAmount -
+          ((this.inputAmount * this.fee) / 100) -
+          ((this.inputAmount * this.royaltyFee) / 100);
       } else {
         this.receiveAmount =
-          this.listingPrice - (this.listingPrice * this.fee) / 10000;
+          this.inputAmount - ((this.inputAmount * this.fee) / 100);
       }
       this.receiveAmount = this.receiveAmount.toFixed(2);
     }, 100);
@@ -94,9 +94,7 @@ export class CreateSellPriceComponent implements OnInit {
     }
     this.hasRoyalty = await this.market.hasRoyalty(
       this.id,
-      await (
-        await this.nft.owner(this.id)
-      ).address
+      (await this.nft.owner(this.id)).address
     );
     if (this.hasRoyalty) {
       this.royaltyFee = await this.market.getRoyaltyFee(this.id);

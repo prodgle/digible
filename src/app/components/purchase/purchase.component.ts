@@ -10,6 +10,7 @@ import { MathService } from '../../services/math.service';
 import { WalletService } from '../../services/wallet.service';
 import { Network } from '../../types/network.enum';
 import { ActivatedRoute, Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-newest',
   templateUrl: './purchase.component.html',
@@ -144,24 +145,39 @@ export class PurchaseComponent implements OnInit {
   }
   
   connectMatic(): void{
-    
-    window.ethereum.request({
-      method: 'wallet_addEthereumChain',
-      params: [{
-      chainId: '0x89',
-      chainName: 'Matic',
-      nativeCurrency: {
-          name: 'Matic',
-          symbol: 'MATIC',
-          decimals: 18
-      },
-      rpcUrls: ['https://rpc-mainnet.maticvigil.com/'],
-      blockExplorerUrls: ['https://explorer.matic.network/']
-      }]
-      })
-      .catch((error) => {
-        console.log(error)
-      }) 
+    if (environment.testnet) {
+      window.ethereum.request({
+        method: 'wallet_addEthereumChain',
+        params: [
+          {
+            chainId: '0x13881',
+            chainName: 'Matic Testnet',
+            nativeCurrency: {
+              name: 'MATIC',
+              symbol: 'MATIC',
+              decimals: 18,
+            },
+            rpcUrls: ['https://rpc-mumbai.maticvigil.com/'],
+          },
+        ],
+      });
+    } else {
+      window.ethereum.request({
+        method: 'wallet_addEthereumChain',
+        params: [
+          {
+            chainId: '0x89',
+            chainName: 'Matic',
+            nativeCurrency: {
+              name: 'MATIC',
+              symbol: 'MATIC',
+              decimals: 18,
+            },
+            rpcUrls: ['https://rpc-mainnet.maticvigil.com/'],
+          },
+        ],
+      });
+    }
   }
 
   changeFilter(): void {

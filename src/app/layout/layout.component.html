@@ -6,8 +6,8 @@
     </div>
     <div class="search">
       <div class='searchBlockInp'>
-          <input class="searchInp" type="text" id="searchInp"  value="" (keypress)="findResult($event)">
-          <label for="searchInp" class="searchInpLabel"></label>
+          <input class="searchInp" type="text" id="searchInpMob" >
+          <label for="searchInpMob" class="searchInpLabel" (click)="findMobileResult($event)"></label>
       </div>
       <div class="connectWalletBl">
         <a *ngIf="address" class="btn btn-primary btn-menu just-center" [routerLink]="['/purchase']" style="height: 30px;">
@@ -129,7 +129,7 @@
             <span>MORE INFO</span>
           </a>
 
-          <input class="searchInp" type="text" id="searchInp"  value="" (keypress)="findResult($event)">
+          <input class="searchInp" type="text" id="searchInp" (keypress)="findResult($event)">
           <label for="searchInp" class="searchInpLabel"></label>
       </div>
 
@@ -162,7 +162,7 @@
 
   </div>
   <div class="container-fluid container-profile-fluid" *ngIf="router.url == '/'">
-    <div class="row">
+    <div class="row top-banner-homepage">
       <div class="p-l-40 col-lg-12">
         <span class="title">
           THE WORLD'S FIRST NFT MARKETPLACE

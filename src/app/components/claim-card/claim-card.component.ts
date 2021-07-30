@@ -66,7 +66,7 @@ export class ClaimCardComponent implements OnInit {
         '0x000000000000000000000000000000000000dEaD'
       );
       alert('Your card has been burned!');
-      this.router.navigate(['/newest']);
+      this.router.navigate(['/']);
     } catch (e) {}
     this.loading = false;
   }

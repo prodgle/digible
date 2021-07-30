@@ -24,6 +24,7 @@ export class LayoutComponent implements OnInit{
   hideNetwork = false;
   canMint = false;
   hideCreateButton = false;
+  routesToHideButton = [];
   testnet = environment.testnet;
   isMenuOpened: boolean | null = null;
   newest = false;
@@ -36,26 +37,22 @@ export class LayoutComponent implements OnInit{
     public router: Router,
     private readonly offchain: OffchainService
   ) {
-    const pagesToShowCreateButton = ['/stake', '/purchase', '/profile'];
-
-    this.router.events.subscribe((event: Event) => {
-      if (event instanceof NavigationStart) {
-        for (const [key, value] of pagesToShowCreateButton) {
-          this.hideCreateButton = false;
-          if (event.url.match(value)) {
-            this.hideCreateButton = true;
-            break;
-          }
-        }
-      }
-    });
-
   }
 
   ngOnInit(): void {
     this.walletService.init();
 
-    if (this.router.url == '/private-sale' || this.router.url == '/sale') {
+    this.routesToHideButton = ['/stake', '/purchase', '/profile', '/create'];
+
+    this.checkIfNeedToHideCreateButton(this.router.url);
+
+    this.router.events.subscribe((event: Event) => {
+      if (event instanceof NavigationStart) {
+        this.checkIfNeedToHideCreateButton(event.url);
+      }
+    });
+
+    if (this.router.url === '/private-sale' || this.router.url === '/sale') {
       this.hideNetwork = true;
     }
 
@@ -131,6 +128,22 @@ export class LayoutComponent implements OnInit{
     if (e.code == 'Enter'){
       const inputValue = (document.getElementById('searchInp') as HTMLInputElement).value;
       document.location.href = '/search?search=' + inputValue;
+    }
+  }
+
+  findMobileResult(e){
+    const mobInpValue = (document.getElementById('searchInpMob') as HTMLInputElement).value;
+    document.location.href = '/search?search=' + mobInpValue;
+  }
+
+  checkIfNeedToHideCreateButton(url): void {
+    for (const [key, value] of this.routesToHideButton) {
+      if (url.match(value)) {
+        this.hideCreateButton = true;
+        break;
+      } else {
+        this.hideCreateButton = false;
+      }
     }
   }
 }

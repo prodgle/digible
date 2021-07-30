@@ -17,6 +17,8 @@ import { VerifiedWalletsService } from 'src/app/services/verified-wallets.servic
 import { WalletService } from 'src/app/services/wallet.service';
 import { Network } from 'src/app/types/network.enum';
 import { environment } from 'src/environments/environment';
+import { DescriptionType } from '../../types/description.type';
+import { HelpersService } from '../../services/helpers.service';
 
 @Component({
   selector: 'app-details',
@@ -31,15 +33,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   symbol = environment.stableCoinSymbol;
   name = '...';
   network = '...';
-  description: {
-    publisher: string,
-    edition: string,
-    year: string,
-    graded: string,
-    population: string,
-    backCardImage: string,
-    description: string
-  };
+  description: DescriptionType;
   winner = '...';
   customBorder;
   winnerIsVerified;
@@ -98,6 +92,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   firstAuction: boolean;
 
   lastSells;
+  backSideImageExists = false;
 
   private readonly canGoBack: boolean;
 
@@ -113,6 +108,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     private readonly market: MarketplaceService,
     private readonly matic: MaticService,
     private readonly verifiedProfiles: VerifiedWalletsService,
+    private readonly helpers: HelpersService,
     public datepipe: DatePipe
   ) {
     this.canGoBack = !!this.router.getCurrentNavigation()?.previousNavigation;
@@ -124,7 +120,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
       if (
         environment.deletedNfts.indexOf(parseInt(this.id, undefined)) !== -1
       ) {
-        this.router.navigate(['/newest']);
+        this.router.navigate(['/']);
         return;
       }
       this.loadData();
@@ -221,7 +217,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.fee = parseInt(prompt('Input your desired fee %', '5')) * 100;
+    this.fee = parseInt(prompt('Input your desired fee %', '5'), undefined);
 
     try {
       await this.market.applyRoyalty(this.id, this.address, this.fee);
@@ -248,7 +244,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.fee = parseInt(prompt('Input your desired fee %', '5')) * 100;
+    this.fee = parseInt(prompt('Input your desired fee %', '5'), undefined);
 
     try {
       await this.nft.applyRoyalty(this.id, this.address, this.fee);
@@ -443,8 +439,13 @@ export class DetailsComponent implements OnInit, OnDestroy {
       return;
     }
     this.name = card.name;
-    console.log(JSON.parse(card.description));
-    this.description = JSON.parse(card.description);
+    const ch = this.helpers.IsJsonString(card.description);
+    if (card.description !== '' && ch){
+      this.description = JSON.parse(card.description);
+    }
+    if (this.description && this.description.backCardImage) {
+      this.backSideImageExists = true;
+    }
     this.physical = card.physical;
     this.fillDescriptionFields();
   }
@@ -643,8 +644,8 @@ export class DetailsComponent implements OnInit, OnDestroy {
         year: this.inputYear || '',
         graded: this.inputGraded || '',
         population: this.inputPopulation || '',
-        description: this.inputDescription || '',
-        backCardImage: ''
+        backCardImage: this.description && this.description.backCardImage ? this.description.backCardImage : '',
+        description: this.inputDescription || ''
       });
 
       await this.offChain.addDescrption(
@@ -718,7 +719,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  keepOriginalOrder = (a, b): string => a.key;
+  keepOriginalOrder = (a, b) => a.key;
 }
 
 

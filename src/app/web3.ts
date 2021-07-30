@@ -1,13 +1,10 @@
 import Web3 from 'web3';
 
 const getWeb3 = () => new Promise((resolve) => {
-//console.log(window);
  // window.addEventListener('load', function(){
-      //console.log('ss');
     let currentWeb3;
 
     if (window.ethereum) {
-       // console.log('ss');
       currentWeb3 = new Web3(window.ethereum);
       try {
         // Request account access if needed
@@ -22,7 +19,6 @@ const getWeb3 = () => new Promise((resolve) => {
       console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
     }
  // });
-  //console.log(window);
 });
 
 

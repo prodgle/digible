@@ -5,6 +5,8 @@ import { NftService } from 'src/app/services/nft.service';
 import { OffchainService } from 'src/app/services/offchain.service';
 import { VerifiedWalletsService } from 'src/app/services/verified-wallets.service';
 import { environment } from 'src/environments/environment';
+import { HelpersService } from '../../services/helpers.service';
+import { DescriptionType } from '../../types/description.type';
 
 @Component({
   selector: 'app-digi-card',
@@ -16,7 +18,8 @@ export class DigiCardComponent implements OnInit {
   @Input() price: number = null;
   @Input() auction: boolean;
   @Input() view: string;
-  
+  @Input() backSide = false;
+
   customBorder: string;
   owner: string;
   ownerUsername: string;
@@ -25,9 +28,11 @@ export class DigiCardComponent implements OnInit {
 
   physical: boolean;
   image = '/assets/images/cards/loading.png';
-  description = '...';
+  backImage = '/assets/images/cards/loading.png';
+  description: DescriptionType;
   name = '...';
 
+  isBackVideo = false;
   isVideo = false;
 
   constructor(
@@ -36,7 +41,8 @@ export class DigiCardComponent implements OnInit {
     private math: MathService,
     private cdr: ChangeDetectorRef,
     private market: MarketplaceService,
-    private verifiedProfiles: VerifiedWalletsService
+    private verifiedProfiles: VerifiedWalletsService,
+    private helpers: HelpersService
   ) {}
 
   ngOnInit(): void {
@@ -102,7 +108,14 @@ export class DigiCardComponent implements OnInit {
     const card = await this.offchain.getNftData(this.id);
     this.physical = card.physical;
     this.image = card.image;
-    this.description = card.description;
+    const ch = this.helpers.IsJsonString(card.description);
+    if (card.description !== '' && ch){
+      this.description = JSON.parse(card.description);
+      if (this.description.backCardImage) {
+        this.backImage = this.description.backCardImage;
+      }
+    }
+
     this.name = card.name;
     this.checkType();
     this.cdr.detectChanges();
@@ -111,5 +124,10 @@ export class DigiCardComponent implements OnInit {
 
   async checkType(): Promise<void> {
     this.isVideo = await this.offchain.isVideo(this.image);
+    if (this.backImage) {
+      this.isBackVideo = await this.offchain.isVideo(this.backImage);
+    }
   }
+
+  keepOriginalOrder = (a, b) => a.key;
 }
