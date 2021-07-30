@@ -94,7 +94,7 @@ export class CreateSellPriceComponent implements OnInit {
     }
     this.hasRoyalty = await this.market.hasRoyalty(
       this.id,
-      (await this.nft.owner(this.id)).address
+      /*(await this.nft.owner(this.id)).address*/
     );
     if (this.hasRoyalty) {
       this.royaltyFee = await this.market.getRoyaltyFee(this.id);
