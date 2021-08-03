@@ -1,89 +1,91 @@
-<div class="container-fluid p-b-40">
-  <div class="row pur">
-    <div class="col-9 p-t-10 p-b-6">
-      <span class="section-title">PURCHASE $DIGI</span>
+<div class="page-top">
+  <div class="container p-b-40">
+    <div class="row pur">
+      <div class="col-9 p-t-10 p-b-6">
+        <span class="section-title">Buy $DIGI</span>
+      </div>
+      <div class="btn-purchase-block">
+          <a [routerLink]="['/stake']" class="btn-purchase">Stake $DIGI </a>
+          <span (click)="connectMatic()" class="btn-purchase">Switch to MATIC </span>
+      </div>
+      <div class="solid mt-4"></div>
     </div>
-    <div class="btn-purchase-block">
-        <a [routerLink]="['/stake']" class="btn-purchase">STAKE $DIGI </a>
-        <span (click)="connectMatic()" class="btn-purchase">SWITCH TO MATIC </span>
+  
+    <div class="content-purchase">
+      <div class="left-block-purchase">
+        <div class="left-first-block">
+          <div class="lfb">
+            <img src="../../../assets/images/uniswap.png" class="swapLogo">
+            <div class="btn btn-buy-uniswap">
+              <a href="https://app.uniswap.org/#/swap?outputCurrency=0x3cbf23c081faa5419810ce0f6bc1ecb73006d848"
+              target="_blank">Buy through Uniswap ▸</a>
+            </div>
+          </div>
+          <div class="lfb">
+            <img src="../../../assets/images/quickswap.png" class="swapLogo">
+            <div class="btn btn-buy-quickswap">
+              <a href="#">Buy through Quickswap ▸</a>
+            </div>
+          </div>
+        </div>
+        <div class="left-second-block lfb">
+          <span class="credit-card-title">Debit/credit card</span>
+          <div class="credit-card-block">
+            <div class="credit-card-circle-block">
+              <div class="purple-circle"></div>
+              <a href="#" class="btn-cr-car"><b>6,000</b> Sellers Bundle <b>▸</b></a>
+              <span class="cr-cr-dsc">3 erc-20 digis, 3k matic $DIGI</span>
+            </div>
+            <div class="credit-card-circle-block">
+              <div class="yellow-circle"></div>
+              <a href="#" class="btn-cr-car"><b>3,000</b> Sellers Bundle <b>▸</b></a>
+              <span class="cr-cr-dsc">choice erc-20 or matic</span>
+            </div>
+            <div class="credit-card-circle-block">
+              <div class="green-circle"></div>
+              <a href="#" class="btn-cr-car">Custom Amount <b>▸</b></a>
+              <span class="cr-cr-dsc" style="visibility: hidden;">choice</span>
+            </div>
+          </div>
+          <div class="cr-cr-lower-block">
+            <div></div>
+            <div class="low-desc-bl">
+              <div class="imp-txt">Important</div>
+              <div>Only holders of 3,000 or more can list items for fixed price sale on ERC-20 and 3,000 matic $DIGIs for auction</div>
+            </div>
+            <div></div>
+          </div>
+  
+        </div>
+      </div>
+      <div class="right-block-purchase lfb">
+        <div class="right-block-title">
+          Rankings
+        </div>
+        <div class="row" *ngIf="!searchReady">
+          <div class="col">
+            <div class="mx-auto text-center mt-4 text-white">
+              <app-loading></app-loading>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="searchReady">
+          <div class="rankings-content-block"  *ngFor="let usr of listUsers; let i = index;">
+            <div class="ranking-left-block"   *ngIf="i < 10">
+              <div class="ranking-block-top-number">{{i+1}}</div>
+              <div class="ranking-block-top-img"><img src="../../../assets/images/ava.jpg"></div>
+              <div class="ranking-block-top-name">{{usr[1].username}}</div>
+              <div class="ranking-block-top-address" alt="{{usr[0]}}">{{ usr[0] | slice: 0:6 }}...{{ usr[0] | slice: 36:64 }}</div>
+              <div class="ranking-block-top-balance">{{ usr[1].digible }} <span class="valuta">$DIGI</span></div>
+              <div class="ranking-block-top-network"><img src="../../../assets/images/matic.png"></div>
+            </div>
+            <div class="ranking-right-block"   *ngIf="i < 10">
+              <a href="{{usr[1].link}}" class="button-collection-ranking">Collection ▸</a>
+            </div>
+          </div>
+        </div>
+        
+      </div>
     </div>
-    <div class="solid"></div>
-  </div>
-
-  <div class="content-purchase">
-    <div class="left-block-purchase">
-      <div class="left-first-block">
-        <div class="lfb">
-          <img src="../../../assets/images/uniswap.png" class="swapLogo">
-          <div class="btn-buy-uniswap">
-            <a href="https://app.uniswap.org/#/swap?outputCurrency=0x3cbf23c081faa5419810ce0f6bc1ecb73006d848"
-            target="_blank">Buy through Uniswap ▸</a>
-          </div>
-        </div>
-        <div class="lfb">
-          <img src="../../../assets/images/quickswap.png" class="swapLogo">
-          <div class="btn-buy-quickswap">
-            <a href="#">Buy through Quickswap ▸</a>
-          </div>
-        </div>
-      </div>
-      <div class="left-second-block lfb">
-        <span class="credit-card-title">CREDIT CARD</span>
-        <div class="credit-card-block">
-          <div class="credit-card-circle-block">
-            <div class="purple-circle"></div>
-            <a href="#" class="btn-cr-car"><b>6,000</b> Sellers Bundle <b>▸</b></a>
-            <span class="cr-cr-dsc">3 erc-20 digis, 3k matic $DIGI</span>
-          </div>
-          <div class="credit-card-circle-block">
-            <div class="yellow-circle"></div>
-            <a href="#" class="btn-cr-car"><b>3,000</b> Sellers Bundle <b>▸</b></a>
-            <span class="cr-cr-dsc">choice erc-20 or matic</span>
-          </div>
-          <div class="credit-card-circle-block">
-            <div class="green-circle"></div>
-            <a href="#" class="btn-cr-car">Custom Amount <b>▸</b></a>
-            <span class="cr-cr-dsc" style="visibility: hidden;">choice</span>
-          </div>
-        </div>
-        <div class="cr-cr-lower-block">
-          <div></div>
-          <div class="low-desc-bl">
-            <div class="imp-txt">Important</div>
-            <div>Only holders of 3,000 or more can list items for fixed price sale on ERC-20 and 3,000 matic $DIGIs for auction</div>
-          </div>
-          <div></div>
-        </div>
-
-      </div>
-    </div>
-    <div class="right-block-purchase lfb">
-      <div class="right-block-title">
-        LOREM IPSUM RANKINGS
-      </div>
-      <div class="row" *ngIf="!searchReady">
-        <div class="col">
-          <div class="mx-auto text-center mt-4">
-            <app-loading></app-loading>
-          </div>
-        </div>
-      </div>
-      <div *ngIf="searchReady">
-        <div class="rankings-content-block"  *ngFor="let usr of listUsers; let i = index;">
-          <div class="ranking-left-block"   *ngIf="i < 10">
-            <div class="ranking-block-top-number">{{i+1}}</div>
-            <div class="ranking-block-top-img"><img src="../../../assets/images/ava.jpg"></div>
-            <div class="ranking-block-top-name">{{usr[1].username}}</div>
-            <div class="ranking-block-top-address" alt="{{usr[0]}}">{{ usr[0] | slice: 0:6 }}...{{ usr[0] | slice: 36:64 }}</div>
-            <div class="ranking-block-top-balance">{{ usr[1].digible }} <span class="valuta">$DIGI</span></div>
-            <div class="ranking-block-top-network"><img src="../../../assets/images/matic.png"></div>
-          </div>
-          <div class="ranking-right-block"   *ngIf="i < 10">
-            <a href="{{usr[1].link}}" class="button-collection-ranking">Collection ▸</a>
-          </div>
-        </div>
-      </div>
-      
-    </div>
-  </div>
+  </div>  
 </div>

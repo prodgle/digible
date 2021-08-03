@@ -11,9 +11,6 @@ import { ThrowStmt } from '@angular/compiler';
   templateUrl: './leaderboard.component.html',
   styleUrls: ['./leaderboard.component.scss'],
 })
-
-
-
 export class LeaderboardComponent implements OnInit {
   searchReady = false;
   nftList: DigiCard[] = null;
@@ -27,9 +24,11 @@ export class LeaderboardComponent implements OnInit {
   sortedArr = [];
   leaders = [];
   readonly limit = 10005;
-  
 
-  constructor(private readonly nft: NftService, private readonly offchain: OffchainService) {}
+  constructor(
+    private readonly nft: NftService,
+    private readonly offchain: OffchainService
+  ) {}
 
   ngOnInit(): void {
     this.loadData();
@@ -43,16 +42,18 @@ export class LeaderboardComponent implements OnInit {
     this.getCollection();
   }
 
-  getCollection(){
+  getCollection() {
     var wallets = new VerifiedWalletsService();
     var walletsArr = wallets.verifiedProfiles;
-    var result = Object.keys(walletsArr).map((key) => [String(key), walletsArr[key]]);
-    
-    for(var i=0; i < result.length ; i++){
+    var result = Object.keys(walletsArr).map((key) => [
+      String(key),
+      walletsArr[key],
+    ]);
+
+    for (var i = 0; i < result.length; i++) {
       var name = result[i][1];
-      this.loadNFTs(result[i][0],i,result.length, name['username']);
+      this.loadNFTs(result[i][0], i, result.length, name['username']);
     }
-    
   }
 
   async loadNFTs(address, i, len, name): Promise<void> {
@@ -64,15 +65,14 @@ export class LeaderboardComponent implements OnInit {
     }
     var myCards = [];
     myCards['username'] = name;
-    myCards['cards'] = [...await this.nft.myNFTs(address), ...maticNfts]
+    myCards['cards'] = [...(await this.nft.myNFTs(address)), ...maticNfts];
     this.collectionsCard.push(myCards);
-    if(i == (len-1)){
+    if (i == len - 1) {
       this.handleInput();
     }
-
   }
 
-   handleInput(){
+  handleInput() {
     this.searchReady = false;
     setTimeout(async () => {
       var i = 0;
@@ -89,13 +89,11 @@ export class LeaderboardComponent implements OnInit {
       this.leaders = this.leaders.slice(0, 10);
       console.log(this.leaders);
     }, 200);
-    
-    
+
     this.loading();
   }
 
-
-  loading(){
+  loading() {
     setTimeout(async () => {
       this.searchReady = true;
     }, 1500);

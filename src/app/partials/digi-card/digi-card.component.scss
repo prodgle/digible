@@ -1,304 +1,159 @@
-.digi-card {
-  display: flex;
-  justify-content: center;
-  height: 280px;
-  align-items: center;
+//
+// ================================
+//  Card
+// ================================
+//
+.c-card {
   position: relative;
-
-  .title_border {
-    position: absolute;
-    top: 0;
-    z-index: 10;
-    color: white;
-    font-size: 8px;
-    font-weight: 900;
-    text-transform: uppercase;
-  }
-
-  .title_border_bottom {
-    position: absolute;
-    bottom: 0;
-    z-index: 10;
-    color: white;
-    font-size: 8px;
-    font-weight: 900;
-    text-transform: uppercase;
-  }
-
-  &.details {
-    height: 400px;
-  }
-
-  &.auction {
-    height: 550px;
-  }
-
-  .name {
-    position: absolute;
-    font-family: "Gotham-Medium";
-    font-size: 16px;
-    font-weight: bold;
-    color: #7479f7;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    left: 0;
-    top: 10px;
-    padding: 0 10px;
-    width: 100%;
-  }
-
-  .full-width {
-    width: 100%;
-  }
-
-  .description {
-    font-family: "Gotham-Black-Italic";
-    color: #808080;
-    font-size: 11px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    max-height: 100px;
-  }
-
-  .amount {
-    font-family: "Gotham-Medium";
-    color: #7479f7;
-    font-size: 14px;
-    padding-bottom: 15px;
-  }
-
-  .icon-eth {
-    background-image: url("/assets/images/icons/eth.svg");
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;
-    background-color: transparent;
-    display: inline-flex;
-    width: 10px;
-    height: 10px;
-  }
-
-  .creator {
-    position: absolute;
-    display: flex;
-    bottom: 5px;
-    left: 15px;
-    font-family: "Gotham-Medium";
-    color: #2af6ff;
-    font-size: 12px;
-  }
-
-  .verified-creator {
-    text-transform: capitalize;
-  }
-
-  .icon-creator {
-    background-image: url("/assets/images/icons/creator.svg");
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;
-    background-color: transparent;
-    display: inline-flex;
-    width: 15px;
-    height: 15px;
-    margin-right: 5px;
-  }
-}
-
-.front {
-  border-radius: 10px;
-
-  &.custom_border {
-    border: 10px solid blue;
-  }
-
-  &.shadow_card {
-    box-shadow: 0px 0px 10px 5px #2af6ff94;
-    border-radius: 10px;
-  }
-
-  &.adjust {
-    max-width: 100%;
-    width: auto;
-    height: auto;
-    max-height: 100%;
-  }
-}
-
-.text-overflow {
-  white-space: nowrap;
-  overflow: hidden;
-  position: relative;
-
-  &::after {
-    content: '';
-    position: absolute;
-    right: 0; top: 0;
-    width: 45px;
-    height: 100%;
-    background: -moz-linear-gradient(left, rgba(255, 255, 255, 0), white 100%);
-    background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0), white 100%);
-    background: -o-linear-gradient(left, rgba(255, 255, 255, 0), white 100%);
-    background: -ms-linear-gradient(left, rgba(255, 255, 255, 0), white 100%);
-    background: linear-gradient(to right, rgba(255, 255, 255, 0), white 100%);
-  }
-}
-
-.front,
-.back {
   display: flex;
-  background-position: center;
-  background-size: cover;
-  text-align: center;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  height: 100%;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  transform-style: preserve-3d;
-  transition: ease-in-out 900ms;
-}
-
-.back .button:before {
-  box-shadow: 0 0 7px 7px rgba(26, 87, 230, 0.25);
-  background-color: rgba(26, 87, 230, 0.25);
-}
-
-.digi-card.rotate:hover .front {
-  transform: rotateY(180deg);
-}
-
-.back {
-  transform: rotateY(-180deg);
+  flex-direction: column;
   width: 100%;
-  padding: 0 12px;
+  padding: 16px;
+  border: 1px solid lighten(#213458, 60%);
+  box-shadow: 0px 0px 3px 1px rgba(000, 000, 000, 0.15);
+  border-radius: 16px;
+  background-color: darken(#fdfdfd, 1%);
+  margin-bottom: 1.5rem;
+
+  :host-context(.dark-mode) & {
+    border: 1px solid darken(#5588e6, 20%);
+    box-shadow: 0px 0px 3px 1px rgba(#ffffff, 0.45);
+    background-color: #384969;
+  }
+}
+
+.c-card__title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #213458;
+  white-space: normal;
+
+  :host-context(.dark-mode) & {
+    color: #fff;
+  }
+}
+
+.c-card__description {
+  white-space: normal;
+  word-break: break-all;
+  color: grey;
+
+  :host-context(.dark-mode) & {
+    color: #fff;
+  }
+}
+
+.c-card__figure__video {
+  border-radius: 16px;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 1rem;
+}
+
+.c-card__timer {
+  position: absolute;
+  min-height: 36px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #213458;
+  bottom: -12px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-self: flex-start;
   background-color: white;
-  border-radius: 15px;
+  line-height: 1;
+  padding: 0.35rem 0.5rem;
+  border: 1px solid #5588e6;
+  border-radius: 50px;
+  width: auto;
 }
 
-.back .button {
-  background-color: #7479f7;
+.c-card__figure {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(#f1f6f7, 0.75);
+  width: 100%;
+  height: 276px;
+  margin-bottom: 1.5rem;
+  border-radius: 16px;
+  border: 1px solid #dee3ea;
 }
 
-.digi-card.rotate:hover .back {
-  transform: rotateY(0deg);
-}
-
-.button {
-  transform: translateZ(30px);
-  cursor: pointer;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  font-weight: bold;
-  color: #fff;
-  padding: 5px 15px;
-  border-radius: 25px;
-  font-size: 12px;
-  font-family: "Gotham-Bold";
-  border: none;
-  transform-style: preserve-3d;
-  transition: 200ms ease;
-}
-
-.button:before {
-  transition: 200ms ease;
+.c-card__arrow {
   position: absolute;
-  display: block;
-  content: "";
-  transform: translateZ(-5px);
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  height: calc(100% - 20px);
-  width: calc(100% - 20px);
-  border-radius: 25px;
-  top: 15px;
+  right: 1rem;
+  bottom: 0.75rem;
+  width: 30px;
+  height: 30px;
+  color: #5588e6;
 }
 
-.button:hover {
-  transform: translateZ(5px);
+.c-card__safe {
+  width: 20px;
+  height: 20px;
 }
 
-.button:hover:before {
-  transform: translateZ(-5px);
+.c-card__auction-icon {
+  width: 15px;
+  height: 15px;
+  margin-left: 0.5em;
 }
 
-.button:active {
-  transform: translateZ(5px);
-}
+.c-card__info {
+  font-weight: bold;
+  font-size: 14px;
+  color: #213458;
 
-.button:active:before {
-  transform: translateZ(-5px);
-  top: 12px;
-}
-
-*:focus {
-  outline: none;
-}
-
-/* Extra small devices (phones, 600px and down) */
-@media only screen and (max-width: 600px) {
-  .digi-card {
-    &.details {
-      height: 300px;
-    }
-
-    &.auction {
-      height: 400px;
-    }
+  :host-context(.dark-mode) & {
+    color: white;
   }
 }
 
-/* Small devices (portrait tablets and large phones, 600px and up) */
-@media only screen and (min-width: 600px) {
-  .digi-card {
-    &.details {
-      height: 300px;
-    }
+.c-card__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
 
-    &.auction {
-      height: 400px;
-    }
+.c-card__arrow {
+  position: absolute;
+  right: 17px;
+  bottom: 17px;
+}
+
+.c-card__price {
+  position: absolute;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  color: #213458;
+  font-size: 14px;
+  font-weight: bold;
+
+  :host-context(.dark-mode) & {
+    color: white;
+  }
+
+  .usdt {
+    width: 20px;
+    height: 20px;
   }
 }
 
-/* Medium devices (landscape tablets, 768px and up) */
-@media only screen and (min-width: 768px) {
-  .digi-card {
-    &.details {
-      height: 300px;
-    }
-
-    &.auction {
-      height: 400px;
-    }
-  }
-}
-
-/* Large devices (laptops/desktops, 992px and up) */
-@media only screen and (min-width: 992px) {
-  .digi-card {
-    &.details {
-      height: 400px;
-    }
-
-    &.auction {
-      height: 550px;
-    }
-  }
-}
-
-/* Extra large devices (large laptops and desktops, 1200px and up) */
-@media only screen and (min-width: 1200px) {
-}
-
-.video-container {
+.c-card__button {
   width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
+  border: 1px solid #213458;
+  border-radius: 6px;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-top: 1rem;
 
-.video-background {
-  width: 100%;
+  :host-context(.dark-mode) & {
+    border: 1px solid #fff;
+  }
 }

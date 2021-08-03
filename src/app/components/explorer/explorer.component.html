@@ -1,23 +1,21 @@
-<div class="container-fluid">
+<div class="container page-top  ">
   <div class="row">
     <div class="col-lg-10 col-sm-8 p-t-10 p-b-6">
       <span class="section-title"
         ><span class="icon binoculars"></span>Explore</span
       >
     </div>
-    <div class="col-lg-2 col-sm-4 p-t-10 p-b-6">
-      <a [routerLink]="['/explorer/create']" class="btn btn-primary btn-menu">
-        <div class="icon box"></div>
-        <div class="separator"></div>
+    <div class="col-lg-2 col-sm-4 p-t-10 p-b-6 text-right">
+      <a [routerLink]="['/explorer/create']" class="btn btn-primary">
         <span class="btn-title">Sell</span>
       </a>
     </div>
-    <div class="solid"></div>
+    <div class="solid mt-4"></div>
   </div>
   <div>
     <div class="row" *ngIf="nftList == null">
       <div class="col">
-        <div class="mx-auto text-center mt-4">
+        <div class="mx-auto text-center mt-4 text-white">
           <app-loading></app-loading>
         </div>
       </div>
@@ -25,7 +23,7 @@
 
     <div class="row" *ngIf="nftList && nftList.length == 0">
       <div class="col">
-        <div class="mx-auto text-center mt-4">
+        <div class="mx-auto text-center mt-4 text-white">
           <b>There are no NFTs for sale at this moment. Come back soon!</b>
         </div>
       </div>
@@ -34,9 +32,10 @@
     <div class="row" *ngIf="nftList != null">
       <div
         *ngFor="let nft of nftList"
-        class="col-xl-2 col-lg-3 col-md-4 col-sm-6 p-t-40"
+        class="col-xl-4 col-lg-4 col-md-6 col-sm-6 p-t-40"
       >
         <app-digi-card
+          class="c-card-container"
           *ngIf="nft.address == digibleNftAddress"
           id="{{ nft.id }}"
           price="{{ nft.price }}"

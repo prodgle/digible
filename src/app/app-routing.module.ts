@@ -14,12 +14,25 @@ import { DuelsComponent } from './components/duels/duels.component';
 import { ExplorerComponent } from './components/explorer/explorer.component';
 import { InfoComponent } from './components/info/info.component';
 import { LeaderboardComponent } from './components/leaderboard/leaderboard.component';
-import { NewestComponent } from './components/newest/newest.component';
+import { HomeComponent } from './components/home/home.component';
 import { PrivateSaleComponent } from './components/private-sale/private-sale.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { RankingsComponent } from './components/rankings/rankings.component';
 import { SearchComponent } from './components/search/search.component';
 import { StakingComponent } from './components/staking/staking.component';
+
+// About page components
+import { AboutDigiTeamComponent } from './components/about/digi-team/digi-team.component';
+import { AboutDigiDuelComponent } from './components/about/digi-duel/digi-duel.component';
+import { AboutDigiFarmComponent } from './components/about/digi-farm/digi-farm.component';
+import { AboutDigiSafeComponent } from './components/about/digi-safe/digi-safe.component';
+import { AboutDigiGradeComponent } from './components/about/digi-grade/digi-grade.component';
+import { AboutDigiTrackComponent } from './components/about/digi-track/digi-track.component';
+import { AboutDigiRoadMapComponent } from './components/about/road-map/digi-road-map.component';
+import { faqComponent } from './components/about/faq/faq.component';
+import { TermsAndConditionsComponent } from './components/about/terms-and-conditions/terms-and-conditions.component';
+import { PrivacyPolicyComponent } from './components/about/privacy-policy/privacy-policy.component';
+
 import { LayoutComponent } from './layout/layout.component';
 import { PurchaseComponent } from './components/purchase/purchase.component';
 const routes: Routes = [
@@ -65,7 +78,7 @@ const routes: Routes = [
       },
       {
         path: '',
-        component: NewestComponent,
+        component: HomeComponent,
       },
       {
         path: 'sale',
@@ -111,12 +124,54 @@ const routes: Routes = [
         path: 'admin',
         component: AdminComponent,
       },
+      {
+        path: 'digi-team',
+        component: AboutDigiTeamComponent,
+      },
+      {
+        path: 'digi-duel',
+        component: AboutDigiDuelComponent,
+      },
+      {
+        path: 'digi-farm',
+        component: AboutDigiFarmComponent,
+      },
+      {
+        path: 'digi-safe',
+        component: AboutDigiSafeComponent,
+      },
+      {
+        path: 'digi-grade',
+        component: AboutDigiGradeComponent,
+      },
+      {
+        path: 'digi-track',
+        component: AboutDigiTrackComponent,
+      },
+      {
+        path: 'digi-road-map',
+        component: AboutDigiRoadMapComponent,
+      },
+      {
+        path: 'faq',
+        component: faqComponent,
+      },
+      {
+        path: 'terms-and-conditions',
+        component: TermsAndConditionsComponent,
+      },
+      {
+        path: 'privacy-policy',
+        component: PrivacyPolicyComponent,
+      }
     ],
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes,{
+    scrollPositionRestoration: 'top'
+  })],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

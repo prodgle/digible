@@ -1,11 +1,11 @@
-<div class="container-fluid">
+<div class="container page-top">
   <div class="row">
     <div class="col-12 p-t-10 p-b-6">
       <span class="section-title"
         ><span class="icon box"></span>Sell Token</span
       >
     </div>
-    <div class="solid"></div>
+    <div class="solid mt-4"></div>
   </div>
 
   <div class="row" *ngIf="sale && !loading">
@@ -15,7 +15,7 @@
         appear in "Explore".
       </p>
     </div>
-    <div class="mx-auto text-center col-xl-2 col-lg-3 col-md-4 col-sm-6 p-t-40">
+    <div class="mx-auto text-center col-xl-4 col-lg-4 col-md-6 col-sm-12 p-t-40">
       <app-digi-card
         *ngIf="address == digibleNftAddress"
         [id]="id"
@@ -36,7 +36,7 @@
 
   <div class="row" *ngIf="loading">
     <div class="col">
-      <div class="mx-auto text-center mt-4">
+      <div class="mx-auto text-center mt-4 text-white">
         <app-loading-blockchain></app-loading-blockchain>
       </div>
     </div>
@@ -48,7 +48,7 @@
         Price in {{ stableSymbol }}
         <input
           placeholder="0.0"
-          type="number"
+          type="text"
           name="input"
           autocomplete="off"
           (ngModelChange)="onChangeInputAmount()"

@@ -25,6 +25,7 @@ export class ProfileComponent implements OnInit {
   @ViewChild('addTokenModal') addTokenModal: ElementRef;
 
   address;
+  displayAddress;
   profile: Profile;
   myCards: DigiCard[];
   otherNfts: MarketCard[];
@@ -60,12 +61,14 @@ export class ProfileComponent implements OnInit {
       const verifiedAddress = this.verifieds.getVerifiedProfile(queryParams.address);
       if (verifiedAddress) {
         this.address = verifiedAddress;
+        this.displayAddress = this.truncate(verifiedAddress, 15, '...');
       } else {
         if (!this.walletService.getWeb3().utils.isAddress(queryParams.address)) {
           this.router.navigate(['/auctions']);
           return;
         }
         this.address = queryParams.address;
+        this.displayAddress = this.truncate(queryParams.address, 15, '...');
       }
       this.loadData();
     });
@@ -98,6 +101,21 @@ export class ProfileComponent implements OnInit {
     this.loadPendingTransfersFromMatic();
     this.loadActivityHistory();
   }
+
+  truncate (fullStr, strLen, separator) {
+    if (fullStr.length <= strLen) return fullStr;
+
+    separator = separator || '...';
+
+    var sepLen = separator.length,
+        charsToShow = strLen - sepLen,
+        frontChars = Math.ceil(charsToShow/2),
+        backChars = Math.floor(charsToShow/2);
+
+    return fullStr.substr(0, frontChars) + 
+           separator + 
+           fullStr.substr(fullStr.length - backChars);
+};
 
   async loadActivityHistory(): Promise<void> {
     const lastBuys = (await this.marketplace.lastBuys(this.address, 5)).map((bid: any) => {

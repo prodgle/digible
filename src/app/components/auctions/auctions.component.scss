@@ -1,0 +1,6 @@
+.c-auctions__text {
+  color: #213458;
+  :host-context(.dark-mode) & {
+    color: white;
+  }
+}

@@ -1,14 +1,9 @@
-<div class="container-fluid p-b-40">
+<div class="container page-top p-b-40">
   <div class="row p-b-20" *ngIf="!loading">
     <div class="col-lg-12 col-xs-12 p-b-10">
-      <button class="button" (click)="goBack()">
-        <span>Go Back</span>
+      <button class="c-details__back" (click)="goBack()">
+        <span class="icon arrow"></span>
       </button>
-    </div>
-    <div class="col-lg-6 col-xs-6">
-      <div class="name">
-        {{ name }} <span *ngIf="isYours">[It's yours]</span>
-      </div>
     </div>
     <div
       class="col-lg-6 col-xs-6 right"
@@ -25,70 +20,9 @@
 
   <div class="row" *ngIf="loading">
     <div class="col">
-      <div class="mx-auto text-center mt-4">
+      <div class="mx-auto text-center mt-4 text-white">
         <app-loading-blockchain></app-loading-blockchain>
       </div>
-    </div>
-  </div>
-
-  <div class="row p-b-20" *ngIf="isYours && !loading">
-    <div class="col-lg-12 col-xs-12 right">
-      <button
-        class="button"
-        (click)="approveMatic()"
-        *ngIf="showMaticApprove && isInEth && isYours"
-      >
-        <span>Approve to move to Matic</span>
-      </button>
-      <button
-        class="button"
-        (click)="sendToMatic()"
-        *ngIf="!showMaticApprove && isInEth && isYours"
-      >
-        <span>Move to Matic</span>
-      </button>
-      <button
-        class="button"
-        (click)="sendToEthereum()"
-        *ngIf="!isInEth && isYours"
-      >
-        <span>Move to Ethereum</span>
-      </button>
-      <button
-        class="button m-l-20"
-        *ngIf="isYours && !isInEth"
-        [routerLink]="['/auctions/create', this.id]"
-      >
-        <span>Create Auction</span>
-      </button>
-      <button
-        class="button button m-l-20"
-        (click)="enableRoyalty()"
-        *ngIf="canMint && isYours && !hasRoyalty && firstSale && firstAuction"
-      >
-        <span>Enable Market Royalty</span>
-      </button>
-      <button
-        class="button button m-l-20"
-        (click)="enableRoyaltyForAuction()"
-        *ngIf="
-          canMintOnMatic &&
-          isYours &&
-          !hasRoyaltyOnAuction &&
-          firstAuction &&
-          firstSale
-        "
-      >
-        <span>Enable Auction Royalty</span>
-      </button>
-      <button
-        data-toggle="modal"
-        data-target="#burnTokenModal"
-        class="button warning m-l-20"
-        *ngIf="isYours && isInEth"
-      >
-        <span>Destroy NFT</span>
-      </button>
     </div>
   </div>
 
@@ -98,12 +32,85 @@
         customBorder="{{ customBorder }}"
         view="details"
         [id]="id"
+        [router]="this.router"
         [backSide]="backSideImageExists"
-      ></app-digi-card>
+      >
+      </app-digi-card>
+      <div class="row p-b-20" *ngIf="isYours && !loading">
+        <div class="col-lg-12 col-xs-12">
+          <span>{{ ownerUsername }}</span>
+          <h3 class="c-details__buttons-title">Owner Actions</h3>
+          <div class="c-details__buttons">
+            <button
+              class="btn btn-primary"
+              (click)="approveMatic()"
+              *ngIf="showMaticApprove && isInEth && isYours"
+            >
+              <span>Approve to move to Matic</span>
+            </button>
+            <button
+              class="btn btn-primary"
+              (click)="sendToMatic()"
+              *ngIf="!showMaticApprove && isInEth && isYours"
+            >
+              <span>Move to Matic</span>
+            </button>
+            <button
+              class="btn btn-primary"
+              (click)="sendToEthereum()"
+              *ngIf="!isInEth && isYours"
+            >
+              <span>Move to Ethereum</span>
+            </button>
+            <button
+              class="btn btn-primary"
+              *ngIf="isYours && !isInEth"
+              [routerLink]="['/auctions/create', this.id]"
+            >
+              <span>Create Auction</span>
+            </button>
+            <button
+              class="btn btn-primary"
+              (click)="enableRoyalty()"
+              *ngIf="
+                canMint && isYours && !hasRoyalty && firstSale && firstAuction
+              "
+            >
+              <span>Enable Market Royalty</span>
+            </button>
+            <button
+              class="btn btn-primary"
+              (click)="enableRoyaltyForAuction()"
+              *ngIf="
+                canMintOnMatic &&
+                isYours &&
+                !hasRoyaltyOnAuction &&
+                firstAuction &&
+                firstSale
+              "
+            >
+              <span>Enable Auction Royalty</span>
+            </button>
+            <button
+              data-toggle="modal"
+              data-target="#burnTokenModal"
+              class="btn btn-primary warning"
+              *ngIf="isYours && isInEth"
+            >
+              <span>Destroy NFT</span>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="col-lg-8">
       <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-12">
+          <div class="c-details">
+            <div class="c-details__title">
+              {{ name }} <span class="icon" *ngIf="isYours"><div class="icon icon-creator"></div></span>
+            </div>
+          </div>
           <div class="card min-height shadow mb-4">
             <div class="card-header py-3">
               <h6 class="m-0 font-weight-bold text-primary txt-title">
@@ -174,7 +181,7 @@
               <div class="row">
                 <div class="col-lg-12 sub-title">Last Bids</div>
 
-                <div class="col-lg-12" *ngIf="loadingLastBids">
+                <div class="col-lg-12" *ngIf="!loadingLastBids">
                   <div class="mx-auto text-center">
                     <app-loading></app-loading>
                   </div>
@@ -226,7 +233,7 @@
 
               <div class="row" *ngIf="showAllow">
                 <div class="col-lg-12 p-t-5">
-                  <button class="button full-width">
+                  <button class="btn btn-primary full-width">
                     <span (click)="approve()">1. APPROVE FOR BID</span>
                   </button>
                 </div>
@@ -236,7 +243,7 @@
                 <div class="col-lg-12 p-t-5">
                   <button
                     (click)="cancelAuction()"
-                    class="button full-width mt-2"
+                    class="btn btn-primary full-width mt-2"
                   >
                     <span>CANCEL AUCTION</span>
                   </button>
@@ -246,7 +253,7 @@
               <div class="row center">
                 <div class="col-lg-12 p-t-5">
                   <button
-                    class="button full-width"
+                    class="btn btn-primary full-width"
                     [attr.disabled]="this.lowBid || showAllow ? '' : null"
                     (click)="bid()"
                   >
@@ -270,7 +277,10 @@
                 *ngIf="allowed < priceBuyNowDecimals && priceBuyNowDecimals > 0"
               >
                 <div class="col-lg-12 p-t-5">
-                  <button (click)="approve()" class="button full-width">
+                  <button
+                    (click)="approve()"
+                    class="btn btn-primary full-width"
+                  >
                     <span>{{
                       "1. APPROVE BUY FOR " + priceBuyNow + " " + symbol
                     }}</span>
@@ -282,7 +292,7 @@
                 <div class="col-lg-12 p-t-5">
                   <button
                     [disabled]="allowed < priceBuyNowDecimals"
-                    class="button full-width"
+                    class="btn btn-primary full-width"
                     (click)="directBuy()"
                   >
                     <span *ngIf="allowed < priceBuyNowDecimals"
@@ -304,7 +314,10 @@
 
               <div class="row" *ngIf="allowedMarket < priceDecimals">
                 <div class="col-lg-12 p-t-5">
-                  <button (click)="approveMarket()" class="button full-width">
+                  <button
+                    (click)="approveMarket()"
+                    class="btn btn-primary full-width"
+                  >
                     <span>1. APPROVE BUY</span>
                   </button>
                 </div>
@@ -314,7 +327,7 @@
                 <div class="col-lg-12 p-t-5">
                   <button
                     [disabled]="allowedMarket < priceDecimals"
-                    class="button full-width"
+                    class="btn btn-primary full-width"
                     (click)="buyFromMarket()"
                   >
                     <span *ngIf="allowedMarket < priceDecimals"
@@ -329,7 +342,7 @@
                 <div class="col-lg-12 p-t-5">
                   <button
                     (click)="cancelMarket()"
-                    class="button full-width mt-2"
+                    class="btn btn-primary full-width mt-2"
                   >
                     <span>CANCEL SALE</span>
                   </button>
@@ -339,7 +352,7 @@
           </div>
         </div>
 
-        <div class="col-lg-6">
+        <div class="col-lg-12">
           <div class="card min-height shadow mb-4">
             <div class="card-header py-3">
               <h6 class="m-0 font-weight-bold text-primary txt-title">
@@ -378,7 +391,12 @@
               </div>
               <div class="row">
                 <div class="col-lg-6 sub-title">Physically backed</div>
-                <div class="col-lg-6" data-tooltip="This NFT is the legal title to the physical underlying card displayed in the Image. It can be redeemed from the DIGISAFE™ for the physical card through digible.io and NFT would be burned. ">{{ physical ? "Yes" : "No" }}</div>
+                <div
+                  class="col-lg-6"
+                  data-tooltip="This NFT is the legal title to the physical underlying card displayed in the Image. It can be redeemed from the DIGISAFE™ for the physical card through digible.io and NFT would be burned. "
+                >
+                  {{ physical ? "Yes" : "No" }}
+                </div>
               </div>
               <div
                 class="row mt-2 center p-t-15"
@@ -422,14 +440,14 @@
 
               <div class="row p-t-15" *ngIf="hasRoyalty">
                 <div class="col-lg-12">
-                  Note this item has a {{ royaltyFee }}% creator royalty
+                  Note this item has a {{ royaltyFee}}% creator royalty
                   fee, please note when reselling this item that this fee will
                   be applied on top of the platform's standard fee
                 </div>
               </div>
               <div class="row p-t-15" *ngIf="hasRoyaltyOnAuction">
                 <div class="col-lg-12">
-                  Note this item has a {{ royaltyFeeAuction }}% creator
+                  Note this item has a {{ royaltyFeeAuction}}% creator
                   royalty fee, please note when auctioning this item that this
                   fee will be applied on top of the platform's standard fee
                 </div>
@@ -439,30 +457,36 @@
             <div class="card-header py-3">
               <h6 class="m-0 font-weight-bold text-primary txt-title">
                 Description
-                <button
-                  id="editDescriptionModal"
-                  data-toggle="modal"
-                  data-target="#addDescriptionModal"
-                  class="button button m-l-20"
-                  *ngIf="canMint && isYours"
-                  #editDescriptionModal
-
-                >
-                  <span>Edit</span>
-                </button>
               </h6>
+              <button
+                id="editDescriptionModal"
+                data-toggle="modal"
+                data-target="#addDescriptionModal"
+                class="btn btn-primary ml-auto"
+                *ngIf="canMint && isYours"
+                #editDescriptionModal
+              >
+                <span>Edit</span>
+              </button>
             </div>
             <div class="card-body">
-              <ng-container *ngFor="let desc_item of description | keyvalue: keepOriginalOrder">
+              {{ description }}
+              <ng-container
+                *ngFor="
+                  let desc_item of description | keyvalue: keepOriginalOrder
+                "
+              >
                 <div class="row" *ngIf="desc_item.key != 'backCardImage'">
-                  <div class="col-lg-6 sub-title text-capitalize">{{desc_item.key}}</div>
-                  <div class="col-lg-6">{{desc_item.value || '...'}}</div>
+                  <div class="col-lg-6 sub-title text-capitalize">
+                    {{ desc_item.key }}
+                  </div>
+                  <div class="col-lg-6">{{ desc_item.value || "..." }}</div>
                 </div>
               </ng-container>
             </div>
             <div class="card-header center py-3" *ngIf="isYours && physical">
               <h6 class="m-0 font-weight-bold text-primary txt-title">
-                <button [routerLink]="['/claim', id]" class="button button">
+                <button [routerLink]="['/claim', id]" class="btn btn-primary">
                   <span>Claim physically</span>
                 </button>
               </h6>
@@ -568,7 +592,7 @@
               <div class="col-lg-12">
                 <button
                   type="button"
-                  class="button warning"
+                  class="btn warning"
                   (click)="burnNFT(this.id)"
                 >
                   Destroy this NFT Token
@@ -676,7 +700,6 @@
                     [(ngModel)]="inputDescription"
                     name="description"
                   />
-
                 </div>
               </form>
             </div>

@@ -5,10 +5,11 @@ import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class OffchainService {
+  constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient) { }
-
-  async getURIInfo(uri: string): Promise<{name: string, image: string, description: string}> {
+  async getURIInfo(
+    uri: string
+  ): Promise<{ name: string; image: string; description: string }> {
     const response: any = await this.http.get(uri).toPromise();
     return response;
   }
@@ -24,7 +25,7 @@ export class OffchainService {
         const response = await fetch(mediaUrl, {
           headers: {
             Range: 'bytes=0-100',
-          }
+          },
         });
         const fileType = await FileType.fromStream(response.body);
         if (fileType && fileType.mime === 'video/mp4') {
@@ -39,41 +40,72 @@ export class OffchainService {
   }
 
   async getNftData(tokenId: number): Promise<{
-      name: string,
-      id: string,
-      image: string,
-      description: string,
-      physical: boolean
+    name: string;
+    id: string;
+    image: string;
+    description: string;
+    physical: boolean;
   }> {
-    const response: any = await this.http.get(this.getUri() + '/card/' + tokenId).toPromise();
+    const response: any = await this.http
+      .get(this.getUri() + '/card/' + tokenId)
+      .toPromise();
     response.id = tokenId;
     return response;
   }
 
-  async claimCard(signature: string, email: string, address: string, tokenId: string): Promise<boolean> {
-    return ((await this.http.post(this.getUri() + '/claim', {
-      signature,
-      email,
-      address,
-      tokenId,
-    }, { responseType: 'json' }).toPromise()) as any).status;
+  async claimCard(
+    signature: string,
+    email: string,
+    address: string,
+    tokenId: string
+  ): Promise<boolean> {
+    return (
+      (await this.http
+        .post(
+          this.getUri() + '/claim',
+          {
+            signature,
+            email,
+            address,
+            tokenId,
+          },
+          { responseType: 'json' }
+        )
+        .toPromise()) as any
+    ).status;
   }
 
-  async addDescrption(signature: string, description: string, tokenId: string): Promise<boolean> {
-    return ((await this.http.post(this.getUri() + '/card/description/' + tokenId, {
-      signature,
-      description,
-    }, { responseType: 'json' }).toPromise()) as any);
+  async addDescrption(
+    signature: string,
+    description: string,
+    tokenId: string
+  ): Promise<boolean> {
+    return (await this.http
+      .post(
+        this.getUri() + '/card/description/' + tokenId,
+        {
+          signature,
+          description,
+        },
+        { responseType: 'json' }
+      )
+      .toPromise()) as any;
   }
 
-  async uploadFile(signature: string, file: any, relativePath: string): Promise<{uri: string, hash: string}> {
+  async uploadFile(
+    signature: string,
+    file: any,
+    relativePath: string
+  ): Promise<{ uri: string; hash: string }> {
     var formData = new FormData();
     formData.append('file', file, relativePath);
     formData.append('signature', signature);
-    return (await this.http.post(this.getUri() + '/media', formData, { responseType: 'json' }).toPromise()) as any;
+    return (await this.http
+      .post(this.getUri() + '/media', formData, { responseType: 'json' })
+      .toPromise()) as any;
   }
 
   private getUri(): string {
-      return environment.offchainApi;
+    return environment.offchainApi;
   }
 }

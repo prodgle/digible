@@ -1,5 +1,60 @@
+<a [routerLink]="id ? ['/details/' + id] : []" class="c-card">
+  <figure class="c-card__figure">
+    <img
+      *ngIf="!isVideo"
+      class="c-card__figure__video"
+      [ngClass]="{
+        shadow_card: physical,
+        custom_border: customBorder
+      }"
+      [src]="image"
+      alt="image"
+    />
+
+    <video
+      *ngIf="isVideo"
+      ref="videoRef"
+      class="c-card__figure__video"
+      autoplay
+      muted
+      playsinline
+      loop
+      [src]="image"
+    >
+      <!-- <source :src="require('~/assets/video/video.mp4')" type="video/mp4" /> -->
+    </video>
+  </figure>
+  <div class="c-card__body">
+    <h1 class="c-card__title">
+      {{ name }}
+    </h1>
+    <div class="c-card__price" *ngIf="price">
+      <span class="mr-2">{{ price }} </span>
+      <span *ngIf="symbol == 'USDT'" class="icon usdt"></span></div>
+      <p class="mb-4 c-card__description" *ngIf="description">
+        {{ description }}
+      </p>
+  </div>
+  <div class="c-card__footer">
+    <div *ngIf="physical" class="d-flex flex-row mb-2">
+      <span class="c-card__safe icon safe mb-2 mr-2"></span>
+      <span class="c-card__info">Digi Safe</span>
+    </div>
+    <div *ngIf="owner && ownerUsername" class="d-flex flex-row">
+      <span class="c-card__safe icon collections mb-2 mr-2"></span>
+      <span class="c-card__info"> {{ ownerUsername }}</span>
+    </div>
+    <div *ngIf="price">
+      <div class="c-card__button btn btn-primary">BUY NOW</div>
+    </div>
+    <div class="c-card__arrow">
+      <span *ngIf="!price" class="icon arrow mr-2 ml-auto"></span>
+    </div>
+  </div>
+</a>
+<!-- 
 <div
-  class="digi-card mb-3"
+  class="c-card-container"
   [ngClass]="{
     details: view === 'details',
     auction: view === 'auction',
@@ -40,14 +95,11 @@
   </div>
 
   <div class="back">
-    <div class="full-width">
+    <div class="full-width">6
       <p class="name">{{ name }}</p>
-      <ng-container *ngFor="let desc_item of description | keyvalue: keepOriginalOrder">
-        <div class="row" *ngIf="desc_item.key != 'backCardImage' && desc_item.key != 'description'">
-          <div class="col-lg-6 sub-title text-capitalize">{{desc_item.key}}</div>
-          <div class="col-lg-6 text-overflow">{{desc_item.value || '...'}}</div>
-        </div>
-      </ng-container>
+      <p class="description" *ngIf="price == null">
+        {{ description }}
+      </p> 
       <div class="amount" *ngIf="price">{{ price }} {{ symbol }}</div>
       <button
         [routerLink]="id ? ['/details/' + id] : []"
@@ -94,38 +146,4 @@
       </span>
     </div>
   </div>
-</div>
-<div class="digi-card details mb-3" *ngIf="backSide">
-  <img
-    *ngIf="!isVideo"
-    class="front adjust"
-    [ngClass]="{
-      shadow_card: physical,
-      custom_border: customBorder
-    }"
-    [src]="backImage"
-    alt="image"
-  />
-
-  <div class="video-container front" *ngIf="isBackVideo && view === 'details'">
-    <video
-      class="video-background"
-      autoplay
-      [muted]="'muted'"
-      loop
-      controls
-      [src]="backImage"
-    ></video>
-  </div>
-
-  <div class="video-container front" *ngIf="isBackVideo && view !== 'details'">
-    <video
-      poster="/assets/images/cards/loading.png"
-      class="video-background"
-      [muted]="'muted'"
-      loop
-      no-controls
-      [src]="backImage + '#t=0.4'"
-    ></video>
-  </div>
-</div>
+</div> -->

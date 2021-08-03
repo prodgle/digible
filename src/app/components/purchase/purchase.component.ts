@@ -150,7 +150,7 @@ export class PurchaseComponent implements OnInit {
         method: 'wallet_addEthereumChain',
         params: [
           {
-            chainId: '0x13881',
+            chainId: '80001',
             chainName: 'Matic Testnet',
             nativeCurrency: {
               name: 'MATIC',

@@ -5,8 +5,6 @@ import { NftService } from 'src/app/services/nft.service';
 import { OffchainService } from 'src/app/services/offchain.service';
 import { VerifiedWalletsService } from 'src/app/services/verified-wallets.service';
 import { environment } from 'src/environments/environment';
-import { HelpersService } from '../../services/helpers.service';
-import { DescriptionType } from '../../types/description.type';
 
 @Component({
   selector: 'app-digi-card',
@@ -15,6 +13,7 @@ import { DescriptionType } from '../../types/description.type';
 })
 export class DigiCardComponent implements OnInit {
   @Input() id: number;
+  @Input() router;
   @Input() price: number = null;
   @Input() auction: boolean;
   @Input() view: string;
@@ -29,7 +28,15 @@ export class DigiCardComponent implements OnInit {
   physical: boolean;
   image = '/assets/images/cards/loading.png';
   backImage = '/assets/images/cards/loading.png';
-  description: DescriptionType;
+  description: {
+    publisher: string;
+    edition: string;
+    year: string;
+    graded: string;
+    population: string;
+    backCardImage: string;
+    description: string;
+  };
   name = '...';
 
   isBackVideo = false;
@@ -41,8 +48,7 @@ export class DigiCardComponent implements OnInit {
     private math: MathService,
     private cdr: ChangeDetectorRef,
     private market: MarketplaceService,
-    private verifiedProfiles: VerifiedWalletsService,
-    private helpers: HelpersService
+    private verifiedProfiles: VerifiedWalletsService
   ) {}
 
   ngOnInit(): void {
@@ -96,7 +102,10 @@ export class DigiCardComponent implements OnInit {
 
   async loadOwner(): Promise<void> {
     this.owner = (await this.nft.owner(this.id)).address;
-    if (this.owner.toLowerCase() === environment.auctionAddress.toLowerCase() && this.auctionOwner) {
+    if (
+      this.owner.toLowerCase() === environment.auctionAddress.toLowerCase() &&
+      this.auctionOwner
+    ) {
       this.owner = this.auctionOwner;
     }
     this.ownerUsername = this.verifiedProfiles.getVerifiedName(this.owner);
@@ -104,19 +113,30 @@ export class DigiCardComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
+  IsJsonString(str) {
+    try {
+      JSON.parse(str);
+    } catch (e) {
+      return false;
+    }
+    return true;
+  }
+
   async loadOffChainData(): Promise<void> {
     const card = await this.offchain.getNftData(this.id);
+    const isJson = this.IsJsonString(card.description);
     this.physical = card.physical;
     this.image = card.image;
-    const ch = this.helpers.IsJsonString(card.description);
-    if (card.description !== '' && ch){
-      this.description = JSON.parse(card.description);
+
+    if (isJson) {
+      this.description = JSON.parse(card.description).description;
+      
       if (this.description.backCardImage) {
         this.backImage = this.description.backCardImage;
       }
     }
 
-    this.name = card.name;
+    this.name = card.name.charAt(0).toUpperCase() + card.name.slice(1).toLowerCase();
     this.checkType();
     this.cdr.detectChanges();
     localStorage.setItem('is_physical_' + this.id, this.physical ? '1' : '0');
