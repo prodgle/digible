@@ -1,11 +1,11 @@
-<div class="container-fluid">
+<div class="container page-top">
   <div class="row">
     <div class="col-12 p-t-10 p-b-6">
       <span class="section-title"
         ><span class="icon box"></span>Create Auction</span
       >
     </div>
-    <div class="solid"></div>
+    <div class="solid mt-4"></div>
   </div>
 
   <div class="row" *ngIf="showSwitchToMatic">
@@ -109,7 +109,7 @@
                 </div>
                 <div class="col-lg-12 p-t-10" *ngIf="minPrice">
                   Final start price: {{ listingPrice }}<br />
-                  Net Proceeds: {{ receiveAmount }}<br />
+                  Net Proceeds: {{ receiveAmount  }}<br />
                 </div>
                 <div class="col-lg-12 p-t-10" *ngIf="buyNowPrice">
                   Final buy now price: {{ listingPriceBuyNow }}<br />
@@ -117,7 +117,7 @@
                 </div>
                 <div class="col-lg-12 p-t-10" *ngIf="hasRoyalty">
                   This NFT has also a royalty fee, you will receive
-                  {{ royaltyFee / 100 }}% less.
+                  {{ royaltyFee }}% less.
                 </div>
               </div>
             </div>
@@ -157,7 +157,7 @@
                   <div class="row justify-center">
                     <div class="col-lg-6" *ngIf="isApproved">
                       <button
-                        class="button full-width"
+                        class="btn btn-primary full-width"
                         (click)="selectedDate = null"
                       >
                         Change Date
@@ -168,7 +168,7 @@
                       <div class="row justify-center">
                         <div class="col-lg-6">
                           <button
-                            class="button full-width"
+                            class="btn btn-primary full-width"
                             (click)="selectedDate = null"
                           >
                             Change Date
@@ -183,7 +183,7 @@
                         auction.</span
                       >
                       <button
-                        class="button full-width"
+                        class="btn btn-primary full-width"
                         (click)="approve()"
                       >
                         Approve
@@ -197,7 +197,7 @@
                       >
                       <button
                         *ngIf="enoughBalance"
-                        class="button full-width"
+                        class="btn btn-primary full-width"
                         (click)="create()"
                         [disabled]="!isApproved"
                       >

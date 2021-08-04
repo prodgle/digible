@@ -7,7 +7,7 @@ import { PendingDigiCard } from '../types/pending-digi-card.types';
 import { MathService } from './math.service';
 import { VerifiedWalletsService } from './verified-wallets.service';
 import { WalletService } from './wallet.service';
-import {Receipt} from '../types/mint.types';
+import { Receipt } from '../types/mint.types';
 
 @Injectable()
 export class NftService {
@@ -42,8 +42,7 @@ export class NftService {
     receiver: string,
     cardName: string,
     cardImage: string,
-    cardPhysical: boolean,
-
+    cardPhysical: boolean
   ): Promise<Receipt> {
     const from = await this.getAccount();
     return await (await this.getNftContract()).methods

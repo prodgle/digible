@@ -1,92 +1,94 @@
-<div class="p-t-50">
-  <div class="box">
-    <div class="icon">
-      <img [src]="stake.icon" />
+<!-- <div class="c-card mt-4">
+  <div class="c-card__apy"><span>Min 8% APY</span></div>
+  <div class="c-card__body" *ngIf="loading">
+    <p class="bold mt-2">Loading...</p>
+  </div>
+  <div class="c-card__body" *ngIf="!loading">
+    <h3 class="c-card__title">{{ stake.name }} Stake</h3>
+    <p class="c-card__paragraph">Welcome to DIGI staking. You are able to stake for as long or as short as you wish. You will be able to  </p>
+    <div class="d-flex">
+      <div><span class="icon star mr-2"></span></div>
+      <p class="c-card__paragraph">APY is 8%. Some other text can go here about the lore Epsom sales dormat go here about the lore</p>
     </div>
-
-    <div class="txt-box" *ngIf="loading">
-      <p class="bold mt-2">Loading...</p>
+    <div class="d-flex">
+      <div><span class="icon star mr-2"></span></div>
+      <p class="c-card__paragraph">APY is 8%. Some other text can go here about the lore Epsom sales dormat go here about the lore</p>
     </div>
-
-    <div class="txt-box" *ngIf="!loading">
-      <div class="row justify-center">
-        <div class="col-lg-12">
-          <span class="title">{{ stake.name }}</span>
-        </div>
-        <div class="col-lg-12">
-          <span class="txt">({{ rewards }} {{ stake.reward }} Earned)</span>
-        </div>
-
-        <div class="col-lg-12 p-t-20" *ngIf="approved && rewardsNumber > 0">
-          <button class="btn btn-primary btn-rset-1" (click)="claim()">
-            Claim
-          </button>
-        </div>
-
-        <div class="col-lg-10 p-t-10">
-          <input
-            type="number"
-            name="input"
-            [(ngModel)]="amountInput"
-            placeholder="0,00"
-          />
-        </div>
-
-        <div class="col-lg-12 p-t-10" *ngIf="!address">
-          <button
-            data-bs-toggle="modal"
-            data-bs-target="#walletModal"
-            class="btn btn-primary btn-rset-1"
-          >
-            Connect
-          </button>
-        </div>
-
-        <div class="col-lg-12 p-t-10 txt">(Max: {{ balance }})</div>
-
-        <div class="col-lg-12 p-t-10" *ngIf="!approved && address">
-          <button (click)="approveDigi()" class="btn btn-primary btn-rset-1">
-            Approve {{ stake.name }}
-          </button>
-        </div>
-
-        <div class="col-lg-12 p-t-10" *ngIf="approved">
-          <button (click)="deposit()" class="btn btn-primary btn-rset-1">
-            Deposit
-          </button>
-        </div>
-
-        <div
-          class="col-lg-12 p-t-10"
-          *ngIf="address && yourStake > 0.0"
-        >
-          <button class="btn btn-primary btn-rset-1" (click)="withdraw()">
-            Withdraw
-          </button>
-        </div>
-
-        <div class="col-lg-12 p-t-20">
-          <div class="row">
-            <div class="col-lg-6 txt">Total Staked:</div>
-            <div class="col-lg-6 txt">{{ totalStaked }}</div>
-          </div>
-        </div>
-
-        <div class="col-lg-12">
-          <div class="row">
-            <div class="col-lg-6 txt">Your Stake:</div>
-            <div class="col-lg-6 txt">{{ yourStake }}</div>
-          </div>
-        </div>
-
-        <div class="col-lg-12 p-b-20">
-          <div class="row">
-            <div class="col-lg-6 txt">APY:</div>
-            <!-- <div class="col-lg-6 txt">{{ apr }}%</div> -->
-            <div class="col-lg-6 txt">8%</div>
-          </div>
+    <div class="c-card__btn c-card__btn-primary btn mb-4">View Balance</div>
+    <div class="c-card__btn c-card__btn-secondary btn">Start Staking</div>
+  </div>
+</div> -->
+<div class="c-card mt-4">
+  <div *ngIf="errorMessage" class="c-card__errors">{{ errorMessage }} <span (click)="errorMessage = false" class="c-card__errors-close">X</span></div>
+  <!-- <span class="icon arrow c-card__arrow"></span> -->
+  <div class="c-card__apy"><span>Min 8% APY</span></div>
+  <div class="c-card__body" *ngIf="loading">
+    <p class="bold mt-2">Loading...</p>
+  </div>
+  <div class="c-card__body" *ngIf="!loading">
+    <h3 class="c-card__title">{{ stake.name }} Stake</h3>
+    <!-- <h4>Total DIGI staked: {{ totalStaked }}</h4> -->
+    <div class="c-card__input-container">
+      <div class="d-flex">
+        <label class="c-card__label">Input</label>
+        <span class="c-card__balance">Staked: {{ yourStake }}</span>
+        <span class="c-card__balance">Balance: {{ balance }}</span>
+      </div>
+      <div class="d-flex">
+        <input
+          type="number"
+          name="input"
+          (keyup)="calculateApr($event)"
+          placeholder="0"
+          class="c-card__input"
+        />
+        <div class="c-card__currency">
+          <span class="icon logo-inverse"></span>
+          <span class="c-card__currency-name">DIGI</span>
         </div>
       </div>
+    </div>
+    <div class="c-card__return-text">
+      <p>Your minimum return per year at 8%: </p>
+      <div class="ml-auto">
+        <div class="c-card__currency u-border-bottom" style="padding-bottom: 0.5rem;">
+          <span class="c-card__return">{{ calculatedApr }}</span>
+          <span class="icon logo-inverse"></span>
+          <span class="c-card__currency-name">DIGI</span>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex flex-column mt-4">
+      <div class="d-flex">
+        <span class="c-card__info-icon icon info-icon"></span>
+        <p class="text-small">You can stake for as long or a short as you wish.</p>
+      </div>
+      <p class="c-card__paragraph u-weight--bold">APY is 8%. Some other Epom texst can gsso here aout the lore  sales domat go here dormat  about the lre Esom sales dormat go hre about the lore Epsom salhes dormat</p>
+    </div>
+
+    <div *ngIf="!address">
+      <button
+        data-bs-toggle="modal"
+        data-bs-target="#walletModal"
+        class="c-card__btn c-card__btn-secondary btn"
+      >
+        Connect
+      </button>
+    </div>
+    <div  *ngIf="!approved && address">
+      <button (click)="approveDigi()" class="c-card__btn c-card__btn-secondary btn">
+        Approve {{ stake.name }}
+      </button>
+    </div>
+    <div *ngIf="approved">
+      <button (click)="deposit()" class="c-card__btn c-card__btn-secondary btn">
+        Deposit
+      </button>
+    </div>
+    <div *ngIf="address && yourStake > 0.0">
+      <button class="c-card__btn c-card__btn-secondary btn mt-4" (click)="withdraw()">
+        Withdraw
+      </button>
     </div>
   </div>
 </div>

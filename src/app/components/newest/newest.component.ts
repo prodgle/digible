@@ -9,6 +9,11 @@ import { DigiCard } from 'src/app/types/digi-card.types';
   styleUrls: ['./newest.component.scss'],
 })
 export class NewestComponent implements OnInit {
+  filterBy = [
+    { name: 'All', id: 'ALL' },
+    { name: 'Show Physical', id: 'PHYSICAL' },
+    { name: 'Show DIGITAL', id: 'DIGITAL' },
+  ];
   static nftListCached: DigiCard[] = null;
   static lastOffset = 0;
 

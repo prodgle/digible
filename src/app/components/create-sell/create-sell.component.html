@@ -1,11 +1,11 @@
-<div class="container-fluid">
+<div class="container page-top">
   <div class="row">
     <div class="col-12 p-t-10 p-b-6">
       <span class="section-title"
         ><span class="icon box"></span>Sell Token</span
       >
     </div>
-    <div class="solid"></div>
+    <div class="solid mt-4"></div>
   </div>
 
   <div class="row" *ngIf="showSwitchToEth">
@@ -20,7 +20,7 @@
   <div *ngIf="!showSwitchToEth">
     <div class="row" *ngIf="myCards == null">
       <div class="col">
-        <div class="mx-auto text-center mt-4">
+        <div class="mx-auto text-center mt-4 text-white">
           <app-loading></app-loading>
         </div>
       </div>
@@ -28,7 +28,7 @@
 
     <div class="row" *ngIf="myCards && myCards.length == 0">
       <div class="col">
-        <div class="mx-auto text-center mt-4">
+        <div class="mx-auto text-center mt-4 text-white">
           <b
             >You don't have any NFTs yet.<br />
             You can buy them on the marketplace or in auctions. <br />You can
@@ -40,7 +40,7 @@
 
     <div class="row" *ngIf="myCards != null && loading">
       <div class="col">
-        <div class="mx-auto text-center mt-4">
+        <div class="mx-auto text-center mt-4 text-white">
           <app-loading-blockchain></app-loading-blockchain>
         </div>
       </div>
@@ -55,18 +55,18 @@
       </div>
       <div
         *ngFor="let nft of myCards"
-        class="col-xl-2 col-lg-3 col-md-4 col-sm-6 p-t-40"
+        class="col-xl-4 col-lg-4 col-md-6 col-sm-12 p-t-40"
       >
         <app-digi-card id="{{ nft.id }}"></app-digi-card>
         <button
-          class="button full-width mt-4"
+          class="button full-width mb-4"
           (click)="approve()"
           *ngIf="showApprove"
         >
           Approve
         </button>
         <button
-          class="button full-width mt-4"
+          class="button full-width mb-4"
           *ngIf="!showApprove"
           [routerLink]="['/explorer/create', address, nft.id]"
         >

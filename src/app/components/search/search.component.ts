@@ -20,6 +20,11 @@ export class SearchComponent implements OnInit {
   loading = false;
   endReached = false;
   typeSearch = 'ALL';
+  filterBy = [
+    { name: 'All', id: 'ALL' },
+    { name: 'Show Physical', id: 'PHYSICAL' },
+    { name: 'Show DIGITAL', id: 'DIGITAL' },
+  ];
 
   readonly limit = 10005;
 

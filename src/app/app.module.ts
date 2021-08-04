@@ -2,6 +2,7 @@ import { DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { BrowserModule } from '@angular/platform-browser';
 import {
   DlDateTimeDateModule,
@@ -48,7 +49,7 @@ import { WalletService } from './services/wallet.service';
 import { CollectionsComponent } from './components/collections/collections.component';
 import { LeaderboardComponent } from './components/leaderboard/leaderboard.component';
 import { PurchaseComponent } from './components/purchase/purchase.component';
-import { HelpersService } from './services/helpers.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -89,6 +90,7 @@ import { HelpersService } from './services/helpers.service';
     NgxFileDropModule,
     DlDateTimeDateModule,
     DlDateTimePickerModule,
+    NgSelectModule
   ],
   providers: [
     DatePipe,
@@ -102,7 +104,6 @@ import { HelpersService } from './services/helpers.service';
     DuelsService,
     StakingService,
     VerifiedWalletsService,
-    HelpersService,
   ],
   bootstrap: [AppComponent],
 })

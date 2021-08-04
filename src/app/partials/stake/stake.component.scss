@@ -1,68 +1,249 @@
-.btn-rset-1 {
-  border-radius: 25px;
-  text-transform: uppercase;
-  font-family: "Gotham-Black";
-  color: #1824f0;
-  width: 70%;
-  font-size: 15px;
-  border: solid 2px #1824f0;
-  background-color: white;
+//
+// ================================
+//  Staking Card
+// ================================
+//
+.c-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 18px;
+  background-color: darken(#fdfdfd, 1%);
+  border: 1px solid lighten(#213458, 60%);
+  box-shadow: 0px 0px 3px 1px rgba(000, 000, 000, 0.15);
+  border-radius: 16px;
+  margin-bottom: 1rem;
+
+  :host-context(.dark-mode) & {
+    background-color: #213458;
+    color: white;
+    border: 1px solid #5588e6;
+    box-shadow: 0px 0px 3px 1px rgba(255,255,255,0.15);
+  }
+
+  .icon.star {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+  }
 }
 
-.box {
+.c-card__body {
   position: relative;
-  border-radius: 50px;
-  background-color: #f8f7fc;
-  box-shadow: 0px 0px 15px 0px rgb(24 36 240);
+  font-size: 16px;
+}
 
-  .title {
-    font-size: 25px;
-    color: #1824f0;
-    font-family: "Gotham-Black";
+.c-card__apy {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: flex-end;
+  background-color: #7BC759;
+  border-radius: 6px;
+  border: 1px solid #213458;
+  box-shadow: 0px 0px 3px 1px rgba(255,255,255,0.15);
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 0.65rem 0.75rem 0.5rem 0.75rem;
+
+  span {
+    line-height: 1;
+    font-size: 12px;
   }
+}
 
-  .txt {
-    color: #1824f0;
-    font-size: 15px;
-    font-weight: bold;
+.c-card__return {
+  color: #7BC759;
+  margin-right: 0.5rem;
+}
+
+.c-card__return-text {
+  font-size: 14px;
+  display: flex;
+}
+
+.c-card__input-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border: 1px solid lighten(#213458, 60%);
+  border-radius: 6px;
+  background-color: darken(#fdfdfd, 5%);
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  overflow: hidden;
+  cursor: pointer;
+
+  :host-context(.dark-mode) & {
+    border: 1px solid #5588e6;
+    background-color: #384969;
   }
+}
 
-  .disclaimer {
-    font-size: 11px;
-    color: #1824f0;
-    font-family: "Gotham-Book";
+.c-card__input {
+  width: 100%;
+  height: 35px;
+  border-radius: 0;
+  border: 0;
+  padding: 0;
+  padding-top: 1.2rem;
+  background-color: transparent;
+  color: #384969;
+  outline: 0;
+  :host-context(.dark-mode) & {
+    color: #ffffff;
   }
+}
 
-  input {
-    width: 100%;
-    height: 40px;
-    border-radius: 10px;
-    border: solid 2px #1824f0;
-    padding: 0 10px;
+.c-card__label {
+  display: inline-flex;
+  margin-right: auto;
+  margin-bottom: 0;
+  font-size: 14px;
+}
+
+.c-card__balance {
+  font-size: 14px;
+  display: inline-flex;
+  margin-left: auto;
+}
+
+.c-card__currency {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  margin-left: auto;
+  line-height: 1.2;
+
+  .icon.logo-inverse {
+    width: 18px;
+    height: 18px;
+    margin-right: 0.5rem;
   }
+}
 
-  .icon {
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    width: 100%;
-    padding: 60px 0;
-    position: relative;
-
-    img {
-      height: 65px;
-    }
+.u-border-bottom {
+  border-bottom: 1px solid #213458;
+  :host-context(.dark-mode) & {
+    color: #fff;
   }
+}
 
-  .txt-box {
-    position: relative;
-    padding: 0 25px;
-    font-family: "Gotham-Book";
-    font-size: 16px;
-    color: #9175f8;
+.u-weight--bold {
+  font-weight: bold;
+}
 
-    .bold {
-      font-family: "Gotham-Black";
-    }
+.c-card__currency-name {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.c-card__title {
+  font-weight: 600;
+  color: #213458;
+  text-align: center;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  font-size: 18px;
+
+  :host-context(.dark-mode) & {
+    color: #ffffff;
   }
+}
+
+.c-card__paragraph {
+  font-size: 14px;
+  text-align: left;
+}
+
+.c-card__btn {
+  border: 1px solid;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-color: #213458;
+  color: white;
+  font-weight: bold;
+  padding-top: 0.65rem;
+  padding-right: 0.85rem;
+  padding-bottom: 0.55rem;
+  padding-left: 0.85rem;
+  border-radius: 9px;
+  width: 100%;
+  text-transform: uppercase;
+
+  :host-context(.dark-mode) & {
+    border-color: #ffffff;
+  }
+}
+
+.c-card__btn-primary {
+  background-color: #213458;
+}
+
+.c-card__btn-secondary {
+  background-color: #5588e6;
+}
+
+.c-card__arrow {
+  position: absolute;
+  left: 20px;
+  transform: rotate(180deg);
+}
+
+.c-card__errors {
+  position: absolute;
+  background: red;
+  color: white;
+  width: 93%;
+  border-radius: 8px;
+  margin: auto;
+  z-index: 100;
+  padding: 0.5rem;
+  font-size: 14px;
+  font-weight: bold;
+  max-height: 300px;
+  overflow: hidden;
+
+  .c-card__errors-close {
+    cursor: pointer;
+    color: white;
+    position: absolute;
+    right: 16px;
+  }
+}
+
+.c-card__info-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 0.5rem;
+}
+
+::placeholder {
+  position: relative;
+  color: #213458;
+
+  :host-context(.dark-mode) & {
+    color: #ffffff;
+  }
+}
+
+.text-small {
+  font-size: 14px;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }

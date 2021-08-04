@@ -19,10 +19,14 @@ export class CollectionsComponent implements OnInit {
   endReached = false;
   typeSearch = 'ALL';
   collectionsCard = [];
+  leaders = [];
 
   readonly limit = 10005;
 
-  constructor(private readonly nft: NftService, private readonly offchain: OffchainService) {}
+  constructor(
+    private readonly nft: NftService,
+    private readonly offchain: OffchainService
+  ) {}
 
   ngOnInit(): void {
     this.loadData();
@@ -33,19 +37,23 @@ export class CollectionsComponent implements OnInit {
     this.endReached = false;
     this.nftList = await this.nft.getNewNfts(this.limit, 0);
     this.unfilteredNftList = this.nftList;
+    console.log(this.unfilteredNftList);
+
     this.getCollection();
   }
 
-  getCollection(){
+  getCollection() {
     var wallets = new VerifiedWalletsService();
     var walletsArr = wallets.verifiedProfiles;
-    var result = Object.keys(walletsArr).map((key) => [String(key), walletsArr[key]]);
-    
-    for(var i=0; i < result.length ; i++){
+    var result = Object.keys(walletsArr).map((key) => [
+      String(key),
+      walletsArr[key],
+    ]);
+
+    for (var i = 0; i < result.length; i++) {
       var name = result[i][1];
-      this.loadNFTs(result[i][0],i,result.length, name['username']);
+      this.loadNFTs(result[i][0], i, result.length, name['username']);
     }
-    
   }
 
   async loadNFTs(address, i, len, name): Promise<void> {
@@ -57,17 +65,32 @@ export class CollectionsComponent implements OnInit {
     }
     var myCards = [];
     myCards['username'] = name;
-    myCards['cards'] = [...await this.nft.myNFTs(address), ...maticNfts]
+    myCards['cards'] = [...(await this.nft.myNFTs(address)), ...maticNfts];
     this.collectionsCard.push(myCards);
-    if(i == (len-1)){
+    if (i == len - 1) {
       this.handleInput();
     }
-
   }
 
-   handleInput(){
+  handleInput() {
     this.searchReady = false;
     setTimeout(async () => {
+      var i = 0;
+      for (const col of this.collectionsCard) {
+        var cards = col['cards'];
+        this.leaders.push({
+          username: col['username'],
+          countNFT: cards.length,
+          link: '/profile/' + col['username'],
+        });
+        this.leaders.sort((a, b) => (a.countNFT > b.countNFT ? -1 : 1));
+        i++;
+      }
+      this.leaders = this.leaders.slice(0, 10);
+      console.log(this.leaders);
+    }, 200);
+
+    /* setTimeout(async () => {
       
       let nftData = [];
       let nftOld = [];
@@ -89,11 +112,11 @@ export class CollectionsComponent implements OnInit {
       }
       this.nftList = datas;
       
-    }, 200);
+    }, 200); */
     this.loading();
   }
 
-  loading(){
+  loading() {
     setTimeout(async () => {
       this.searchReady = true;
     }, 1500);

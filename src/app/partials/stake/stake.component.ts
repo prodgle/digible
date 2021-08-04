@@ -13,7 +13,7 @@ import { environment } from 'src/environments/environment';
 export class StakeComponent implements OnInit {
   @Input()
   stake: Stake;
-
+  errorMessage;
   address;
   approved = false;
   digiApproved = false;
@@ -28,6 +28,7 @@ export class StakeComponent implements OnInit {
   totalStaked;
   apr;
   balance;
+  calculatedApr;
 
   staking: StakingService;
 
@@ -110,6 +111,10 @@ export class StakeComponent implements OnInit {
   }
 
   async deposit(): Promise<void> {
+    if (!this.amountInput) {
+      this.errorMessage = 'Please enter an amount greater than 0.'
+      return;
+    }
     this.send(() =>
       this.staking.deposit(
         this.wallet.getWeb3().utils.toWei(this.amountInput + '', 'ether')
@@ -143,10 +148,20 @@ export class StakeComponent implements OnInit {
       await method();
       this.loadData();
     } catch (e) {
+      console.log(e.message);
+      this.errorMessage = e.message
+      this.calculatedApr = '0'
+      this.amountInput = 0
       console.error(e);
     }
     this.loading = false;
   }
+
+  calculateApr(event: KeyboardEvent): void {
+    this.calculatedApr = ((8 / 100) * parseInt((<HTMLInputElement>event.target).value, 10)).toLocaleString();
+    this.amountInput = (<HTMLInputElement>event.target).value
+  }
+
 
   switchToMatic(): void {
     this.wallet.switchToMatic();

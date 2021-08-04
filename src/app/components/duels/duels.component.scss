@@ -1,0 +1,8 @@
+.c-duels__title {
+  font-weight: bold;
+  color: #213458;
+
+  :host-context(.dark-mode) & {
+    color: #ffffff;
+  }
+}

@@ -1,7 +1,10 @@
-<div class="container-fluid p-b-40">
+<div class="container p-b-40 page-top">
   <div class="row">
     <div class="col-9 p-t-10 p-b-6">
-      <span class="section-title"><span class="icon light"></span>LEADERBOARD: </span>
+      <div class="section-title">
+        <span class="icon light"></span>
+        <span>Leaderboard</span>
+      </div>
     </div>
     <div class="col-lg-3 right">
       <!-- <select
@@ -14,12 +17,12 @@
         <option value="DIGITAL">Show Digital</option>
       </select>-->
     </div>
-    <div class="solid"></div>
+    <div class="solid mt-4"></div>
   </div>
   
   <div class="row" *ngIf="!searchReady">
     <div class="col">
-      <div class="mx-auto text-center mt-4">
+      <div class="mx-auto text-center mt-4 text-white">
         <app-loading></app-loading>
       </div>
     </div>
@@ -27,7 +30,7 @@
 
   <div class="row"  *ngIf="searchReady">
     <div class="col-9 p-t-10 p-b-6">
-      <span class="section-title">TOP 10: </span>
+      <span class="section-title">Top 10</span>
     </div>
   </div>
   <div class="row" id="collectionList" *ngIf="searchReady">
@@ -36,15 +39,13 @@
       class=""
     >
       <div class="list">
-        <div class="firstblock">{{i+1}}.</div>
+        <div class="firstblock">{{ i+1 }}.</div>
         <div class="middleblock">
           <a  href="{{dos.link}}" class="item-menu">
-            <span>{{dos.username}}</span>
+            <span>{{ dos.username }}</span>
           </a></div>
-        <div>{{dos.countNFT}}</div>
+        <div>{{ dos.countNFT }}</div>
       </div>
-      
-      
     </div>
   </div>
 

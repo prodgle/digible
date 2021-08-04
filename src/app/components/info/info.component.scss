@@ -1,6 +1,6 @@
 .info {
   height: 100vh;
-  background-color: #7479f7;
+  // background-color: #5588e6;
 
   .container-fluid {
     height: 100vh;
@@ -38,13 +38,13 @@
       display: flex;
 
       .subtitle {
-        font-family: "Gotham-Black-Italic";
+        font-weight: bold;
         font-size: 25px;
         color: white;
       }
 
       .title {
-        font-family: "Gotham-Bold";
+        font-family: 'Avenir LT Std';
         font-size: 25px;
         color: white;
         cursor: pointer;
@@ -55,7 +55,7 @@
   .description {
     font-family: "Gotham-Book";
     font-size: 16px;
-    color: white;
+    color: #2af6ff;
 
     .team {
       background-repeat: no-repeat;

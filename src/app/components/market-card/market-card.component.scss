@@ -14,7 +14,7 @@
       font-size: 16px;
       font-weight: bold;
       top: 10px;
-      color: #7479f7;
+      color: #5588e6;
     }
   
     .full-width {
@@ -22,14 +22,14 @@
     }
   
     .description {
-      font-family: "Gotham-Black-Italic";
+      font-weight: bold;
       color: #808080;
       font-size: 11px;
     }
   
     .amount {
       font-family: "Gotham-Medium";
-      color: #7479f7;
+      color: #5588e6;
       font-size: 14px;
       padding-bottom: 15px;
     }
@@ -109,7 +109,7 @@
   }
   
   .back .button {
-    background-color: #7479f7;
+    background-color: #5588e6;
   }
   
   .digi-card.rotate:hover .back {
@@ -122,11 +122,11 @@
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
     font-weight: bold;
-    color: #fff;
+    color: #ffffff;
     padding: 5px 15px;
     border-radius: 25px;
     font-size: 12px;
-    font-family: "Gotham-Bold";
+    font-family: 'Avenir LT Std';
     border: none;
     transform-style: preserve-3d;
     transition: 200ms ease;

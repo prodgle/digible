@@ -17,8 +17,6 @@ import { VerifiedWalletsService } from 'src/app/services/verified-wallets.servic
 import { WalletService } from 'src/app/services/wallet.service';
 import { Network } from 'src/app/types/network.enum';
 import { environment } from 'src/environments/environment';
-import { DescriptionType } from '../../types/description.type';
-import { HelpersService } from '../../services/helpers.service';
 
 @Component({
   selector: 'app-details',
@@ -33,7 +31,15 @@ export class DetailsComponent implements OnInit, OnDestroy {
   symbol = environment.stableCoinSymbol;
   name = '...';
   network = '...';
-  description: DescriptionType;
+  description: {
+    publisher: string,
+    edition: string,
+    year: string,
+    graded: string,
+    population: string,
+    backCardImage: string,
+    description: string
+  };
   winner = '...';
   customBorder;
   winnerIsVerified;
@@ -108,7 +114,6 @@ export class DetailsComponent implements OnInit, OnDestroy {
     private readonly market: MarketplaceService,
     private readonly matic: MaticService,
     private readonly verifiedProfiles: VerifiedWalletsService,
-    private readonly helpers: HelpersService,
     public datepipe: DatePipe
   ) {
     this.canGoBack = !!this.router.getCurrentNavigation()?.previousNavigation;
@@ -217,7 +222,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.fee = parseInt(prompt('Input your desired fee %', '5'), undefined);
+    this.fee = parseInt(prompt('Input your desired fee %', '5'));
 
     try {
       await this.market.applyRoyalty(this.id, this.address, this.fee);
@@ -244,7 +249,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.fee = parseInt(prompt('Input your desired fee %', '5'), undefined);
+    this.fee = parseInt(prompt('Input your desired fee %', '5'));
 
     try {
       await this.nft.applyRoyalty(this.id, this.address, this.fee);
@@ -269,19 +274,21 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
   async loadLastSells(): Promise<void> {
     this.loadingLastSells = true;
+    console.log(this.nft)
+    console.log(this.id)
 
     let lastSells = await this.market.lastSells(
       this.id,
       await this.nft.getNftAddress(true)
     );
-
+      console.log(lastSells)
     try {
       lastSells = [
         ...lastSells,
         ...(await this.nft.getLastAuctionPrices(this.id, 4)),
       ];
     } catch (e) {
-      console.error(e);
+      console.error(e.message);
     }
 
     try {
@@ -409,7 +416,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
           this.winner = price.winner;
           this.winnerIsVerified = false;
         }
-
+        
         this.priceBuyNow = this.math.toHumanValue(auction.fixedPrice);
         this.priceBuyNowDecimals = parseInt(auction.fixedPrice, undefined);
         this.endDate = auction.endDate;
@@ -429,6 +436,14 @@ export class DetailsComponent implements OnInit, OnDestroy {
     this.loadingLastBids = false;
   }
 
+  isJson(string) {
+    try {
+      JSON.parse(string);
+    } catch (error) {
+      return false;
+    }
+    return true;
+  }
   async getCardDetails(): Promise<void> {
     let card;
     try {
@@ -438,14 +453,14 @@ export class DetailsComponent implements OnInit, OnDestroy {
       this.router.navigate(['/newest']);
       return;
     }
-    this.name = card.name;
-    const ch = this.helpers.IsJsonString(card.description);
-    if (card.description !== '' && ch){
-      this.description = JSON.parse(card.description);
+    this.name = card.name.charAt(0).toUpperCase() + card.name.slice(1).toLowerCase();;
+    if (this.isJson(card.description)) {
+      const data = JSON.parse(card.description);
+      this.description = data.description
+    } else {
+      this.description = card.description;
     }
-    if (this.description && this.description.backCardImage) {
-      this.backSideImageExists = true;
-    }
+  
     this.physical = card.physical;
     this.fillDescriptionFields();
   }
@@ -644,7 +659,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
         year: this.inputYear || '',
         graded: this.inputGraded || '',
         population: this.inputPopulation || '',
-        backCardImage: this.description && this.description.backCardImage ? this.description.backCardImage : '',
+        backCardImage: this.description.backCardImage || '',
         description: this.inputDescription || ''
       });
 
