@@ -219,7 +219,9 @@ export class ProfileComponent implements OnInit {
       readOnly = true;
     }
     this.nft.digiBalance(this.address, readOnly).then((balance) => {
+      
       this.digiBalance = this.math.toHumanValue(balance + '', 18) + '';
+      console.log(this.digiBalance);
       this.cdr.detectChanges();
     });
     this.nft.stableBalance(this.address, readOnly).then((balance) => {

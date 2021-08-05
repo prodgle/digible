@@ -66,6 +66,17 @@ export class VerifiedWalletsService {
       username: 'Dubovka',
       twitter: 'Dubovkas',
       instagram: 'Dubovka'
+  },
+  '0x6dbdf9d84dE1d016c1598c3291278eD3aE7e569a':{
+    username: 'Roboskillz',
+    email: 'r.hudson89@gmail.com',
+    twitter: 'roboskillz',
+    tiktok: 'roboskillz',
+    instagram: 'roboskillz',
+  },
+  '0xb4E1cf1b4C163f954cFAdb084ce51065213b9d33':{
+    username: 'Crypt0Wizard',
+    email: 'daniel.m@digible.io',
   }
 
 };

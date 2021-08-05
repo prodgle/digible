@@ -21,5 +21,5 @@ export const environment = {
   utilsAddressMatic: '0xB4b40640fEb2374540b97eb90FdF0AE6dd42c6F5',
   stakeAddress: '0x82E08e68AbFCa69583E12365E64C61e5Ae45CBFA',
   deletedNfts: [26, 25, 24, 31],
-  blocksInEvents: 170000,
+  blocksInEvents: 99999,
 };

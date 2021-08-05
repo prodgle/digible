@@ -66,7 +66,7 @@ export class CreateSellPriceComponent implements OnInit {
   }
 
   async loadFee(): Promise<void> {
-    this.fee = await this.market.getFee() / 100;
+    this.fee = await this.market.getFee();
   }
 
   onChangeInputAmount(): void {
@@ -78,7 +78,7 @@ export class CreateSellPriceComponent implements OnInit {
         this.receiveAmount =
           this.inputAmount -
           ((this.inputAmount * 0.1)) -
-          (this.inputAmount * (this.royaltyFee / 100));
+          (this.inputAmount * (this.royaltyFee / 10000));
       } else {
         this.receiveAmount =
           this.inputAmount - ((this.inputAmount * 0.1));

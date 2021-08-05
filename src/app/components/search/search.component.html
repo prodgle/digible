@@ -9,7 +9,7 @@
       </div>
       <div class="col-lg-3 right">
         <ng-select
-          ngModelChange)="changeFilter()"
+          (ngModelChange)="changeFilter()"
           [(ngModel)]="typeSearch"
           [items]="filterBy"
           bindLabel="name"
@@ -45,6 +45,13 @@
           price="{{ nft.price }}"
           auction="{{ nft.auction }}"
         ></app-digi-card>
+        
+      </div>
+      <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6" *ngIf="searchReady && !searchEnd" id="end-search-app">
+        
+            <app-loading></app-loading>
+          
+        
       </div>
     </div>
     <!-- <div class="row center p-t-10">

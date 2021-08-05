@@ -58,14 +58,14 @@ export class StakeComponent implements OnInit {
   }
 
   async getYourBalance(): Promise<void> {
-    this.balance = parseFloat(
+    this.balance = this.toFixedNoRounding(3, parseFloat(
       await this.wallet
         .getWeb3()
         .utils.fromWei(
           await this.staking.tokenBalance(this.stake.address),
           'ether'
         )
-    ).toFixed(2);
+    ));
   }
 
   async getRewards(): Promise<void> {
@@ -165,5 +165,19 @@ export class StakeComponent implements OnInit {
 
   switchToMatic(): void {
     this.wallet.switchToMatic();
+  }
+
+  public toFixedNoRounding(n:any, d: any) {
+    const reg = new RegExp(`^-?\\d+(?:\\.\\d{0,${n}})?`, 'g')
+    const a = d.toString().match(reg)[0];
+    const dot = a.indexOf('.');
+  
+    if (dot === -1) {
+      return a + '.' + '0'.repeat(n);
+    }
+  
+    const b = n - (a.length - dot) + 1;
+  
+    return b > 0 ? (a + '0'.repeat(b)) : a;
   }
 }

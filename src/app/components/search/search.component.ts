@@ -19,6 +19,7 @@ export class SearchComponent implements OnInit {
   currentOffset = 0;
   loading = false;
   endReached = false;
+  searchEnd = false;
   typeSearch = 'ALL';
   filterBy = [
     { name: 'All', id: 'ALL' },
@@ -103,7 +104,7 @@ export class SearchComponent implements OnInit {
     .reduce(
         function(p,e){
             var a = e.split('=');
-            p[ decodeURIComponent(a[0])] = decodeURIComponent(a[1]);
+            p[decodeURIComponent(a[0])] = decodeURIComponent(a[1]);
             return p;
         },
         {}
@@ -118,23 +119,23 @@ export class SearchComponent implements OnInit {
       for (const nft of this.unfilteredNftList) {
         let nftData = (await this.offchain.getNftData(nft.id));
         let nftOwner = await this.nft.owner(nft.id);
-
+        
         let description = nftData['description'].toLowerCase();
         let name = nftData['name'].toLowerCase();
         let address = nftOwner['address'].toLowerCase();
         let network = nftOwner['network'].toLowerCase();
 
         let search = params['search'].toLowerCase();
-
         if(description.match(search) || name.match(search) || address.match(search) || network.match(search) ){
           filteredList.push(nft);
+          this.nftList = filteredList;
+          this.newFilteredList = filteredList;
+          this.loading = false;
+          this.searchReady = true;
         }
       }
 
-      this.nftList = filteredList;
-      this.newFilteredList = filteredList;
-      this.loading = false;
-      this.searchReady = true;
+      this.searchEnd = true;
     }, 200);
   }
 

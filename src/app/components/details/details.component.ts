@@ -122,6 +122,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.route.params.subscribe((queryParams) => {
       this.id = queryParams.id;
+      console.log(environment.deletedNfts);
       if (
         environment.deletedNfts.indexOf(parseInt(this.id, undefined)) !== -1
       ) {
@@ -274,14 +275,12 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
   async loadLastSells(): Promise<void> {
     this.loadingLastSells = true;
-    console.log(this.nft)
-    console.log(this.id)
 
     let lastSells = await this.market.lastSells(
       this.id,
       await this.nft.getNftAddress(true)
     );
-      console.log(lastSells)
+      
     try {
       lastSells = [
         ...lastSells,
@@ -430,6 +429,8 @@ export class DetailsComponent implements OnInit, OnDestroy {
   async getLastBids(): Promise<void> {
     this.loadingLastBids = true;
     this.lastBids = null;
+
+   // console.log((await this.nft.getLastBids(this.auctionId, 4)))
     this.lastBids = (await this.nft.getLastBids(this.auctionId, 4)).sort(
       (a, b) => (a.created > b.created && -1) || 1
     );
@@ -450,17 +451,19 @@ export class DetailsComponent implements OnInit, OnDestroy {
       card = await this.offChain.getNftData(this.id);
     } catch (e) {
       console.error(e);
-      this.router.navigate(['/newest']);
+      this.router.navigate(['/']);
       return;
     }
-    this.name = card.name.charAt(0).toUpperCase() + card.name.slice(1).toLowerCase();;
+    this.name = card.name.charAt(0).toUpperCase() + card.name.slice(1).toLowerCase();
+    
     if (this.isJson(card.description)) {
       const data = JSON.parse(card.description);
-      this.description = data.description
+      this.description = data
     } else {
       this.description = card.description;
     }
   
+    console.log(this.description);
     this.physical = card.physical;
     this.fillDescriptionFields();
   }

@@ -72,10 +72,7 @@ export class CreateAuctionComponent implements OnInit {
 
   async loadRoyalty(): Promise<void> {
     this.hasRoyalty = await this.nft.hasRoyalty(
-      this.id,
-      await (
-        await this.nft.owner(this.id)
-      ).address
+      this.id
     );
     if (this.hasRoyalty) {
       this.royaltyFee = await this.nft.getRoyaltyFee(this.id);
@@ -114,17 +111,15 @@ export class CreateAuctionComponent implements OnInit {
     // this.checkIfCanApprove();
     setTimeout(() => {
       this.listingPrice = (
-        this.minPrice *
-        (100 / (100 - this.fee / 2 / 100))
+        this.minPrice + (this.minPrice * 0.1)
       ).toFixed(2);
       if (this.hasRoyalty) {
         this.receiveAmount =
-          this.listingPrice -
-          (this.listingPrice * this.fee) / 10000 -
-          (this.listingPrice * this.royaltyFee) / 10000;
+          this.minPrice -
+          (this.minPrice * 0.1) -
+          (this.minPrice * (this.royaltyFee / 100));
       } else {
-        this.receiveAmount =
-          this.listingPrice - (this.listingPrice * this.fee) / 10000;
+        this.receiveAmount = this.listingPrice 
       }
       this.receiveAmount = this.receiveAmount.toFixed(2);
     }, 100);
@@ -134,19 +129,17 @@ export class CreateAuctionComponent implements OnInit {
     // this.checkIfCanApprove();
     setTimeout(() => {
       this.listingPriceBuyNow = (
-        this.buyNowPrice *
-        (100 / (100 - this.fee / 2 / 100))
+        this.buyNowPrice - (this.buyNowPrice * 0.1)
       ).toFixed(2);
       if (this.hasRoyalty) {
         // tslint:disable-next-line: max-line-length
         this.receiveAmountBuyNow =
-          this.listingPriceBuyNow -
-          (this.listingPriceBuyNow * this.fee) / 10000 -
-          (this.listingPriceBuyNow * this.royaltyFee) / 10000;
+          this.buyNowPrice -
+          (this.buyNowPrice * 0.1) -
+          (this.buyNowPrice * (this.royaltyFee/100));
       } else {
         this.receiveAmountBuyNow =
-          this.listingPriceBuyNow -
-          (this.listingPriceBuyNow * this.fee) / 10000;
+          this.listingPriceBuyNow;
       }
       this.receiveAmountBuyNow = this.receiveAmountBuyNow.toFixed(2);
     }, 100);
