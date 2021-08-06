@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   infuraId: '11185ce0751941c68277973c6c4151bb',
-  offchainApi: 'https://sandbox.arkerlabs.com:4009',
+  offchainApi: 'http://localhost:3000',// 'https://sandbox.arkerlabs.com:4009',
   testnet: true,
   stableCoinAddress: '0xDcF513F3E5358467B1a4ec1a78411169a1Fdc5f3',
   stableCoinAddressEth: '0xe4ffd592b36e92e1a53c01f441728a1e5d953c24',

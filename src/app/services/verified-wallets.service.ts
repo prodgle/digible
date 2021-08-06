@@ -91,11 +91,37 @@ export class VerifiedWalletsService {
       : undefined;
   }
 
-  getFullProfile(address: string): Profile | undefined {
+  getFullProfileOld(address: string): Profile | undefined {
     return this.verifiedProfiles[address]
       ? this.verifiedProfiles[address]
       : undefined;
   }
+  
+  async getFullProfile(address: string): Profile | undefined {
+    //var data = this.verifiedProfiles[address];
+    let data = await this.getProfileData(address);
+    //if (data)
+    if (data['status'] != 'success') {
+        return undefined;
+    } else {
+        return data;
+    }
+  }
+  
+  async getProfileData(address: string) {
+    const request = new Request(`http://localhost:3000/profile/`+address,
+   // const request = new Request(`http://www.obicon.xyz/api/profile_data?address=`+address,
+    {
+        method: "GET"
+    });
+    var data = await fetch(request).then( response => response.json()
+    //.then(ttt => alert(ttt['picture'])) 
+    //.then( ttt => {  return ttt })
+    );
+
+    return data;
+  }
+
 
   getCustomBorder(address: string): string | undefined {
     return this.verifiedProfiles[address]
