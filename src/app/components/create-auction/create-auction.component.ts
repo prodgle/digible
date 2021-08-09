@@ -121,7 +121,7 @@ export class CreateAuctionComponent implements OnInit {
       } else {
         this.receiveAmount = this.listingPrice 
       }
-      this.receiveAmount = this.receiveAmount.toFixed(2);
+      this.receiveAmount = this.receiveAmount;
     }, 100);
   }
 
@@ -141,7 +141,7 @@ export class CreateAuctionComponent implements OnInit {
         this.receiveAmountBuyNow =
           this.listingPriceBuyNow;
       }
-      this.receiveAmountBuyNow = this.receiveAmountBuyNow.toFixed(2);
+      this.receiveAmountBuyNow = this.receiveAmountBuyNow;
     }, 100);
   }
 

@@ -187,7 +187,9 @@ export class NftService {
 
   async bid(auctionId: number, amount: string): Promise<void> {
     const from = await this.getAccount();
+
     amount = String(Number(amount));
+    
     await (await this.getAuctionContract()).methods
       .participateAuction(auctionId, amount)
       .send({ from });

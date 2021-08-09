@@ -8,13 +8,8 @@ export class MathService {
     if (!decimals) {
       decimals = environment.stableCoinDecimals;
     }
-    var e = parseFloat(
-      math
-        .chain(math.bignumber(amount))
-        .divide(math.bignumber(10).pow(math.bignumber(decimals)))
-        .done()
-    );
-    return this.toFixedNoRounding(3, parseFloat(
+    
+    return parseFloat(this.toFixedNoRounding(3, 
       math
         .chain(math.bignumber(amount))
         .divide(math.bignumber(10).pow(math.bignumber(decimals)))

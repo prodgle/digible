@@ -122,7 +122,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.route.params.subscribe((queryParams) => {
       this.id = queryParams.id;
-      console.log(environment.deletedNfts);
+      //console.log(environment.deletedNfts);
       if (
         environment.deletedNfts.indexOf(parseInt(this.id, undefined)) !== -1
       ) {
@@ -463,7 +463,6 @@ export class DetailsComponent implements OnInit, OnDestroy {
       this.description = card.description;
     }
   
-    console.log(this.description);
     this.physical = card.physical;
     this.fillDescriptionFields();
   }
@@ -528,7 +527,6 @@ export class DetailsComponent implements OnInit, OnDestroy {
   onChangeInput(): void {
     this.showAllow = this.inputAmount * 10 ** 18 > this.allowed;
     this.lowBid = this.inputAmount < this.price;
-
     if (this.winner !== null) {
       this.lowBid = this.inputAmount <= this.price;
     }
