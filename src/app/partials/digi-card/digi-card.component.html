@@ -21,129 +21,68 @@
       loop
       [src]="image"
     >
-      <!-- <source :src="require('~/assets/video/video.mp4')" type="video/mp4" /> -->
     </video>
+    <div *ngIf="auction && endDate" class="c-card__countdown">
+      <countdown #cd [config]="config"></countdown>
+      <span class="ml-2">Left</span>
+      <span class="icon auctions p-0"></span>
+    </div>
   </figure>
-  <div class="c-card__body">
-    <h1 class="c-card__title">
-      {{ name }}
-    </h1>
-    <div class="c-card__price" *ngIf="price">
-      <span class="mr-2">{{ price }} </span>
-      <span *ngIf="symbol == 'USDT'" class="icon usdt"></span></div>
-      <p class="mb-4 c-card__description" *ngIf="description">
-        {{ description }}
-      </p>
+  <div *ngIf="view !== 'details'" class="c-card__body">
+    <div class="c-card__top">
+      <h1 class="c-card__title">
+        {{ name }}
+      </h1>
+      <div class="c-card__price" *ngIf="price ">
+        <span class="mr-2">{{ price }} </span>
+        <span *ngIf="symbol == 'USDT'" class="icon usdt"></span>
+      </div>
+    </div>
+    <p class="mb-4 c-card__description">
+      {{ description }}
+    </p>
   </div>
   <div class="c-card__footer">
-    <div *ngIf="physical" class="d-flex flex-row mb-2">
+    <div *ngIf="physical && view !== 'details'" class="d-flex flex-row mb-2">
       <span class="c-card__safe icon safe mb-2 mr-2"></span>
       <span class="c-card__info">Digi Safe</span>
     </div>
-    <div *ngIf="owner && ownerUsername" class="d-flex flex-row">
+    <div *ngIf="owner && ownerUsername && view !== 'details'" class="d-flex flex-row">
       <span class="c-card__safe icon collections mb-2 mr-2"></span>
       <span class="c-card__info"> {{ ownerUsername }}</span>
     </div>
-    <div *ngIf="price">
-      <div class="c-card__button btn btn-primary">BUY NOW</div>
+    <div *ngIf="owner !== address && price && !auction && view !== 'details' && view !== 'profile'">
+      <a class="c-card__button btn btn-primary">BUY NOW</a>
     </div>
-    <div class="c-card__arrow">
-      <span *ngIf="!price" class="icon arrow mr-2 ml-auto"></span>
-    </div>
-  </div>
-</a>
-<!-- 
-<div
-  class="c-card-container"
-  [ngClass]="{
-    details: view === 'details',
-    auction: view === 'auction',
-    rotate: view !== 'details'
-  }"
->
-  <img
-    *ngIf="!isVideo"
-    class="front adjust"
-    [ngClass]="{
-      shadow_card: physical,
-      custom_border: customBorder
-    }"
-    [src]="image"
-    alt="image"
-  />
-
-  <div class="video-container front" *ngIf="isVideo && view === 'details'">
-    <video
-      class="video-background"
-      autoplay
-      [muted]="'muted'"
-      loop
-      controls
-      [src]="image"
-    ></video>
-  </div>
-
-  <div class="video-container front" *ngIf="isVideo && view !== 'details'">
-    <video
-      poster="/assets/images/cards/loading.png"
-      class="video-background"
-      [muted]="'muted'"
-      loop
-      no-controls
-      [src]="image + '#t=0.4'"
-    ></video>
-  </div>
-
-  <div class="back">
-    <div class="full-width">6
-      <p class="name">{{ name }}</p>
-      <p class="description" *ngIf="price == null">
-        {{ description }}
-      </p> 
-      <div class="amount" *ngIf="price">{{ price }} {{ symbol }}</div>
-      <button
-        [routerLink]="id ? ['/details/' + id] : []"
-        [ngStyle]="{ cursor: id ? 'pointer' : '' }"
-        class="button"
-        *ngIf="price != null && !auction"
-      >
-        <span >DETAILS</span>
-      </button><br><br>
-      <button
-        [routerLink]="id ? ['/details/' + id] : []"
-        [ngStyle]="{ cursor: id ? 'pointer' : '' }"
-        class="button"
-      >
+    <div *ngIf="owner !== address && auction && view !== 'details' && view !== 'profile'">
+      <button class="c-card__button btn btn-primary">
         <span *ngIf="price != null && !auction">BUY NOW</span>
         <span *ngIf="price != null && auction">BID NOW</span>
         <span *ngIf="price == null">DETAILS</span>
       </button>
-
-      <a
-        *ngIf="owner && ownerUsername"
-        [routerLink]="['/profile', ownerUsername]"
-        class="creator verified-creator"
-      >
-        <div class="icon-creator"></div>
-        {{ ownerUsername }}
-      </a>
-      <a
-        *ngIf="
-          owner &&
-          !ownerUsername &&
-          owner != '0x000000000000000000000000000000000000dEaD'
-        "
-        [routerLink]="['/profile', owner]"
-        class="creator"
-      >
-        Owner Profile
-      </a>
-      <span
-        *ngIf="owner == '0x000000000000000000000000000000000000dEaD'"
-        class="creator"
-      >
-        Burned
-      </span>
     </div>
+    <div
+      *ngIf="!auction && !price && view !== 'details' && view !== 'profile'"
+      class="c-card__arrow"
+    >
+      <span class="icon arrow mr-2 ml-auto"></span>
+    </div>
+    <a
+      *ngIf="
+        owner &&
+        !ownerUsername &&
+        owner !== '0x000000000000000000000000000000000000dEaD'
+      "
+      [routerLink]="['/profile', owner]"
+      class="creator"
+    >
+      Owner Profile
+    </a>
+    <span
+      *ngIf="owner === '0x000000000000000000000000000000000000dEaD'"
+      class="creator"
+    >
+      Burned
+    </span>
   </div>
-</div> -->
+</a>

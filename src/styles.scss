@@ -200,9 +200,13 @@
   .credit-card-title {
     width: 100%;
     border-bottom: 2px solid #b7b7b747;
-    color: #ffffff;
+    color: #213458;
     font-size: 20px;
     font-weight: bold;
+
+    .dark-mode & {
+      color: #ffffff;
+    }
   }
 
   .cr-cr-lower-block {
@@ -237,12 +241,16 @@
 
   .right-block-title {
     width: 100%;
-    color: #ffffff;
+    color: #213458;
     font-weight: bold;
     font-size: 20px;
     border-bottom: 2px solid #b7b7b747;
     height: 35px;
     margin-bottom: 0.65rem;
+
+    .dark-mode & {
+      color: #ffffff;
+    }
   }
 
   .ranking-block-top-img {
@@ -453,7 +461,6 @@ a {
 }
 
 .block-collection {
-  margin-top: 30px;
   width: 97%;
   padding-bottom: 30px;
 
@@ -1107,10 +1114,11 @@ span.icon {
 }
 
 .section-subtitle {
-  font-family: "Avenir LT Std";
-  font-weight: bold;
-  color: #ffffff;
+  color: #213458;
   font-size: 16px;
+  .dark-mode & {
+    color: #ffffff;
+  }
 }
 
 .not-clickable {
@@ -1119,7 +1127,7 @@ span.icon {
 }
 
 .page-top {
-  margin-top: 80px;
+  margin-top: 100px;
   position: relative;
 
   @media (min-width: 1025px) {
@@ -1162,7 +1170,6 @@ span.icon {
 
 .c-about__description {
   display: flex;
-  margin-top: 2rem;
 
   .dark-mode & {
     color: white;

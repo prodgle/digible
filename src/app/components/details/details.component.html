@@ -1,9 +1,12 @@
 <div class="container page-top p-b-40">
   <div class="row p-b-20" *ngIf="!loading">
     <div class="col-lg-12 col-xs-12 p-b-10">
-      <button class="c-details__back" (click)="goBack()">
-        <span class="icon arrow"></span>
-      </button>
+      <div class="c-details__title">
+        <button class="c-details__back" (click)="goBack()">
+          <span class="icon arrow"></span>
+        </button>
+        <h1>{{ name }}</h1>
+      </div>
     </div>
     <div
       class="col-lg-6 col-xs-6 right"
@@ -20,8 +23,8 @@
 
   <div class="row" *ngIf="loading">
     <div class="col">
-      <div class="mx-auto text-center mt-4 text-white">
-        <app-loading-blockchain></app-loading-blockchain>
+      <div class="mx-auto text-center mt-4 mb-4">
+        <app-loading></app-loading>
       </div>
     </div>
   </div>
@@ -38,8 +41,6 @@
       </app-digi-card>
       <div class="row p-b-20" *ngIf="isYours && !loading">
         <div class="col-lg-12 col-xs-12">
-          <span>{{ ownerUsername }}</span>
-          <h3 class="c-details__buttons-title">Owner Actions</h3>
           <div class="c-details__buttons">
             <button
               class="btn btn-primary"
@@ -108,7 +109,16 @@
         <div class="col-lg-12">
           <div class="c-details">
             <div class="c-details__title">
-              {{ name }} <span class="icon" *ngIf="isYours"><div class="icon icon-creator"></div></span>
+              <span class="icon" *ngIf="isYours">
+                <div class="icon icon-creator"></div>
+              </span>
+              <a
+                *ngIf="!auction && network === 'Matic'"
+                [routerLink]="['/explorer/create', address, id]"
+                class="btn btn-primary ml-auto"
+              >
+                <span class="btn-title">Sell</span>
+              </a>
             </div>
           </div>
           <div class="card min-height shadow mb-4">
@@ -180,8 +190,8 @@
 
               <div class="row">
                 <div class="col-lg-12 sub-title">Last Bids</div>
-                
-                <div class="col-lg-12" *ngIf="loadingLastBids">
+
+                <div class="col-lg-12" *ngIf="!loadingLastBids">
                   <div class="mx-auto text-center">
                     <app-loading></app-loading>
                   </div>
@@ -190,7 +200,6 @@
                 <div class="col-lg-12" *ngFor="let bid of lastBids">
                   <div class="row">
                     <div class="col-lg-4">{{ bid.amount }} {{ symbol }}</div>
-                  
                     <div class="col-lg-4">
                       <a [routerLink]="['/profile', bid.wallet]">
                         {{ bid.wallet | slice: 0:4 }}...{{
@@ -277,7 +286,7 @@
                 class="row p-t-20"
                 *ngIf="allowed < priceBuyNowDecimals && priceBuyNowDecimals > 0"
               >
-                <div class="col-lg-12 p-t-5">
+                <div class="col-lg-6 p-t-5">
                   <button
                     (click)="approve()"
                     class="btn btn-primary full-width"
@@ -290,7 +299,7 @@
               </div>
 
               <div class="row" *ngIf="priceBuyNowDecimals > 0 && allowed">
-                <div class="col-lg-12 p-t-5">
+                <div class="col-lg-6 p-t-5">
                   <button
                     [disabled]="allowed < priceBuyNowDecimals"
                     class="btn btn-primary full-width"
@@ -308,13 +317,7 @@
             </div>
             <div class="card-body" *ngIf="buy">
               <div class="row">
-                <div class="col-lg-12">
-                  <span class="price"> {{ price }} {{ symbol }}</span>
-                </div>
-              </div>
-
-              <div class="row" *ngIf="allowedMarket < priceDecimals">
-                <div class="col-lg-12 p-t-5">
+                <div class="col-lg-6" *ngIf="allowedMarket < priceDecimals">
                   <button
                     (click)="approveMarket()"
                     class="btn btn-primary full-width"
@@ -322,10 +325,7 @@
                     <span>1. APPROVE BUY</span>
                   </button>
                 </div>
-              </div>
-
-              <div class="row" *ngIf="allowedMarket">
-                <div class="col-lg-12 p-t-5">
+                <div class="col-lg-6 p-t-5" *ngIf="allowedMarket">
                   <button
                     [disabled]="allowedMarket < priceDecimals"
                     class="btn btn-primary full-width"
@@ -337,13 +337,10 @@
                     <span *ngIf="allowedMarket >= priceDecimals">BUY NOW</span>
                   </button>
                 </div>
-              </div>
-
-              <div class="row" *ngIf="isYours">
-                <div class="col-lg-12 p-t-5">
+                <div class="col-lg-6" *ngIf="isYours">
                   <button
                     (click)="cancelMarket()"
-                    class="btn btn-primary full-width mt-2"
+                    class="btn btn-primary full-width"
                   >
                     <span>CANCEL SALE</span>
                   </button>
@@ -441,24 +438,25 @@
 
               <div class="row p-t-15" *ngIf="hasRoyalty">
                 <div class="col-lg-12">
-                  Note this item has a {{ royaltyFee}}% creator royalty
-                  fee, please note when reselling this item that this fee will
-                  be applied on top of the platform's standard fee
+                  Note this item has a {{ royaltyFee }}% creator royalty fee,
+                  please note when reselling this item that this fee will be
+                  applied on top of the platform's standard fee
                 </div>
               </div>
               <div class="row p-t-15" *ngIf="hasRoyaltyOnAuction">
                 <div class="col-lg-12">
-                  Note this item has a {{ royaltyFeeAuction}}% creator
-                  royalty fee, please note when auctioning this item that this
-                  fee will be applied on top of the platform's standard fee
+                  Note this item has a {{ royaltyFeeAuction }}% creator royalty
+                  fee, please note when auctioning this item that this fee will
+                  be applied on top of the platform's standard fee
                 </div>
               </div>
             </div>
 
             <div class="card-header py-3">
               <h6 class="m-0 font-weight-bold text-primary txt-title">
-                Description
+                NFT Info
               </h6>
+              
               <button
                 id="editDescriptionModal"
                 data-toggle="modal"
@@ -471,6 +469,32 @@
               </button>
             </div>
             <div class="card-body">
+            
+              <!-- <ul class="c-details__list">
+                <li>
+                  <span class="bold">Publisher:</span
+                  ><span>{{ nftData.publisher }}</span>
+                </li>
+                <li>
+                  <span class="bold">Edition:</span
+                  ><span>{{ nftData.edition }}</span>
+                </li>
+                <li>
+                  <span class="bold">Year:</span><span>{{ nftData.year }}</span>
+                </li>
+                <li>
+                  <span class="bold">Graded:</span
+                  ><span>{{ nftData.graded }}</span>
+                </li>
+                <li>
+                  <span class="bold">Population:</span
+                  ><span>{{ nftData.population }}</span>
+                </li>
+                <li>
+                  <span class="bold">Description:</span
+                  ><span>{{ nftData.description }}</span>
+                </li>
+              </ul> -->
               <ng-container
                 *ngFor="
                   let desc_item of description | keyvalue: keepOriginalOrder
@@ -678,7 +702,7 @@
                     class="form-control form-control-user mb-2"
                     placeholder="Graded..."
                     [(ngModel)]="inputGraded"
-                    (ngModelChange)="inputGraded = $event.toUpperCase()"
+                    (ngModelChange)="inputGraded = $event.toLowerCase()"
                     name="graded"
                     maxlength="13"
                   />

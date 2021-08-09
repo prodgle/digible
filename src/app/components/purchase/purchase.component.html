@@ -5,10 +5,9 @@
         <span class="section-title">Buy $DIGI</span>
       </div>
       <div class="btn-purchase-block">
-          <a [routerLink]="['/stake']" class="btn-purchase">Stake $DIGI </a>
-          <span (click)="connectMatic()" class="btn-purchase">Switch to MATIC </span>
+        <span (click)="connectMatic()" class="btn btn-primary">Switch to MATIC </span>
       </div>
-      <div class="solid mt-4"></div>
+      <div class="solid mt-4 mb-4 mb-4"></div>
     </div>
   
     <div class="content-purchase">
@@ -34,12 +33,12 @@
             <div class="credit-card-circle-block">
               <div class="purple-circle"></div>
               <a href="#" class="btn-cr-car"><b>6,000</b> Sellers Bundle <b>▸</b></a>
-              <span class="cr-cr-dsc">3 erc-20 digis, 3К matic $DIGIs</span>
+              <span class="cr-cr-dsc">3k erc-20 $DIGI, 3k matic $DIGI</span>
             </div>
             <div class="credit-card-circle-block">
               <div class="yellow-circle"></div>
               <a href="#" class="btn-cr-car"><b>3,000</b> Sellers Bundle <b>▸</b></a>
-              <span class="cr-cr-dsc">choice erc-20 or matic</span>
+              <span class="cr-cr-dsc">choice of erc-20 or matic</span>
             </div>
             <div class="credit-card-circle-block">
               <div class="green-circle"></div>
@@ -51,7 +50,7 @@
             <div></div>
             <div class="low-desc-bl">
               <div class="imp-txt">Important</div>
-              <div>Only holders of 3,000 or more can list items for fixed price sale on ERC-20 and 3,000 matic $DIGIs for auction</div>
+              <div>Only holders of 3,000 or more can list items for fixed price sale on ERC-20 and 3,000 matic $DIGI for auction</div>
             </div>
             <div></div>
           </div>
@@ -64,7 +63,7 @@
         </div>
         <div class="row" *ngIf="!searchReady">
           <div class="col">
-            <div class="mx-auto text-center mt-4 text-white">
+            <div class="mx-auto text-center mt-4 mb-4">
               <app-loading></app-loading>
             </div>
           </div>

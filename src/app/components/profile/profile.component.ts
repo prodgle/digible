@@ -1,4 +1,3 @@
-import { Route } from '@angular/compiler/src/core';
 import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MarketplaceService } from 'src/app/services/marketplace.service';

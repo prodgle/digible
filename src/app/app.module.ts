@@ -49,6 +49,7 @@ import { WalletService } from './services/wallet.service';
 import { CollectionsComponent } from './components/collections/collections.component';
 import { LeaderboardComponent } from './components/leaderboard/leaderboard.component';
 import { PurchaseComponent } from './components/purchase/purchase.component';
+import { CountdownModule } from 'ngx-countdown';
 
 @NgModule({
   declarations: [
@@ -84,6 +85,7 @@ import { PurchaseComponent } from './components/purchase/purchase.component';
   ],
   imports: [
     BrowserModule,
+    CountdownModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,

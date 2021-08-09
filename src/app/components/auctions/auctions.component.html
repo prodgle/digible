@@ -1,4 +1,4 @@
-<div class="container page-top">
+<div class="container page-top" *ngIf="!loading">
   <div class="row c-page-title">
     <div class="col-12 p-t-10 p-b-6">
       <div class="section-title">
@@ -6,12 +6,11 @@
         <span>Auctions</span>
       </div>
     </div>
-    <div class="solid mt-4"></div>
+    <div class="solid mt-4 mb-4"></div>
   </div>
-
   <div class="row" *ngIf="nftList == null">
     <div class="col">
-      <div class="mx-auto text-center mt-4 text-white">
+      <div class="mx-auto text-center mt-4 mb-4">
         <app-loading></app-loading>
       </div>
     </div>
@@ -19,7 +18,7 @@
 
   <div class="row" *ngIf="nftList && nftList.length == 0">
     <div class="col">
-      <div class="mx-auto text-center mt-4 c-auctions__text">
+      <div class="mx-auto text-center mt-4 mb-4 c-auctions__text">
         <b>There are no auctions at this moment. Come back soon!</b>
       </div>
     </div>
@@ -28,13 +27,12 @@
   <div class="row" *ngIf="nftList != null">
     <div
       *ngFor="let nft of nftList"
-      class="col-xl-4 col-lg-4 col-md-6 col-sm-6 p-t-40"
+      class="col-xl-4 col-lg-4 col-md-6 col-sm-6"
     >
-      <!-- <app-auction-card
-        id="{{ nft.id }}"
-        auction="{{ nft.auction }}"
-      ></app-auction-card> -->
       <app-digi-card
+        loading="{{loading}}"
+        view="auctions"
+        class="c-card-container"
         id="{{ nft.id }}"
         auction="{{ nft.auction }}"
       ></app-digi-card>

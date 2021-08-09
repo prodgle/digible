@@ -51,11 +51,9 @@ export class LayoutComponent implements OnInit {
 
     this.routesToHideButton = ['/stake', '/purchase', '/profile', '/create'];
 
-    this.checkIfNeedToHideCreateButton(this.router.url);
-
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationStart) {
-        this.checkIfNeedToHideCreateButton(event.url);
+        // this.checkIfNeedToHideCreateButton(event.url);
       }
     });
 
@@ -121,20 +119,23 @@ export class LayoutComponent implements OnInit {
   }
 
   findResult(e) {
-    if (e.code == 'Enter') {
-      const inputValue = (
-        document.getElementById('searchInp') as HTMLInputElement
-      ).value;
+    const inputValue = (
+      document.getElementById('searchInp') as HTMLInputElement
+    ).value;
+    if(inputValue === "") {
+      return;
+    }
+    if (e.code === 'Enter' || e.type == 'click') {
       document.location.href = '/search?search=' + inputValue;
     }
   }
 
-  findMobileResult(e) {
+  /* findMobileResult(e) {
     const mobInpValue = (
       document.getElementById('searchInpMob') as HTMLInputElement
     ).value;
     document.location.href = '/search?search=' + mobInpValue;
-  }
+  } */
 
   isIos() {
     const userAgent = window.navigator.userAgent.toLowerCase();
@@ -210,16 +211,5 @@ export class LayoutComponent implements OnInit {
       }
     }
     toggleSwitch.addEventListener('change', switchTheme, false);
-  }
-
-  checkIfNeedToHideCreateButton(url): void {
-    for (const [key, value] of this.routesToHideButton) {
-      if (url.match(value)) {
-        this.hideCreateButton = true;
-        break;
-      } else {
-        this.hideCreateButton = false;
-      }
-    }
   }
 }

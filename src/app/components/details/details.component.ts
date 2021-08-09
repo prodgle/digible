@@ -503,7 +503,6 @@ export class DetailsComponent implements OnInit, OnDestroy {
     this.customBorder = this.verifiedProfiles.getCustomBorder(
       this.auctionOwner
     );
-
     this.isYours = owner.address === (await this.walletService.getAccount());
     this.cdr.detectChanges();
     this.getRoyalty();
