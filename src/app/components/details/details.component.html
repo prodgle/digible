@@ -456,7 +456,7 @@
               <h6 class="m-0 font-weight-bold text-primary txt-title">
                 NFT Info
               </h6>
-              
+
               <button
                 id="editDescriptionModal"
                 data-toggle="modal"
@@ -469,7 +469,7 @@
               </button>
             </div>
             <div class="card-body">
-            
+
               <!-- <ul class="c-details__list">
                 <li>
                   <span class="bold">Publisher:</span
@@ -682,7 +682,6 @@
                     class="form-control form-control-user mb-2"
                     placeholder="Edition..."
                     [(ngModel)]="inputEdition"
-                    (ngModelChange)="inputEdition = $event.toLowerCase()"
                     name="edition"
                     maxlength="18"
                   />
@@ -702,9 +701,8 @@
                     class="form-control form-control-user mb-2"
                     placeholder="Graded..."
                     [(ngModel)]="inputGraded"
-                    (ngModelChange)="inputGraded = $event.toLowerCase()"
                     name="graded"
-                    maxlength="13"
+                    maxlength="15"
                   />
 
                   <input
