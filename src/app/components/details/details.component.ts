@@ -1,22 +1,17 @@
-import { DatePipe, Location } from '@angular/common';
-import {
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { MarketplaceService } from 'src/app/services/marketplace.service';
-import { MathService } from 'src/app/services/math.service';
-import { MaticService } from 'src/app/services/matic.service';
-import { NftService } from 'src/app/services/nft.service';
-import { OffchainService } from 'src/app/services/offchain.service';
-import { VerifiedWalletsService } from 'src/app/services/verified-wallets.service';
-import { WalletService } from 'src/app/services/wallet.service';
-import { Network } from 'src/app/types/network.enum';
-import { environment } from 'src/environments/environment';
+import {DatePipe, Location} from '@angular/common';
+import {ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild, } from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {MarketplaceService} from 'src/app/services/marketplace.service';
+import {MathService} from 'src/app/services/math.service';
+import {MaticService} from 'src/app/services/matic.service';
+import {NftService} from 'src/app/services/nft.service';
+import {OffchainService} from 'src/app/services/offchain.service';
+import {VerifiedWalletsService} from 'src/app/services/verified-wallets.service';
+import {WalletService} from 'src/app/services/wallet.service';
+import {Network} from 'src/app/types/network.enum';
+import {environment} from 'src/environments/environment';
+import {HelpersService} from '../../services/helpers.service';
+import {DescriptionType} from '../../types/description.type';
 
 @Component({
   selector: 'app-details',
@@ -115,6 +110,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     private readonly market: MarketplaceService,
     private readonly matic: MaticService,
     private readonly verifiedProfiles: VerifiedWalletsService,
+    private readonly helpers: HelpersService,
     public datepipe: DatePipe
   ) {
     this.canGoBack = !!this.router.getCurrentNavigation()?.previousNavigation;
@@ -223,7 +219,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.fee = parseInt(prompt('Input your desired fee %', '5'));
+    this.fee = parseInt(prompt('Input your desired fee %', '5'), undefined);
 
     try {
       await this.market.applyRoyalty(this.id, this.address, this.fee);
@@ -250,7 +246,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.fee = parseInt(prompt('Input your desired fee %', '5'));
+    this.fee = parseInt(prompt('Input your desired fee %', '5'), undefined);
 
     try {
       await this.nft.applyRoyalty(this.id, this.address, this.fee);
@@ -414,7 +410,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
           this.winner = price.winner;
           this.winnerIsVerified = false;
         }
-        
+
         this.priceBuyNow = this.math.toHumanValue(auction.fixedPrice);
         this.priceBuyNowDecimals = parseInt(auction.fixedPrice, undefined);
         this.endDate = auction.endDate;
@@ -434,21 +430,13 @@ export class DetailsComponent implements OnInit, OnDestroy {
     this.loadingLastBids = false;
   }
 
-  isJson(string) {
-    try {
-      JSON.parse(string);
-    } catch (error) {
-      return false;
-    }
-    return true;
-  }
   async getCardDetails(): Promise<void> {
     let card;
     try {
       card = await this.offChain.getNftData(this.id);
     } catch (e) {
       console.error(e);
-      this.router.navigate(['/newest']);
+      this.router.navigate(['/']);
       return;
     }
     this.name = card.name.charAt(0).toUpperCase() + card.name.slice(1).toLowerCase();;
@@ -459,7 +447,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     } else {
       this.description = card.description;
     }
-  
+
     this.physical = card.physical;
     this.fillDescriptionFields();
   }

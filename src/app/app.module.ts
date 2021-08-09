@@ -50,6 +50,7 @@ import { CollectionsComponent } from './components/collections/collections.compo
 import { LeaderboardComponent } from './components/leaderboard/leaderboard.component';
 import { PurchaseComponent } from './components/purchase/purchase.component';
 import { CountdownModule } from 'ngx-countdown';
+import {HelpersService} from './services/helpers.service';
 
 @NgModule({
   declarations: [
@@ -106,6 +107,7 @@ import { CountdownModule } from 'ngx-countdown';
     DuelsService,
     StakingService,
     VerifiedWalletsService,
+    HelpersService,
   ],
   bootstrap: [AppComponent],
 })

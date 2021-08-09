@@ -679,7 +679,6 @@
                     class="form-control form-control-user mb-2"
                     placeholder="Edition..."
                     [(ngModel)]="inputEdition"
-                    (ngModelChange)="inputEdition = $event.toLowerCase()"
                     name="edition"
                     maxlength="18"
                   />
@@ -699,9 +698,8 @@
                     class="form-control form-control-user mb-2"
                     placeholder="Graded..."
                     [(ngModel)]="inputGraded"
-                    (ngModelChange)="inputGraded = $event.toLowerCase()"
                     name="graded"
-                    maxlength="13"
+                    maxlength="15"
                   />
 
                   <input
