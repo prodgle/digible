@@ -22,7 +22,7 @@
       [src]="image"
     >
     </video>
-    <div *ngIf="auction && endDate" class="c-card__countdown">
+    <div *ngIf="auction && endDate && view !== 'details' && view !== 'profile'" class="c-card__countdown">
       <countdown #cd [config]="config"></countdown>
       <span class="ml-2">Left</span>
       <span class="icon auctions p-0"></span>

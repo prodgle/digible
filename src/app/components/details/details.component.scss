@@ -62,3 +62,18 @@
     color: #ffffff;
   }
 }
+
+.c-details__list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.c-details__price {
+  display: flex;
+  align-items: center;
+
+  .icon {
+    width: 1rem;
+    width: 1rem;
+  }
+}

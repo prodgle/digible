@@ -40,6 +40,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     backCardImage: string,
     description: string
   };
+  nftData;
   winner = '...';
   customBorder;
   winnerIsVerified;
@@ -122,7 +123,6 @@ export class DetailsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.route.params.subscribe((queryParams) => {
       this.id = queryParams.id;
-      //console.log(environment.deletedNfts);
       if (
         environment.deletedNfts.indexOf(parseInt(this.id, undefined)) !== -1
       ) {
@@ -280,7 +280,6 @@ export class DetailsComponent implements OnInit, OnDestroy {
       this.id,
       await this.nft.getNftAddress(true)
     );
-      
     try {
       lastSells = [
         ...lastSells,
@@ -429,8 +428,6 @@ export class DetailsComponent implements OnInit, OnDestroy {
   async getLastBids(): Promise<void> {
     this.loadingLastBids = true;
     this.lastBids = null;
-
-   // console.log((await this.nft.getLastBids(this.auctionId, 4)))
     this.lastBids = (await this.nft.getLastBids(this.auctionId, 4)).sort(
       (a, b) => (a.created > b.created && -1) || 1
     );
@@ -451,14 +448,14 @@ export class DetailsComponent implements OnInit, OnDestroy {
       card = await this.offChain.getNftData(this.id);
     } catch (e) {
       console.error(e);
-      this.router.navigate(['/']);
+      this.router.navigate(['/newest']);
       return;
     }
-    this.name = card.name.charAt(0).toUpperCase() + card.name.slice(1).toLowerCase();
-    
+    this.name = card.name.charAt(0).toUpperCase() + card.name.slice(1).toLowerCase();;
     if (this.isJson(card.description)) {
       const data = JSON.parse(card.description);
-      this.description = data
+      this.description = data;
+      this.nftData = data
     } else {
       this.description = card.description;
     }
@@ -475,7 +472,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     ) {
       owner.address = this.auctionOwner;
     }
-
+    
     const network = this.getNetworkData(owner.network);
     this.networkWherCardIs = network.name;
     this.isInEth = network.name === 'Ethereum';
@@ -503,6 +500,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     this.customBorder = this.verifiedProfiles.getCustomBorder(
       this.auctionOwner
     );
+
     this.isYours = owner.address === (await this.walletService.getAccount());
     this.cdr.detectChanges();
     this.getRoyalty();
@@ -516,6 +514,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
       this.cdr.detectChanges();
     });
     this.contractAddress = await this.nft.getNftAddress(true);
+  
     this.cdr.detectChanges();
   }
 
@@ -526,6 +525,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   onChangeInput(): void {
     this.showAllow = this.inputAmount * 10 ** 18 > this.allowed;
     this.lowBid = this.inputAmount < this.price;
+
     if (this.winner !== null) {
       this.lowBid = this.inputAmount <= this.price;
     }
@@ -668,13 +668,15 @@ export class DetailsComponent implements OnInit, OnDestroy {
         this.fullDescription,
         this.id,
       );
-      await this.getCardDetails();
+      
       alert('Description updated!');
     } catch (e) {
       alert('Error updating.');
       console.error(e);
     }
     this.descriptionLoading = false;
+    await this.getCardDetails();
+    this.fillDescriptionFields();
     this.editDescriptionModal.nativeElement.click();
   }
 
