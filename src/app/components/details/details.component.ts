@@ -26,15 +26,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   symbol = environment.stableCoinSymbol;
   name = '...';
   network = '...';
-  description: {
-    publisher: string,
-    edition: string,
-    year: string,
-    graded: string,
-    population: string,
-    backCardImage: string,
-    description: string
-  };
+  description: DescriptionType;
   nftData;
   winner = '...';
   customBorder;
@@ -381,7 +373,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
       if (auction.available) {
         this.auction = true;
-        const price = await this.nft.getAuctionPrice(auctionId, auction);
+        let price = await this.nft.getAuctionPrice(auctionId, auction);
         this.price = this.math.toHumanValue(price.price);
         const winnerName = this.verifiedProfiles.getVerifiedName(price.winner);
 
@@ -390,7 +382,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
           price.winner === this.address
         ) {
           this.highestBid = setInterval(async () => {
-            const price = await this.nft.getAuctionPrice(auctionId, auction);
+            price = await this.nft.getAuctionPrice(auctionId, auction);
             if (price.winner !== this.address) {
               // tslint:disable-next-line: no-unused-expression
               new Notification('You have been outbidded!');
@@ -436,14 +428,14 @@ export class DetailsComponent implements OnInit, OnDestroy {
       card = await this.offChain.getNftData(this.id);
     } catch (e) {
       console.error(e);
-      this.router.navigate(['/']);
+      await this.router.navigate(['/']);
       return;
     }
-    this.name = card.name.charAt(0).toUpperCase() + card.name.slice(1).toLowerCase();;
-    if (this.isJson(card.description)) {
+    this.name = card.name.charAt(0).toUpperCase() + card.name.slice(1).toLowerCase();
+    if (this.helpers.isJson(card.description)) {
       const data = JSON.parse(card.description);
       this.description = data;
-      this.nftData = data
+      this.nftData = data;
     } else {
       this.description = card.description;
     }
@@ -460,14 +452,14 @@ export class DetailsComponent implements OnInit, OnDestroy {
     ) {
       owner.address = this.auctionOwner;
     }
-    
+
     const network = this.getNetworkData(owner.network);
     this.networkWherCardIs = network.name;
     this.isInEth = network.name === 'Ethereum';
     this.explorerPrefixOfOwner = network.prefix;
     this.ownerAddress = owner.address;
 
-    if (owner.address == '0x000000000000000000000000000000000000dEaD') {
+    if (owner.address === '0x000000000000000000000000000000000000dEaD') {
       const tx = await this.nft.getBurnTransaction(this.id);
 
       if (tx[0].blockNumber) {
@@ -502,7 +494,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
       this.cdr.detectChanges();
     });
     this.contractAddress = await this.nft.getNftAddress(true);
-  
+
     this.cdr.detectChanges();
   }
 
@@ -524,10 +516,10 @@ export class DetailsComponent implements OnInit, OnDestroy {
     this.allowedMarket = await this.nft.allowedTokenFor(
       this.market.getMarketplaceAddress()
     );
-    this.allowedMarket = parseInt(this.allowedMarket);
+    this.allowedMarket = parseInt(this.allowedMarket, undefined);
   }
 
-  onBlur(evt) {
+  onBlur(evt): void {
     if (evt.target.valueAsNumber) {
       this.inputAmount = evt.target.valueAsNumber.toFixed(2);
     }
@@ -656,7 +648,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
         this.fullDescription,
         this.id,
       );
-      
+
       alert('Description updated!');
     } catch (e) {
       alert('Error updating.');

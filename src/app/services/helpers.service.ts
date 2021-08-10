@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class HelpersService {
-  IsJsonString(str): boolean {
+  isJson(str): boolean {
     try {
       JSON.parse(str);
     } catch (e) {
