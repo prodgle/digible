@@ -74,6 +74,14 @@ export class OffchainService {
         .toPromise()) as any
     ).status;
   }
+  
+  async updProfile(address: string, profileImage: string): Promise<{uri: string, hash: string}> {
+    var formData = new FormData();
+    formData.append('id', address);
+    formData.append('picture', profileImage);
+    return (await this.http.post('http://localhost:3000/profile/upd/'+address, formData, { responseType: 'json' }).toPromise()) as any;
+    //return (await this.http.post('http://obicon.xyz/api/profile_data/?update&address='+address, formData, { responseType: 'json' }).toPromise()) as any;
+  }
 
   async addDescrption(
     signature: string,
@@ -100,8 +108,8 @@ export class OffchainService {
     var formData = new FormData();
     formData.append('file', file, relativePath);
     formData.append('signature', signature);
-    return (await this.http
-      .post(this.getUri() + '/media', formData, { responseType: 'json' })
+    return (await this.http //this.getUri()
+      .post('https://sandbox.arkerlabs.com:4009' + '/media', formData, { responseType: 'json' })
       .toPromise()) as any;
   }
 
