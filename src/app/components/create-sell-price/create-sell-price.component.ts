@@ -60,7 +60,8 @@ export class CreateSellPriceComponent implements OnInit {
       this.address,
       parseInt(this.id, undefined)
     );
-    if (sale.available) {
+    
+    if (sale && sale.available) {
       this.sale = sale;
     }
   }

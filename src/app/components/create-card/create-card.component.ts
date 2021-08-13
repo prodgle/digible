@@ -1,17 +1,17 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { WalletService } from '../../services/wallet.service';
-import { Network } from '../../types/network.enum';
+import {ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {WalletService} from '../../services/wallet.service';
+import {Network} from '../../types/network.enum';
 import Web3 from 'web3';
-import { environment } from 'src/environments/environment';
-import { TokensService } from 'src/app/services/tokens.service';
+import {environment} from 'src/environments/environment';
+import {TokensService} from 'src/app/services/tokens.service';
 import {
   NgxFileDropEntry,
   FileSystemFileEntry,
   FileSystemDirectoryEntry,
 } from 'ngx-file-drop';
-import { OffchainService } from '../../services/offchain.service';
-import { NftService } from '../../services/nft.service';
-import { Router } from '@angular/router';
+import {OffchainService} from '../../services/offchain.service';
+import {NftService} from '../../services/nft.service';
+import {Router} from '@angular/router';
 import {Receipt} from '../../types/mint.types';
 
 @Component({
@@ -48,7 +48,8 @@ export class CreateCardComponent implements OnInit {
     private readonly offchain: OffchainService,
     private readonly nft: NftService,
     private readonly router: Router
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.checkNetwork();
@@ -93,59 +94,89 @@ export class CreateCardComponent implements OnInit {
       }
 
       await this.router.navigate(['/details/' + this.tokenId]);
-    } catch (e) {}
+    } catch (e) {
+    }
     this.loading = false;
   }
 
-  async dropped(files: NgxFileDropEntry[]): Promise<void> {
+  async droppedFrontSide(files: NgxFileDropEntry[]): Promise<void> {
     if (files.length === 0) {
       return;
     }
     const droppedFile = files[0];
-    const droppedFileBack = files[1];
-    if (droppedFile.fileEntry.isFile) {
-      this.loading = true;
 
-      const signature = await this.sign();
+    if (droppedFile && droppedFile.fileEntry.isFile) {
       const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
 
       fileEntry.file(async (file: File) => {
+        this.loading = true;
         try {
-         const ipfs = await this.offchain.uploadFile(
-           signature,
-           file,
-           droppedFile.relativePath
-         );
+          const signature = await this.sign();
+          const ipfs = await this.offchain.uploadFile(
+            signature,
+            file,
+            droppedFile.relativePath
+          );
 
-         this.ipfsHash = ipfs.hash;
-         this.isVideo = await this.offchain.isVideo(ipfs.uri);
-         this.ipfsUri = ipfs.uri;
-         this.walletReceiver = await this.wallet.getAccount();
-        } catch (e) {}
+          this.ipfsHash = ipfs.hash;
+          this.isVideo = await this.offchain.isVideo(ipfs.uri);
+          this.ipfsUri = ipfs.uri;
+          if (!this.walletReceiver) {
+            this.walletReceiver = await this.wallet.getAccount();
+          }
+          this.loading = false;
+        } catch (e) {
+        }
       });
-
-      if (droppedFileBack && droppedFileBack.fileEntry.isFile) {
-        const fileEntry2 = droppedFileBack.fileEntry as FileSystemFileEntry;
-        fileEntry2.file(async (file: File) => {
-          try {
-            const ipfs2 = await this.offchain.uploadFile(
-              signature,
-              file,
-              droppedFileBack.relativePath
-            );
-
-            this.ipfsHashBack = ipfs2.hash;
-            this.isVideoBack = await this.offchain.isVideo(ipfs2.uri);
-            this.ipfsUriBack = ipfs2.uri;
-          } catch (e) {}
-        });
-      }
     }
-    this.loading = false;
+  }
+
+  async droppedBackSide(files: NgxFileDropEntry[]): Promise<void> {
+    if (files.length === 0) {
+      return;
+    }
+    const droppedFileBack = files[0];
+
+    if (droppedFileBack && droppedFileBack.fileEntry.isFile) {
+      const fileEntry2 = droppedFileBack.fileEntry as FileSystemFileEntry;
+
+      fileEntry2.file(async (file: File) => {
+        this.loading = true;
+        try {
+          const signature = await this.sign();
+          const ipfs2 = await this.offchain.uploadFile(
+            signature,
+            file,
+            droppedFileBack.relativePath
+          );
+
+          this.ipfsHashBack = ipfs2.hash;
+          this.isVideoBack = await this.offchain.isVideo(ipfs2.uri);
+          this.ipfsUriBack = ipfs2.uri;
+          if (!this.walletReceiver) {
+            this.walletReceiver = await this.wallet.getAccount();
+          }
+          this.loading = false;
+        } catch (e) {
+        }
+      });
+    }
   }
 
   async sign(message = ''): Promise<string> {
     return await this.wallet.signMessage(message || 'Digible');
+  }
+
+  async removeFrontSideImage(): Promise<void> {
+    this.ipfsHash = '';
+    this.ipfsUri = '';
+    this.isVideo = false;
+  }
+
+  async removeBackSideImage(): Promise<void> {
+    this.ipfsHashBack = '';
+    this.ipfsUriBack = '';
+    this.isVideoBack = false;
   }
 
   async checkNetwork(): Promise<void> {

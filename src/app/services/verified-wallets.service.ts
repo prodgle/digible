@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Profile } from '../types/profile.type';
+import { OffchainService } from '../services/offchain.service';
 
 @Injectable()
 export class VerifiedWalletsService {
@@ -83,7 +84,7 @@ export class VerifiedWalletsService {
 
   private inverseVerifiedProfiles = {};
 
-  constructor() {
+  constructor(public offchain: OffchainService) {
     this.inverseVerifiedProfiles = Object.assign(
       {},
       ...Object.entries(this.verifiedProfiles).map(([a, b]) => ({
@@ -102,10 +103,40 @@ export class VerifiedWalletsService {
       : undefined;
   }
 
-  getFullProfile(address: string): Profile | undefined {
+  getFullProfileOld(address: string): Profile | undefined {
     return this.verifiedProfiles[address]
       ? this.verifiedProfiles[address]
       : undefined;
+  }
+
+  async getFullProfile(address: string){
+    //var data = this.verifiedProfiles[address];
+    let data = await this.getProfileData(address);
+    //if (data)
+    if (data['status'] != 'success') {
+        return undefined;
+    } else {
+        return data;
+    }
+  }
+
+  async getProfileData(address: string) {
+    const request = new Request(`http://localhost:3000/profile/`+address,
+   // const request = new Request(`http://www.obicon.xyz/api/profile_data?address=`+address,
+    {
+        method: "GET"
+    });
+    var data = await fetch(request).then( response => response.json()
+    //.then(ttt => alert(ttt['picture'])) 
+    //.then( ttt => {  return ttt })
+    );
+    //console.log(data);
+    return data;
+  }
+
+  async updProfileData(address: string, profileImage: string) {
+    const ipfs = await this.offchain.updProfile(address, profileImage);
+    return ipfs['status'] == 'success';
   }
 
   getCustomBorder(address: string): string | undefined {

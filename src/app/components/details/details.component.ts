@@ -84,7 +84,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   descriptionLoading = false;
   firstSale: boolean;
   firstAuction: boolean;
-
+  nftAddress:string;
   lastSells;
   backSideImageExists = false;
 
@@ -109,6 +109,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    
     this.route.params.subscribe((queryParams) => {
       this.id = queryParams.id;
       if (
@@ -150,7 +151,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     this.auctionId = null;
     this.saleId = null;
     this.lastSells = null;
-
+    this.nftAddress = await this.nft.getNftAddress(true);
     if (this.highestBid) {
       clearInterval(this.highestBid);
     }
@@ -422,6 +423,15 @@ export class DetailsComponent implements OnInit, OnDestroy {
     this.loadingLastBids = false;
   }
 
+  isJson(string) {
+    try {
+      JSON.parse(string);
+    } catch (error) {
+      return false;
+    }
+    return true;
+  }
+  
   async getCardDetails(): Promise<void> {
     let card;
     try {

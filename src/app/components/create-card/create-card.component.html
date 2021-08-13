@@ -34,21 +34,21 @@
   </div>
 
   <div *ngIf="!showSwitchToEth">
-    <div class="row justify-center p-t-20" *ngIf="!loading && !ipfsHash">
+    <div class="row justify-center p-t-20" *ngIf="!loading">
       <div class="col-lg-5">
         <div class="mx-auto text-center mt-4 text-white">
           <ngx-file-drop
-            accept=".png,.jpg,.jpeg,.mp4"
+            accept=".png,.jpg,.gif,.jpeg,.mp4"
             multiple="false"
             dropZoneLabel="Drop files here"
-            (onFileDrop)="dropped($event)"
+            (onFileDrop)="droppedFrontSide($event)"
           >
             <ng-template
               ngx-file-drop-content-tmp
               let-openFileSelector="openFileSelector"
             >
               <div class="row">
-                <div class="col-lg-12">Drop image of the card here!</div>
+                <div class="col-lg-12">Drop image of the front of the card here!</div>
                 <div class="col-lg-12 p-t-10">
                   <button
                     type="button"
@@ -58,30 +58,66 @@
                     Browse Files
                   </button>
                 </div>
-
               </div>
-
+            </ng-template>
+          </ngx-file-drop>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="mx-auto text-center mt-4 text-white">
+          <ngx-file-drop
+            accept=".png,.jpg,.gif,.jpeg,.mp4"
+            multiple="false"
+            dropZoneLabel="Drop files here"
+            (onFileDrop)="droppedBackSide($event)"
+          >
+            <ng-template
+              ngx-file-drop-content-tmp
+              let-openFileSelector="openFileSelector"
+            >
+              <div class="row">
+                <div class="col-lg-12">Drop image of the card back here!</div>
+                <div class="col-lg-12 p-t-10">
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    (click)="openFileSelector()"
+                  >
+                    Browse Files
+                  </button>
+                </div>
+              </div>
             </ng-template>
           </ngx-file-drop>
         </div>
       </div>
     </div>
-    <div class="row justify-center p-b-40 mt-4" *ngIf="!loading && ipfsHash">
-      <div class="col-lg-6 card-sides">
-        <h2>Front side</h2>
-        <img [src]="ipfsUri" class="card-preview" *ngIf="!isVideo" /><br />
-        <div class="video-preview" *ngIf="isVideo">
-          <video class="video-background" autoplay [muted]="'muted'" loop controls [src]="ipfsUri"></video>
+    <div class="row justify-center p-b-40 mt-4" *ngIf="!loading">
+      <div class="col-lg-6 text-center">
+        <div class="card-sides" *ngIf="ipfsHash">
+          <h2>Front side</h2>
+          <button type="button" class="close card-image-remove" aria-label="Close" (click)="removeFrontSideImage()" title="Remove front side of the card">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <img [src]="ipfsUri" class="card-preview" *ngIf="!isVideo"  alt=""/><br />
+          <div class="video-preview" *ngIf="isVideo">
+            <video class="video-background" autoplay [muted]="'muted'" loop controls [src]="ipfsUri"></video>
+          </div>
         </div>
       </div>
-      <div class="col-lg-6 card-sides">
-        <h2>Flip side</h2>
-        <img [src]="ipfsUriBack" class="card-preview" *ngIf="!isVideoBack" /><br />
-        <div class="video-preview" *ngIf="isVideoBack">
-          <video class="video-background" autoplay [muted]="'muted'" loop controls [src]="ipfsUriBack"></video>
+      <div class="col-lg-6 text-center">
+        <div class="card-sides" *ngIf="ipfsHashBack">
+          <h2>Flip side</h2>
+          <button type="button" class="close card-image-remove" aria-label="Close" (click)="removeBackSideImage()" title="Remove back side of the card">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <img [src]="ipfsUriBack" class="card-preview" *ngIf="!isVideoBack"  alt=""/><br />
+          <div class="video-preview" *ngIf="isVideoBack">
+            <video class="video-background" autoplay [muted]="'muted'" loop controls [src]="ipfsUriBack"></video>
+          </div>
         </div>
       </div>
-      <div class="col-xl-6 col-lg-6 col-md-8 col-sm-12">
+      <div class="col-xl-6 col-lg-6 col-md-8 col-sm-12" *ngIf="ipfsHash">
         <div class="mx-auto text-center">
           <div class="user">
             <div class="form-group p-t-20">
@@ -108,7 +144,9 @@
             </div>
           </div>
 
-          <button class="button full-width p-t-10">
+          <button class="button full-width p-t-10"
+            [disabled]="!ipfsHash"
+          >
             <span (click)="create()">Create</span>
           </button>
         </div>

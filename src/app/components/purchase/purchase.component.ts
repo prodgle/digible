@@ -56,7 +56,7 @@ export class PurchaseComponent implements OnInit {
   }
 
   getCollection(){
-    var wallets = new VerifiedWalletsService();
+    var wallets = new VerifiedWalletsService(this.offchain);
     var walletsArr = wallets.verifiedProfiles;
     this.listUsers = Object.keys(walletsArr).map((key) => [String(key), walletsArr[key]]);
     for(var i=0; i < this.listUsers.length ; i++){

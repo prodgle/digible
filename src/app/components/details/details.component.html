@@ -122,6 +122,13 @@
               >
                 <span class="btn-title">Sell</span>
               </a>
+              <a
+                *ngIf="isYours && !auction && network === 'Ethereum' && !price"
+                [routerLink]="['/explorer/create', nftAddress, id]"
+                class="btn btn-primary ml-auto"
+              >
+                <span class="btn-title">Sell</span>
+              </a>
             </div>
           </div>
           <div class="card min-height shadow mb-4">

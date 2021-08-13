@@ -4,4 +4,5 @@ export type Profile = {
     twitter: string | null,
     twitch: string | null,
     website: string | null,
+    picture: string | null,
 };

@@ -29,5 +29,11 @@
 }
 
 .card-sides{
-  text-align: center;
+  position: relative;
+}
+
+.card-image-remove {
+  position: absolute;
+  top: 0;
+  right: 0;
 }

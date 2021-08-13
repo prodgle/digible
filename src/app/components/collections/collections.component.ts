@@ -43,7 +43,7 @@ export class CollectionsComponent implements OnInit {
   }
 
   getCollection() {
-    var wallets = new VerifiedWalletsService();
+    var wallets = new VerifiedWalletsService(this.offchain);
     var walletsArr = wallets.verifiedProfiles;
     var result = Object.keys(walletsArr).map((key) => [
       String(key),
